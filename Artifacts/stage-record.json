@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "product": "RealWorldWeatherAcoustics",
+  "wwiseVersion": "2023.1.19.8928",
+  "configuration": "Release",
+  "stagedAtUtc": "2026-07-21T10:45:22.0843977Z",
+  "entries": [
+    {
+      "id": "authoring-dll",
+      "path": "Artifacts/Authoring/x64/Release/bin/Plugins/RealWorldWeatherAcoustics.dll",
+      "sha256": "1cf834674e1641569d2136ac7e10561a4e3120ed95b8a3181079bed449e61c30",
+      "size": 70656
+    },
+    {
+      "id": "authoring-xml",
+      "path": "Artifacts/Authoring/x64/Release/bin/Plugins/RealWorldWeatherAcoustics.xml",
+      "sha256": "0a4ed851fd66bdccaeca5712457ab7f762938bf46600ea4952fe1e300fb3b311",
+      "size": 27005
+    },
+    {
+      "id": "runtime-static-library",
+      "path": "Artifacts/Runtime/x64_vc170/Release/lib/RealWorldWeatherAcousticsSource.lib",
+      "sha256": "8875e7fac86e4a86a46c1af55d63a7b51da1297f59ac90259846fc00dd05966c",
+      "size": 231810
+    },
+    {
+      "id": "runtime-factory-header",
+      "path": "Artifacts/Runtime/include/AK/Plugin/RealWorldWeatherAcousticsSourceFactory.h",
+      "sha256": "d7227f57c422dee6dab622fe6f59528c0d2685ae2a3b055e20b2aca0ae8219c6",
+      "size": 1512
+    }
+  ]
+}

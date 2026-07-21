@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\include">
+      <UniqueIdentifier>{A129E1B7-8D8C-705C-3612-A91222543CDF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\include\rwwa">
+      <UniqueIdentifier>{116324EB-7D79-2281-C6F0-ADA23246F308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\src">
+      <UniqueIdentifier>{45D999C2-31A6-F4CD-5ABF-E27546EB295C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Core\include\rwwa\WeatherAcousticsCore.h">
+      <Filter>Core\include\rwwa</Filter>
+    </ClInclude>
+    <ClInclude Include="RealWorldWeatherAcousticsSource.h" />
+    <ClInclude Include="RealWorldWeatherAcousticsSourceFactory.h" />
+    <ClInclude Include="RealWorldWeatherAcousticsSourceParams.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Core\src\WeatherAcousticsCore.cpp">
+      <Filter>Core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="RealWorldWeatherAcousticsSource.cpp" />
+    <ClCompile Include="RealWorldWeatherAcousticsSourceParams.cpp" />
+  </ItemGroup>
+</Project>

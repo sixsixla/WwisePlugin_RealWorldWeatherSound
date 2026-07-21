@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "product": "RealWorldWeatherAcoustics",
+  "displayName": "RealWorld Weather Acoustics",
+  "wwiseVersion": "2023.1.19.8928",
+  "platform": "Windows_x64_vc170",
+  "entries": [
+    {
+      "id": "authoring-dll",
+      "source": "Build/Wwise/Authoring/x64/{configuration}/bin/Plugins/RealWorldWeatherAcoustics.dll",
+      "stage": "Artifacts/Authoring/x64/{configuration}/bin/Plugins/RealWorldWeatherAcoustics.dll",
+      "install": "Authoring/x64/Release/bin/Plugins/RealWorldWeatherAcoustics.dll"
+    },
+    {
+      "id": "authoring-xml",
+      "source": "Build/Wwise/Authoring/x64/{configuration}/bin/Plugins/RealWorldWeatherAcoustics.xml",
+      "stage": "Artifacts/Authoring/x64/{configuration}/bin/Plugins/RealWorldWeatherAcoustics.xml",
+      "install": "Authoring/x64/Release/bin/Plugins/RealWorldWeatherAcoustics.xml"
+    },
+    {
+      "id": "runtime-static-library",
+      "source": "Build/Wwise/Runtime/x64_vc170/{configuration}/lib/RealWorldWeatherAcousticsSource.lib",
+      "stage": "Artifacts/Runtime/x64_vc170/{configuration}/lib/RealWorldWeatherAcousticsSource.lib",
+      "install": null
+    },
+    {
+      "id": "runtime-factory-header",
+      "source": "RealWorldWeatherAcoustics/SoundEnginePlugin/RealWorldWeatherAcousticsSourceFactory.h",
+      "stage": "Artifacts/Runtime/include/AK/Plugin/RealWorldWeatherAcousticsSourceFactory.h",
+      "install": null
+    }
+  ]
+}

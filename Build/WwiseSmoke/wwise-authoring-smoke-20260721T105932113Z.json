@@ -1,0 +1,826 @@
+{
+  "schemaVersion": 1,
+  "tool": "RealWorldWeatherAcoustics.WwiseAuthoringSmokeWrapper",
+  "startedAtUtc": "2026-07-21T10:59:32.1155142Z",
+  "finishedAtUtc": "2026-07-21T10:59:39.6348344Z",
+  "success": true,
+  "reportPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260721T105932113Z.json",
+  "preflight": {
+    "productRoot": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound",
+    "existingWwisePids": [],
+    "pluginArtifacts": [
+      {
+        "id": "authoring-dll",
+        "installedPath": "E:\\WwiseSoft2023\\Wwise_2023.1.19.8928\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.dll",
+        "installedSha256": "1cf834674e1641569d2136ac7e10561a4e3120ed95b8a3181079bed449e61c30",
+        "stagedPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Artifacts\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.dll",
+        "stagedExists": true,
+        "stagedSha256": "1cf834674e1641569d2136ac7e10561a4e3120ed95b8a3181079bed449e61c30",
+        "hashMatchesStage": true,
+        "stageRecordSha256": "1cf834674e1641569d2136ac7e10561a4e3120ed95b8a3181079bed449e61c30",
+        "hashMatchesStageRecord": true
+      },
+      {
+        "id": "authoring-xml",
+        "installedPath": "E:\\WwiseSoft2023\\Wwise_2023.1.19.8928\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.xml",
+        "installedSha256": "0a4ed851fd66bdccaeca5712457ab7f762938bf46600ea4952fe1e300fb3b311",
+        "stagedPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Artifacts\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.xml",
+        "stagedExists": true,
+        "stagedSha256": "0a4ed851fd66bdccaeca5712457ab7f762938bf46600ea4952fe1e300fb3b311",
+        "hashMatchesStage": true,
+        "stageRecordSha256": "0a4ed851fd66bdccaeca5712457ab7f762938bf46600ea4952fe1e300fb3b311",
+        "hashMatchesStageRecord": true
+      }
+    ],
+    "python": {
+      "Path": "D:\\Tool\\Wwise_mcp\\.venv\\Scripts\\python.exe",
+      "PrefixArguments": [],
+      "Source": "Parameter:-PythonWithWaapi",
+      "DevelopmentFallback": false,
+      "Executable": "D:\\Tool\\Wwise_mcp\\.venv\\Scripts\\python.exe",
+      "Version": "3.13.5",
+      "WaapiModule": "D:\\Tool\\Wwise_mcp\\.venv\\Lib\\site-packages\\waapi\\__init__.py"
+    }
+  },
+  "launch": {
+    "pid": 15652,
+    "keepWwiseOpen": false,
+    "waapiReady": true,
+    "stoppedByWrapper": true,
+    "exitedNaturally": false
+  },
+  "client": {
+    "schemaVersion": 1,
+    "tool": "RealWorldWeatherAcoustics.WwiseAuthoringSmokeClient",
+    "startedAtUtc": "2026-07-21T10:59:34.827603Z",
+    "finishedAtUtc": "2026-07-21T10:59:36.662607Z",
+    "success": true,
+    "inputs": {
+      "projectPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+      "waapiUrl": "ws://127.0.0.1:8080/waapi",
+      "sourceClassId": 2031682562,
+      "playbackSeconds": 1.5,
+      "silenceFloorDb": -90.0
+    },
+    "waapiCompatibility": {
+      "wwiseVersion": "2023.1.19.8928",
+      "projectInfoUri": "ak.wwise.core.getProjectInfo",
+      "note": "Wwise 2023.1 exposes ak.wwise.core.getProjectInfo; ak.wwise.core.project.getInfo is not present in its installed schema."
+    },
+    "steps": [
+      {
+        "name": "connectWaapi",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:34.834541Z",
+        "detail": {
+          "attempts": 1
+        }
+      },
+      {
+        "name": "ak.wwise.core.getProjectInfo",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:35.035769Z"
+      },
+      {
+        "name": "ak.wwise.core.object.set",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:35.049642Z"
+      },
+      {
+        "name": "ak.wwise.core.project.save",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:35.061529Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.enableProfilerData",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:35.093528Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.startCapture",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:35.09641Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.create",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:35.096928Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.executeAction",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:35.098729Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.getState",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:36.599424Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.getVoices",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:36.611587Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.getCpuUsage",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:36.627563Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.getPerformanceMonitor",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:36.643637Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.executeAction",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:36.644048Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.destroy",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:36.644291Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.stopCapture",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:36.660409Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.saveCapture",
+        "status": "passed",
+        "atUtc": "2026-07-21T10:59:36.661402Z"
+      }
+    ],
+    "assertions": {
+      "transportPlaying": true,
+      "smokeVoiceOrSourceCpuEvidence": true,
+      "outputPeakFinite": true,
+      "outputPeakAboveSilenceFloor": true
+    },
+    "cleanup": {
+      "mandatoryErrors": [],
+      "warnings": []
+    },
+    "error": null,
+    "connection": {
+      "attempts": 1,
+      "connectedAtUtc": "2026-07-21T10:59:34.834533Z",
+      "url": "ws://127.0.0.1:8080/waapi"
+    },
+    "project": {
+      "expectedPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+      "actualPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+      "name": "RealWorldWeatherAcousticsSmoke",
+      "id": "{E5FBC81B-5EF1-41DE-B602-F2FA6EE74B41}",
+      "queryUri": "ak.wwise.core.getProjectInfo"
+    },
+    "objectSet": {
+      "mode": "replace",
+      "parent": "\\Actor-Mixer Hierarchy\\Default Work Unit",
+      "soundName": "RWWA_Smoke",
+      "soundId": "{0BFABB95-EEBF-4F1C-AA23-5E805E59B8A7}",
+      "sourceName": "RWWA_Smoke_Source",
+      "sourceId": "{167A9346-8C4A-4AC3-A175-D3B8353C7D70}",
+      "sourceClassId": 2031682562,
+      "sourceProperties": {
+        "type": "SourcePlugin",
+        "name": "RWWA_Smoke_Source",
+        "classId": 2031682562,
+        "@Duration": 60.0,
+        "@MasterGainDb": -6.0,
+        "@RainIntensity": 0.85,
+        "@Seed": 24681357,
+        "@GeometryEnabled": true,
+        "@ListenerX": 0.0,
+        "@ListenerY": 0.0,
+        "@ListenerZ": 0.0,
+        "@ListenerYawDegrees": 20.0,
+        "@FeatureCount": 4,
+        "@Feature1X": 0.0,
+        "@Feature1Y": 0.0,
+        "@Feature1Z": 6.0,
+        "@Feature1Radius": 2.5,
+        "@Feature1Profile": 0,
+        "@Feature1Mask": 1,
+        "@Feature1Priority": 10,
+        "@Feature2X": 6.0,
+        "@Feature2Y": 0.0,
+        "@Feature2Z": 0.0,
+        "@Feature2Radius": 2.5,
+        "@Feature2Profile": 1,
+        "@Feature2Mask": 1,
+        "@Feature2Priority": 10,
+        "@Feature3X": 0.0,
+        "@Feature3Y": 0.0,
+        "@Feature3Z": -6.0,
+        "@Feature3Radius": 2.5,
+        "@Feature3Profile": 2,
+        "@Feature3Mask": 1,
+        "@Feature3Priority": 10,
+        "@Feature4X": -6.0,
+        "@Feature4Y": 0.0,
+        "@Feature4Z": 0.0,
+        "@Feature4Radius": 2.5,
+        "@Feature4Profile": 3,
+        "@Feature4Mask": 1,
+        "@Feature4Priority": 10
+      }
+    },
+    "profiler": {
+      "captureStartTimeMs": 1002,
+      "transportId": 0,
+      "transportState": "playing",
+      "voices": [
+        {
+          "objectName": "RWWA_Smoke",
+          "pipelineID": 1,
+          "isStarted": true,
+          "isVirtual": false,
+          "playTargetName": "RWWA_Smoke",
+          "playTargetGUID": "{0BFABB95-EEBF-4F1C-AA23-5E805E59B8A7}",
+          "objectGUID": "{0BFABB95-EEBF-4F1C-AA23-5E805E59B8A7}",
+          "playingID": 1
+        }
+      ],
+      "smokeVoices": [
+        {
+          "objectName": "RWWA_Smoke",
+          "pipelineID": 1,
+          "isStarted": true,
+          "isVirtual": false,
+          "playTargetName": "RWWA_Smoke",
+          "playTargetGUID": "{0BFABB95-EEBF-4F1C-AA23-5E805E59B8A7}",
+          "objectGUID": "{0BFABB95-EEBF-4F1C-AA23-5E805E59B8A7}",
+          "playingID": 1
+        }
+      ],
+      "cpuUsage": [
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0003000000142492354,
+          "millisecondsExclusive": 0.0003000000142492354,
+          "percentInclusive": 0.0028124998789280653,
+          "elementName": "Global Extension",
+          "percentExclusive": 0.0028124998789280653,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0,
+          "millisecondsExclusive": 0.0,
+          "percentInclusive": 0.0,
+          "elementName": "CAkAudioMgr::EndPerform",
+          "percentExclusive": 0.0,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.005100000184029341,
+          "millisecondsExclusive": 0.00039999998989515007,
+          "percentInclusive": 0.04781249538064003,
+          "elementName": "CAkAudioMgr::PerformEpilogue",
+          "percentExclusive": 0.0037499996833503246,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0003000000142492354,
+          "millisecondsExclusive": 0.0003000000142492354,
+          "percentInclusive": 0.0028124998789280653,
+          "elementName": "CAkLEngine::ReleaseBuffersAndFeedback",
+          "percentExclusive": 0.0028124998789280653,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0003000000142492354,
+          "millisecondsExclusive": 0.0003000000142492354,
+          "percentInclusive": 0.0028124998789280653,
+          "elementName": "CAkAudioMgr::EndRender",
+          "percentExclusive": 0.0028124998789280653,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.00039999998989515007,
+          "millisecondsExclusive": 0.0003000000142492354,
+          "percentInclusive": 0.0037499996833503246,
+          "elementName": "CAkAudioMgr::ProcessMsgQueue",
+          "percentExclusive": 0.0028124998789280653,
+          "instances": 4
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0012000000569969416,
+          "millisecondsExclusive": 0.0012000000569969416,
+          "percentInclusive": 0.011249999515712261,
+          "elementName": "CAkLEngine::PostRunVpls",
+          "percentExclusive": 0.011249999515712261,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0027000000700354576,
+          "millisecondsExclusive": 0.0020000000949949026,
+          "percentInclusive": 0.025312498211860657,
+          "elementName": "CAkLEngine::SoftwarePerformEpilogue",
+          "percentExclusive": 0.01874999888241291,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.003000000026077032,
+          "millisecondsExclusive": 0.003000000026077032,
+          "percentInclusive": 0.02812499739229679,
+          "elementName": "CAkAudioMgr::EndPerformIteration",
+          "percentExclusive": 0.02812499739229679,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.03240000084042549,
+          "millisecondsExclusive": 0.03240000084042549,
+          "percentInclusive": 0.3037499785423279,
+          "elementName": "AkMonitor::DispatchNotification",
+          "percentExclusive": 0.3037499785423279,
+          "instances": 2
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0019000000320374966,
+          "millisecondsExclusive": 0.0019000000320374966,
+          "percentInclusive": 0.017812497913837433,
+          "elementName": "CAkAudioMgr::BeginPerform",
+          "percentExclusive": 0.017812497913837433,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0,
+          "millisecondsExclusive": 0.0,
+          "percentInclusive": 0.0,
+          "elementName": "CAkMusicRenderer::ProcessNextFrame",
+          "percentExclusive": 0.0,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.008999999612569809,
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "percentInclusive": 0.08437499403953552,
+          "elementName": "CAkAudioMgr::Perform",
+          "percentExclusive": 0.0009374999208375812,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.000699999975040555,
+          "millisecondsExclusive": 0.00039999998989515007,
+          "percentInclusive": 0.006562499329447746,
+          "elementName": "CAkAudioMgr::PerformPrologue",
+          "percentExclusive": 0.0037499996833503246,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 9.999999747378752E-05,
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "percentInclusive": 0.0009374999208375812,
+          "elementName": "CAkAudioMgr::BeginPerformIteration",
+          "percentExclusive": 0.0009374999208375812,
+          "instances": 2
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.00139999995008111,
+          "millisecondsExclusive": 0.0007999999797903001,
+          "percentInclusive": 0.013124998658895493,
+          "elementName": "CAkAudioMgr::ProcessPlayCmds",
+          "percentExclusive": 0.007499999366700649,
+          "instances": 2
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0,
+          "millisecondsExclusive": 0.0,
+          "percentInclusive": 0.0,
+          "elementName": "AK::SoundEngine::RenderAudio",
+          "percentExclusive": 0.0,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0071000000461936,
+          "millisecondsExclusive": 0.002300000051036477,
+          "percentInclusive": 0.06656249612569809,
+          "elementName": "CAkAudioMgr::ProcessAllCommands",
+          "percentExclusive": 0.021562498062849045,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 9.999999747378752E-05,
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "percentInclusive": 0.0009374999208375812,
+          "elementName": "AK Acquire GlobalLock",
+          "percentExclusive": 0.0009374999208375812,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.008899999782443047,
+          "millisecondsExclusive": 0.000699999975040555,
+          "percentInclusive": 0.0834374949336052,
+          "elementName": "AK::JobMgr::WorkUntilDone",
+          "percentExclusive": 0.006562499329447746,
+          "instances": 1
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsInclusive": 0.0,
+          "millisecondsExclusive": 0.0,
+          "percentInclusive": 0.0,
+          "elementName": "CAkLEngineCmds::ProcessPendingCommands",
+          "percentExclusive": 0.0,
+          "instances": 1
+        },
+        {
+          "id": 196608,
+          "type": "",
+          "millisecondsInclusive": 0.0035000001080334187,
+          "millisecondsExclusive": 0.0035000001080334187,
+          "percentInclusive": 0.03281249850988388,
+          "elementName": "CAkLEngine::AnalyzeMixingGraph",
+          "percentExclusive": 0.03281249850988388,
+          "instances": 1
+        },
+        {
+          "id": 262144,
+          "type": "",
+          "millisecondsInclusive": 0.0010999999940395355,
+          "millisecondsExclusive": 0.0010999999940395355,
+          "percentInclusive": 0.010312499478459358,
+          "elementName": "CAkLEngine::PreprocessSources",
+          "percentExclusive": 0.010312499478459358,
+          "instances": 1
+        },
+        {
+          "id": 327680,
+          "type": "",
+          "millisecondsInclusive": 0.04820000007748604,
+          "millisecondsExclusive": 0.0020000000949949026,
+          "percentInclusive": 0.4518749713897705,
+          "elementName": "CAkLEngine::VoiceTask",
+          "percentExclusive": 0.01874999888241291,
+          "instances": 1
+        },
+        {
+          "id": 393216,
+          "type": "",
+          "millisecondsInclusive": 0.00019999999494757503,
+          "millisecondsExclusive": 0.00019999999494757503,
+          "percentInclusive": 0.0018749998416751623,
+          "elementName": "CAkLEngine::VoiceTaskParallelAsync",
+          "percentExclusive": 0.0018749998416751623,
+          "instances": 1
+        },
+        {
+          "id": 458752,
+          "type": "",
+          "millisecondsInclusive": 0.000699999975040555,
+          "millisecondsExclusive": 0.000699999975040555,
+          "percentInclusive": 0.006562499329447746,
+          "elementName": "AkPerf::PostPipelineStats",
+          "percentExclusive": 0.006562499329447746,
+          "instances": 1
+        },
+        {
+          "id": 524288,
+          "type": "",
+          "millisecondsInclusive": 0.004699999932199717,
+          "millisecondsExclusive": 0.004699999932199717,
+          "percentInclusive": 0.04406249523162842,
+          "elementName": "AK::CommunicationCentral::Process",
+          "percentExclusive": 0.04406249523162842,
+          "instances": 1
+        },
+        {
+          "id": 655360,
+          "type": "",
+          "millisecondsInclusive": 0.04839999973773956,
+          "millisecondsExclusive": 0.00019999999494757503,
+          "percentInclusive": 0.45374995470046997,
+          "elementName": "AK SwVoice",
+          "percentExclusive": 0.0018749998416751623,
+          "instances": 1
+        },
+        {
+          "id": 786432,
+          "type": "",
+          "millisecondsInclusive": 0.00419999985024333,
+          "millisecondsExclusive": 0.00419999985024333,
+          "percentInclusive": 0.03937499597668648,
+          "elementName": "AK BusTask",
+          "percentExclusive": 0.03937499597668648,
+          "instances": 1
+        },
+        {
+          "id": 52494344,
+          "type": "Global Extension",
+          "millisecondsInclusive": 9.999999747378752E-05,
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "percentInclusive": 0.0009374999208375812,
+          "elementName": "Interactive Music",
+          "percentExclusive": 0.0009374999208375812,
+          "instances": 1
+        },
+        {
+          "id": 52559880,
+          "type": "Global Extension",
+          "millisecondsInclusive": 0.0005000000237487257,
+          "millisecondsExclusive": 0.0005000000237487257,
+          "percentInclusive": 0.004687499720603228,
+          "elementName": "MIDI Device Manager",
+          "percentExclusive": 0.004687499720603228,
+          "instances": 1
+        },
+        {
+          "id": 2031682562,
+          "type": "Source",
+          "millisecondsInclusive": 0.04619999974966049,
+          "millisecondsExclusive": 0.04619999974966049,
+          "percentInclusive": 0.43312495946884155,
+          "elementName": "RealWorld Weather Acoustics",
+          "percentExclusive": 0.43312495946884155,
+          "instances": 1
+        }
+      ],
+      "sourceCpuEvidence": [
+        {
+          "id": 2031682562,
+          "type": "Source",
+          "millisecondsInclusive": 0.04619999974966049,
+          "millisecondsExclusive": 0.04619999974966049,
+          "percentInclusive": 0.43312495946884155,
+          "elementName": "RealWorld Weather Acoustics",
+          "percentExclusive": 0.43312495946884155,
+          "instances": 1
+        }
+      ],
+      "performanceMonitor": [
+        {
+          "id": "ActiveTransitions",
+          "name": "Number of Transitions/Interpolations",
+          "value": 0
+        },
+        {
+          "id": "StateTransitions",
+          "name": "Number of State Transitions",
+          "value": 0
+        },
+        {
+          "id": "RegisteredObjects",
+          "name": "Number of Registered Objects",
+          "value": 1
+        },
+        {
+          "id": "CommandQueueSize",
+          "name": "Command Queue Size",
+          "value": 0
+        },
+        {
+          "id": "CommandQueueUsed",
+          "name": "Command Queue Used",
+          "value": 0.0
+        },
+        {
+          "id": "PreparedEvents",
+          "name": "Number of Prepared Events",
+          "value": 0
+        },
+        {
+          "id": "ActiveEvents",
+          "name": "Number of Active Events",
+          "value": 1
+        },
+        {
+          "id": "LoadedBanksMemory",
+          "name": "Loaded Banks (Memory)",
+          "value": 0
+        },
+        {
+          "id": "PreparedEventsMemory",
+          "name": "Prepared Events (Memory)",
+          "value": 0
+        },
+        {
+          "id": "SystemAudioObjects",
+          "name": "Number of Audio Objects Used (System)",
+          "value": 0
+        },
+        {
+          "id": "TotalMediaMemory",
+          "name": "Total Media (Memory)",
+          "value": 0
+        },
+        {
+          "id": "ProfilerBandwidth",
+          "name": "Profiler Bandwidth",
+          "value": 116857
+        },
+        {
+          "id": "SpatialAudioPrimaryRays",
+          "name": "Spatial Audio - Primary Rays",
+          "value": 0
+        },
+        {
+          "id": "SpatialAudioCPU",
+          "name": "Spatial Audio - CPU",
+          "value": 0.0
+        },
+        {
+          "id": "SpatialAudioEmitters",
+          "name": "Spatial Audio - Emitters Processed",
+          "value": 0
+        },
+        {
+          "id": "SpatialAudioRaytracingCPU",
+          "name": "Spatial Audio - Raytracing CPU",
+          "value": 0.0
+        },
+        {
+          "id": "SpatialAudioPathValidationCPU",
+          "name": "Spatial Audio - Path Validation CPU",
+          "value": 0.0
+        },
+        {
+          "id": "SpatialAudioTriangles",
+          "name": "Spatial Audio - Triangles",
+          "value": 0
+        },
+        {
+          "id": "SpatialAudioDiffractionEdges",
+          "name": "Spatial Audio - Diffraction Edges",
+          "value": 0
+        },
+        {
+          "id": "SpatialAudioPortalRaytracingCPU",
+          "name": "Spatial Audio - Portal Raytracing CPU",
+          "value": 0.0
+        },
+        {
+          "id": "SpatialAudioPortalPathValidationCPU",
+          "name": "Spatial Audio - Portal Path Validation CPU",
+          "value": 0.0
+        },
+        {
+          "id": "SpatialAudioComputedEdges",
+          "name": "Spatial Audio - Computed Edges",
+          "value": 0
+        },
+        {
+          "id": "SpatialAudioTasksRemaining",
+          "name": "Spatial Audio - Tasks Remaining",
+          "value": 0
+        },
+        {
+          "id": "SpatialAudioTasksExecuted",
+          "name": "Spatial Audio - Tasks Executed",
+          "value": 0
+        },
+        {
+          "id": "CpuTotal",
+          "name": "CPU - Total",
+          "value": 1.2899998426437378
+        },
+        {
+          "id": "CpuPluginTotal",
+          "name": "CPU - Plug-in Total",
+          "value": 0.45656245946884155
+        },
+        {
+          "id": "TotalReservedMemory",
+          "name": "Total Reserved Memory",
+          "value": 42270720
+        },
+        {
+          "id": "TotalUsedMemory",
+          "name": "Total Used Memory",
+          "value": 36848496
+        },
+        {
+          "id": "JobMgrMemoryCurrent",
+          "name": "JobMgr Memory (Current)",
+          "value": 12200
+        },
+        {
+          "id": "JobMgrMemoryPeak",
+          "name": "JobMgr Memory (Peak)",
+          "value": 12200
+        },
+        {
+          "id": "JobMgrMemorySlabsCurrent",
+          "name": "JobMgr Memory Slabs Reserved (Current)",
+          "value": 3
+        },
+        {
+          "id": "JobMgrMemorySlabsPeak",
+          "name": "JobMgr Memory Slabs Reserved (Peak)",
+          "value": 3
+        },
+        {
+          "id": "TotalStreamingBandwidthLowLevel",
+          "name": "Total Streaming Bandwidth (Low-Level)",
+          "value": 0
+        },
+        {
+          "id": "TotalStreamingBandwidth",
+          "name": "Total Streaming Bandwidth",
+          "value": 0
+        },
+        {
+          "id": "TotalStreams",
+          "name": "Number of Streams",
+          "value": 0
+        },
+        {
+          "id": "ActiveStreams",
+          "name": "Number of Streams (Active)",
+          "value": 0
+        },
+        {
+          "id": "VoicesTotal",
+          "name": "Number of Voices (Total)",
+          "value": 1
+        },
+        {
+          "id": "VoicesVirtual",
+          "name": "Number of Voices (Virtual)",
+          "value": 0
+        },
+        {
+          "id": "VoicesPhysical",
+          "name": "Number of Voices (Physical)",
+          "value": 1
+        },
+        {
+          "id": "ActiveListeners",
+          "name": "Number of Active Listeners",
+          "value": 1
+        },
+        {
+          "id": "OutputPeak",
+          "name": "Output Peak",
+          "value": -34.514984130859375
+        },
+        {
+          "id": "ActiveSends",
+          "name": "Number of Active Sends",
+          "value": 0
+        },
+        {
+          "id": "ApiCalls",
+          "name": "API calls",
+          "value": 0
+        }
+      ],
+      "voicesPhysical": 1,
+      "voicesTotal": 1,
+      "outputPeakDb": -34.514984130859375,
+      "silenceFloorDb": -90.0,
+      "isolatedTransportEvidence": true,
+      "captureStopTimeMs": 2570,
+      "captureFile": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260721T105932113Z.prof"
+    }
+  },
+  "outputs": {
+    "profilerCapture": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260721T105932113Z.prof",
+    "clientStdout": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260721T105932113Z.stdout.log",
+    "clientStderr": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260721T105932113Z.stderr.log",
+    "wwiseStdout": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260721T105932113Z.wwise.stdout.log",
+    "wwiseStderr": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260721T105932113Z.wwise.stderr.log"
+  },
+  "error": null
+}

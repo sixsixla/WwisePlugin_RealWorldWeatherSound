@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RealWorldWeatherAcoustics", "SoundEnginePlugin\RealWorldWeatherAcoustics_Windows_vc170_shared.vcxproj", "{4F2C8566-B140-BE27-A184-4F1B42DE3B30}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574} = {ECDA58AF-D28D-14CC-CE0C-15ECC596B574}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RealWorldWeatherAcousticsSource", "SoundEnginePlugin\RealWorldWeatherAcoustics_Windows_vc170_static.vcxproj", "{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Profile_EnableAsserts|ARM64 = Profile_EnableAsserts|ARM64
+		Profile_EnableAsserts|Win32 = Profile_EnableAsserts|Win32
+		Profile_EnableAsserts|x64 = Profile_EnableAsserts|x64
+		Profile|ARM64 = Profile|ARM64
+		Profile|Win32 = Profile|Win32
+		Profile|x64 = Profile|x64
+		Release|ARM64 = Release|ARM64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Debug|ARM64.Build.0 = Debug|ARM64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Debug|Win32.Build.0 = Debug|Win32
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Debug|x64.ActiveCfg = Debug|x64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Debug|x64.Build.0 = Debug|x64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile_EnableAsserts|ARM64.ActiveCfg = Profile_EnableAsserts|ARM64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile_EnableAsserts|ARM64.Build.0 = Profile_EnableAsserts|ARM64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile_EnableAsserts|Win32.ActiveCfg = Profile_EnableAsserts|Win32
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile_EnableAsserts|Win32.Build.0 = Profile_EnableAsserts|Win32
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile_EnableAsserts|x64.ActiveCfg = Profile_EnableAsserts|x64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile_EnableAsserts|x64.Build.0 = Profile_EnableAsserts|x64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile|ARM64.ActiveCfg = Profile|ARM64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile|ARM64.Build.0 = Profile|ARM64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile|Win32.ActiveCfg = Profile|Win32
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile|Win32.Build.0 = Profile|Win32
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile|x64.ActiveCfg = Profile|x64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Profile|x64.Build.0 = Profile|x64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Release|ARM64.ActiveCfg = Release|ARM64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Release|ARM64.Build.0 = Release|ARM64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Release|Win32.ActiveCfg = Release|Win32
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Release|Win32.Build.0 = Release|Win32
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Release|x64.ActiveCfg = Release|x64
+		{4F2C8566-B140-BE27-A184-4F1B42DE3B30}.Release|x64.Build.0 = Release|x64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Debug|ARM64.ActiveCfg = Debug(StaticCRT)|ARM64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Debug|ARM64.Build.0 = Debug(StaticCRT)|ARM64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Debug|Win32.ActiveCfg = Debug(StaticCRT)|Win32
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Debug|Win32.Build.0 = Debug(StaticCRT)|Win32
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Debug|x64.ActiveCfg = Debug(StaticCRT)|x64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Debug|x64.Build.0 = Debug(StaticCRT)|x64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile_EnableAsserts|ARM64.ActiveCfg = Profile(StaticCRT)_EnableAsserts|ARM64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile_EnableAsserts|ARM64.Build.0 = Profile(StaticCRT)_EnableAsserts|ARM64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile_EnableAsserts|Win32.ActiveCfg = Profile(StaticCRT)_EnableAsserts|Win32
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile_EnableAsserts|Win32.Build.0 = Profile(StaticCRT)_EnableAsserts|Win32
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile_EnableAsserts|x64.ActiveCfg = Profile(StaticCRT)_EnableAsserts|x64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile_EnableAsserts|x64.Build.0 = Profile(StaticCRT)_EnableAsserts|x64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile|ARM64.ActiveCfg = Profile(StaticCRT)|ARM64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile|ARM64.Build.0 = Profile(StaticCRT)|ARM64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile|Win32.ActiveCfg = Profile(StaticCRT)|Win32
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile|Win32.Build.0 = Profile(StaticCRT)|Win32
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile|x64.ActiveCfg = Profile(StaticCRT)|x64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Profile|x64.Build.0 = Profile(StaticCRT)|x64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Release|ARM64.ActiveCfg = Release(StaticCRT)|ARM64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Release|ARM64.Build.0 = Release(StaticCRT)|ARM64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Release|Win32.ActiveCfg = Release(StaticCRT)|Win32
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Release|Win32.Build.0 = Release(StaticCRT)|Win32
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Release|x64.ActiveCfg = Release(StaticCRT)|x64
+		{ECDA58AF-D28D-14CC-CE0C-15ECC596B574}.Release|x64.Build.0 = Release(StaticCRT)|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

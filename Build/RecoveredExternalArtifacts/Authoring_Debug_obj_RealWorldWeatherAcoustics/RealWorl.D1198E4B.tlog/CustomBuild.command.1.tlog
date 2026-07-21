@@ -1,0 +1,4 @@
+^D:\TOOL\WWISEPLUGIN_REALWORLDWEATHERSOUND\REALWORLDWEATHERACOUSTICS\WWISEPLUGIN\REALWORLDWEATHERACOUSTICS.XML
+if not exist "E:\WwiseSoft2023\Wwise_2023.1.19.8928\Authoring\x64\Debug\bin\Plugins\" mkdir "E:\WwiseSoft2023\Wwise_2023.1.19.8928\Authoring\x64\Debug\bin\Plugins\"
+if exist "E:\WwiseSoft2023\Wwise_2023.1.19.8928\Authoring\x64\Debug\bin\Plugins\RealWorldWeatherAcoustics.xml" del /F /Q "E:\WwiseSoft2023\Wwise_2023.1.19.8928\Authoring\x64\Debug\bin\Plugins\RealWorldWeatherAcoustics.xml"
+copy /y "D:\Tool\WwisePlugin_RealWorldWeatherSound\RealWorldWeatherAcoustics\WwisePlugin\RealWorldWeatherAcoustics.xml" "E:\WwiseSoft2023\Wwise_2023.1.19.8928\Authoring\x64\Debug\bin\Plugins\RealWorldWeatherAcoustics.xml"

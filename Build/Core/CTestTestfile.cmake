@@ -1,0 +1,36 @@
+# CMake generated Testfile for 
+# Source directory: D:/Tool/WwisePlugin_RealWorldWeatherSound
+# Build directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.
+if(CTEST_CONFIGURATION_TYPE MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
+  add_test([=[rwwa_core_tests]=] "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Debug/rwwa_core_tests.exe")
+  set_tests_properties([=[rwwa_core_tests]=] PROPERTIES  _BACKTRACE_TRIPLES "D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;49;add_test;D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
+  add_test([=[rwwa_core_tests]=] "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_core_tests.exe")
+  set_tests_properties([=[rwwa_core_tests]=] PROPERTIES  _BACKTRACE_TRIPLES "D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;49;add_test;D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
+  add_test([=[rwwa_core_tests]=] "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/MinSizeRel/rwwa_core_tests.exe")
+  set_tests_properties([=[rwwa_core_tests]=] PROPERTIES  _BACKTRACE_TRIPLES "D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;49;add_test;D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
+  add_test([=[rwwa_core_tests]=] "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/RelWithDebInfo/rwwa_core_tests.exe")
+  set_tests_properties([=[rwwa_core_tests]=] PROPERTIES  _BACKTRACE_TRIPLES "D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;49;add_test;D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;0;")
+else()
+  add_test([=[rwwa_core_tests]=] NOT_AVAILABLE)
+endif()
+if(CTEST_CONFIGURATION_TYPE MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
+  add_test([=[rwwa_offline_renderer_writes_wav]=] "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Debug/rwwa_offline_renderer.exe" "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/rain_preview.wav")
+  set_tests_properties([=[rwwa_offline_renderer_writes_wav]=] PROPERTIES  _BACKTRACE_TRIPLES "D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;51;add_test;D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
+  add_test([=[rwwa_offline_renderer_writes_wav]=] "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_offline_renderer.exe" "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/rain_preview.wav")
+  set_tests_properties([=[rwwa_offline_renderer_writes_wav]=] PROPERTIES  _BACKTRACE_TRIPLES "D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;51;add_test;D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
+  add_test([=[rwwa_offline_renderer_writes_wav]=] "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/MinSizeRel/rwwa_offline_renderer.exe" "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/rain_preview.wav")
+  set_tests_properties([=[rwwa_offline_renderer_writes_wav]=] PROPERTIES  _BACKTRACE_TRIPLES "D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;51;add_test;D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
+  add_test([=[rwwa_offline_renderer_writes_wav]=] "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/RelWithDebInfo/rwwa_offline_renderer.exe" "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/rain_preview.wav")
+  set_tests_properties([=[rwwa_offline_renderer_writes_wav]=] PROPERTIES  _BACKTRACE_TRIPLES "D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;51;add_test;D:/Tool/WwisePlugin_RealWorldWeatherSound/CMakeLists.txt;0;")
+else()
+  add_test([=[rwwa_offline_renderer_writes_wav]=] NOT_AVAILABLE)
+endif()
