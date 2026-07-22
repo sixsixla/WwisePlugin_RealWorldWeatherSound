@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace
@@ -74,42 +75,127 @@ bool WriteStereoWave(
     return stream.good();
 }
 
-rwwa::SceneSnapshot MakeFixture()
+rwwa::SceneSnapshot MakeOpenWindPreset()
+{
+    rwwa::WeatherState weather{};
+    weather.windSpeedMetersPerSecond = 13.0f;
+    weather.windDirectionRadians = 0.65f;
+    weather.windGustiness = 0.72f;
+    weather.seed = 0xa632f17bu;
+    weather.masterGainLinear = 1.0f;
+    return rwwa::CompileScene({}, {}, weather);
+}
+
+rwwa::SceneSnapshot MakeRainMetalPreset()
+{
+    rwwa::SceneInput scene{};
+    scene.featureCount = 1u;
+    scene.features[0] = {
+        1u, {2.5f, 1.0f, 4.0f}, 3.0f, 0u, rwwa::kResponseMaskRain, 3};
+    rwwa::WeatherState weather{};
+    weather.rainIntensity = 0.86f;
+    weather.seed = 0x71e408d3u;
+    weather.masterGainLinear = 1.0f;
+    return rwwa::CompileScene(scene, {}, weather);
+}
+
+rwwa::SceneSnapshot MakeWeatherRingPreset()
 {
     rwwa::SceneInput scene{};
     scene.featureCount = 4u;
-    scene.features[0] = {1u, {-4.0f, 1.0f, 5.0f}, 2.2f, 0u, rwwa::kResponseMaskRain, 2};
-    scene.features[1] = {2u, {4.0f, 0.5f, 5.0f}, 2.5f, 1u, rwwa::kResponseMaskRain, 2};
-    scene.features[2] = {3u, {-2.0f, 2.0f, -3.0f}, 1.8f, 2u, rwwa::kResponseMaskRain, 1};
-    scene.features[3] = {4u, {3.0f, 1.0f, -2.0f}, 2.0f, 3u, rwwa::kResponseMaskRain, 1};
+    scene.features[0] = {1u, {-4.0f, 1.0f, 5.0f}, 2.2f, 0u, rwwa::kResponseMaskBoth, 2};
+    scene.features[1] = {2u, {4.0f, 0.5f, 5.0f}, 2.5f, 1u, rwwa::kResponseMaskBoth, 2};
+    scene.features[2] = {3u, {-2.0f, 2.0f, -3.0f}, 1.8f, 2u, rwwa::kResponseMaskBoth, 1};
+    scene.features[3] = {4u, {3.0f, 1.0f, -2.0f}, 2.0f, 3u, rwwa::kResponseMaskBoth, 1};
 
     rwwa::ListenerState listener{};
     listener.yawRadians = 0.2f;
     rwwa::WeatherState weather{};
-    weather.rainIntensity = 0.82f;
+    weather.rainIntensity = 0.76f;
+    weather.windSpeedMetersPerSecond = 10.5f;
+    weather.windDirectionRadians = 0.8f;
+    weather.windGustiness = 0.68f;
     weather.seed = 0x4a17c9e3u;
-    weather.geometryEnabled = true;
     weather.masterGainLinear = 1.0f;
     return rwwa::CompileScene(scene, listener, weather);
+}
+
+bool MakePreset(std::string_view name, rwwa::SceneSnapshot& snapshot)
+{
+    if (name == "open-wind")
+    {
+        snapshot = MakeOpenWindPreset();
+        return true;
+    }
+    if (name == "rain-metal")
+    {
+        snapshot = MakeRainMetalPreset();
+        return true;
+    }
+    if (name == "weather-ring")
+    {
+        snapshot = MakeWeatherRingPreset();
+        return true;
+    }
+    return false;
+}
+
+void PrintUsage()
+{
+    std::cerr
+        << "Usage:\n"
+        << "  rwwa_offline_renderer <output.wav>\n"
+        << "  rwwa_offline_renderer --preset open-wind|rain-metal|weather-ring --output <output.wav>\n";
 }
 } // namespace
 
 int main(int argc, char** argv)
 {
-    if (argc != 2)
+    std::string preset = "weather-ring";
+    std::filesystem::path outputPath;
+    if (argc == 2)
     {
-        std::cerr << "Usage: rwwa_offline_renderer <output.wav>\n";
+        outputPath = argv[1];
+    }
+    else
+    {
+        for (int index = 1; index < argc; ++index)
+        {
+            const std::string_view argument(argv[index]);
+            if (argument == "--preset" && index + 1 < argc)
+            {
+                preset = argv[++index];
+            }
+            else if (argument == "--output" && index + 1 < argc)
+            {
+                outputPath = argv[++index];
+            }
+            else
+            {
+                PrintUsage();
+                return 2;
+            }
+        }
+    }
+
+    rwwa::SceneSnapshot snapshot{};
+    if (outputPath.empty() || !MakePreset(preset, snapshot))
+    {
+        if (!MakePreset(preset, snapshot))
+        {
+            std::cerr << "Unknown preset: " << preset << '\n';
+        }
+        PrintUsage();
         return 2;
     }
 
     constexpr std::uint32_t sampleRate = 48000u;
-    constexpr std::size_t frameCount = sampleRate * 3u;
+    constexpr std::size_t frameCount = sampleRate * 4u;
     std::vector<float> left(frameCount);
     std::vector<float> right(frameCount);
-    rwwa::RainSynth synth(sampleRate);
-    synth.Process(MakeFixture(), left.data(), right.data(), frameCount);
+    rwwa::WeatherSynth synth(sampleRate);
+    synth.Process(snapshot, left.data(), right.data(), frameCount);
 
-    const std::filesystem::path outputPath(argv[1]);
     std::error_code error;
     if (!outputPath.parent_path().empty())
     {
@@ -127,6 +213,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    std::cout << "Wrote deterministic stereo fixture: " << outputPath.string() << '\n';
+    std::cout << "Wrote deterministic " << preset << " stereo fixture: "
+              << outputPath.string() << '\n';
     return 0;
 }

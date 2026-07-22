@@ -186,6 +186,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{64C4C806-E0B0-3752-A5AA-5BD8B4A24995}</Project>
       <Name>rwwa_offline_renderer</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\Core\rwwa_source_params_bank_tests.vcxproj">
+      <Project>{0A12466D-2D22-30EB-80E4-9D24A65097B0}</Project>
+      <Name>rwwa_source_params_bank_tests</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

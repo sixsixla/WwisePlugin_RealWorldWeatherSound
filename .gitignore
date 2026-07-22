@@ -1,3 +1,21 @@
 # The initial repository snapshot intentionally tracks the complete local
 # product tree, including generated projects, build/staging outputs, binaries,
 # validation WAVs, logs, and Wwise Profiler captures.
+
+# Disposable/local-only outputs. Keep the canonical Release build and QA bundle,
+# but do not commit install backups, duplicate scratch builds, or Python caches.
+/Artifacts/InstallBackup/
+/Build/CoreStandalone/
+/Build/CoreV02/
+/Build/Core/bin/Debug/
+/Build/Core/lib/Debug/
+/Build/Core/rwwa_core.dir/Debug/
+/Build/Core/rwwa_core_tests.dir/Debug/
+/Build/Core/rwwa_offline_renderer.dir/Debug/
+/Build/Core/rwwa_source_params_bank_tests.dir/Debug/
+/Build/Core/x64/Debug/
+/Build/WwiseSmoke/Projects/
+/Build/WwiseBankQA/
+**/__pycache__/
+*.pyc
+*.pyo

@@ -164,6 +164,65 @@ function Invoke-PythonClient {
     }
 }
 
+function Get-DirectorySnapshot {
+    param([Parameter(Mandatory = $true)][string]$Root)
+
+    if (-not (Test-Path -LiteralPath $Root -PathType Container)) {
+        throw "Directory snapshot root is missing: '$Root'."
+    }
+    $resolvedRoot = [System.IO.Path]::GetFullPath((Resolve-Path -LiteralPath $Root).Path).TrimEnd('\')
+    $entries = @(
+        Get-ChildItem -LiteralPath $resolvedRoot -File -Force -Recurse |
+            Sort-Object -Property FullName |
+            ForEach-Object {
+                $relativePath = $_.FullName.Substring($resolvedRoot.Length).TrimStart('\').Replace('\', '/')
+                $hash = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+                '{0}`t{1}`t{2}' -f $relativePath, $_.Length, $hash
+            }
+    )
+    $manifestBytes = [System.Text.UTF8Encoding]::new($false).GetBytes([string]::Join("`n", $entries))
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $digest = [System.Convert]::ToHexString($sha256.ComputeHash($manifestBytes)).ToLowerInvariant()
+    }
+    finally {
+        $sha256.Dispose()
+    }
+    $totalBytes = [long]0
+    Get-ChildItem -LiteralPath $resolvedRoot -File -Force -Recurse | ForEach-Object {
+        $totalBytes += $_.Length
+    }
+    return [pscustomobject]@{
+        Root         = $resolvedRoot
+        FileCount    = $entries.Count
+        TotalBytes   = $totalBytes
+        DigestSha256 = $digest
+        Entries      = [string[]]$entries
+    }
+}
+
+function ConvertTo-SnapshotSummary {
+    param([Parameter(Mandatory = $true)]$Snapshot)
+
+    return [ordered]@{
+        root         = [string]$Snapshot.Root
+        fileCount    = [int]$Snapshot.FileCount
+        totalBytes   = [long]$Snapshot.TotalBytes
+        digestSha256 = [string]$Snapshot.DigestSha256
+    }
+}
+
+function Test-DirectorySnapshotsEqual {
+    param(
+        [Parameter(Mandatory = $true)]$Reference,
+        [Parameter(Mandatory = $true)]$Candidate
+    )
+
+    return $Reference.FileCount -eq $Candidate.FileCount -and
+        $Reference.TotalBytes -eq $Candidate.TotalBytes -and
+        $Reference.DigestSha256 -eq $Candidate.DigestSha256
+}
+
 $productRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $outputRoot = Assert-PathUnderRoot `
     -Path (Join-Path $productRoot 'Build\WwiseSmoke') `
@@ -208,10 +267,31 @@ $report = [ordered]@{
         wwiseStdout     = $wwiseStdoutPath
         wwiseStderr     = $wwiseStderrPath
     }
+    projectIsolation = [ordered]@{
+        fixtureProjectRoot      = $null
+        fixtureProjectPath      = $null
+        fixtureBefore           = $null
+        fixtureAfter            = $null
+        fixtureUnchanged        = $null
+        disposableRunRoot       = $null
+        disposableProjectRoot   = $null
+        disposableProjectPath   = $null
+        disposableCopy          = $null
+        copyMatchesFixtureBytes = $false
+    }
+    cleanup       = [ordered]@{
+        disposableProjectRemoved = $false
+        disposableProjectRetained = $false
+        errors = @()
+    }
     error         = $null
 }
 
 $wwiseProcess = $null
+$wwiseStopped = $false
+$projectsRoot = $null
+$disposableRunRoot = $null
+$sourceSnapshotBefore = $null
 $wrapperError = $null
 $exitCode = 1
 
@@ -221,13 +301,16 @@ try {
         throw "Common.ps1 resolved an unexpected product root: '$($environment.ProductRoot)'."
     }
 
-    $projectPath = Assert-PathUnderRoot `
+    $fixtureProjectPath = Assert-PathUnderRoot `
         -Path (Join-Path $productRoot 'WwiseSmoke\RealWorldWeatherAcousticsSmoke\RealWorldWeatherAcousticsSmoke.wproj') `
         -Root $productRoot `
         -Description 'Wwise smoke project'
-    if (-not (Test-Path -LiteralPath $projectPath -PathType Leaf)) {
-        throw "The isolated Wwise smoke project is missing: '$projectPath'."
+    if (-not (Test-Path -LiteralPath $fixtureProjectPath -PathType Leaf)) {
+        throw "The Wwise smoke fixture project is missing: '$fixtureProjectPath'."
     }
+    $fixtureProjectRoot = Split-Path -Parent $fixtureProjectPath
+    $report.projectIsolation.fixtureProjectRoot = $fixtureProjectRoot
+    $report.projectIsolation.fixtureProjectPath = $fixtureProjectPath
 
     $wwiseExecutable = Join-Path $environment.WwiseRoot 'Authoring\x64\Release\bin\Wwise.exe'
     if (-not (Test-Path -LiteralPath $wwiseExecutable -PathType Leaf)) {
@@ -325,10 +408,45 @@ try {
         throw "-WaapiUrl must be a ws:// or wss:// URL with a valid port: '$WaapiUrl'."
     }
 
+    $sourceSnapshotBefore = Get-DirectorySnapshot -Root $fixtureProjectRoot
+    $report.projectIsolation.fixtureBefore = ConvertTo-SnapshotSummary -Snapshot $sourceSnapshotBefore
+    $projectsRoot = Assert-PathUnderRoot `
+        -Path (Join-Path $outputRoot 'Projects') `
+        -Root $productRoot `
+        -Description 'Disposable Wwise smoke projects directory'
+    [void](New-Item -ItemType Directory -Path $projectsRoot -Force)
+    $disposableRunRoot = Assert-PathUnderRoot `
+        -Path (Join-Path $projectsRoot $runId) `
+        -Root $projectsRoot `
+        -Description 'Disposable Wwise smoke run directory'
+    if (Test-Path -LiteralPath $disposableRunRoot) {
+        throw "Disposable Wwise smoke run directory already exists: '$disposableRunRoot'."
+    }
+    [void](New-Item -ItemType Directory -Path $disposableRunRoot)
+    Copy-Item -LiteralPath $fixtureProjectRoot -Destination $disposableRunRoot -Recurse -Force
+
+    $disposableProjectRoot = Join-Path $disposableRunRoot (Split-Path -Leaf $fixtureProjectRoot)
+    $projectPath = Join-Path $disposableProjectRoot (Split-Path -Leaf $fixtureProjectPath)
+    if (-not (Test-Path -LiteralPath $projectPath -PathType Leaf)) {
+        throw "Disposable Wwise smoke project copy is missing: '$projectPath'."
+    }
+    $copySnapshot = Get-DirectorySnapshot -Root $disposableProjectRoot
+    $copyMatchesFixtureBytes = Test-DirectorySnapshotsEqual `
+        -Reference $sourceSnapshotBefore `
+        -Candidate $copySnapshot
+    $report.projectIsolation.disposableRunRoot = $disposableRunRoot
+    $report.projectIsolation.disposableProjectRoot = $disposableProjectRoot
+    $report.projectIsolation.disposableProjectPath = $projectPath
+    $report.projectIsolation.disposableCopy = ConvertTo-SnapshotSummary -Snapshot $copySnapshot
+    $report.projectIsolation.copyMatchesFixtureBytes = $copyMatchesFixtureBytes
+    if (-not $copyMatchesFixtureBytes) {
+        throw 'Disposable Wwise project copy does not match the source fixture byte-for-byte.'
+    }
+
     $wwiseProcess = Start-Process `
         -FilePath $wwiseExecutable `
         -ArgumentList @("`"$projectPath`"") `
-        -WindowStyle Hidden `
+        -WindowStyle Normal `
         -RedirectStandardOutput $wwiseStdoutPath `
         -RedirectStandardError $wwiseStderrPath `
         -PassThru
@@ -363,9 +481,11 @@ try {
         '--connect-timeout', '30',
         '--playback-seconds', $PlaybackSeconds.ToString([System.Globalization.CultureInfo]::InvariantCulture),
         '--silence-floor-db', $SilenceFloorDb.ToString([System.Globalization.CultureInfo]::InvariantCulture),
-        '--source-class-id', '2031682562'
+        '--source-class-id', '2031682562',
+        '--wwise-pid', $wwiseProcess.Id.ToString([System.Globalization.CultureInfo]::InvariantCulture),
+        '--gui-timeout', '20'
     )
-    $clientTimeout = [Math]::Max(60, [int][Math]::Ceiling($PlaybackSeconds + 45))
+    $clientTimeout = [Math]::Max(90, [int][Math]::Ceiling($PlaybackSeconds + 70))
     $clientExitCode = Invoke-PythonClient `
         -Python $python `
         -Arguments $clientArguments `
@@ -407,25 +527,88 @@ finally {
             $wwiseProcess.Refresh()
             if ($wwiseProcess.HasExited) {
                 $report.launch.exitedNaturally = $true
+                $wwiseStopped = $true
             }
             elseif (-not $KeepWwiseOpen) {
                 # Stop only the exact process object returned by Start-Process above.
                 Stop-Process -Id $wwiseProcess.Id -ErrorAction Stop
-                [void]$wwiseProcess.WaitForExit(10000)
+                if (-not $wwiseProcess.WaitForExit(10000)) {
+                    throw "Wwise PID $($wwiseProcess.Id) did not exit within the cleanup timeout."
+                }
                 $report.launch.stoppedByWrapper = $true
+                $wwiseStopped = $true
             }
         }
         catch {
-            $report.error = [ordered]@{
-                type       = $_.Exception.GetType().FullName
-                message    = "Failed to clean up wrapper-owned Wwise PID $($wwiseProcess.Id): $($_.Exception.Message)"
-                scriptLine = $_.InvocationInfo.ScriptLineNumber
-                position   = $_.InvocationInfo.PositionMessage
-            }
+            $report.cleanup.errors += "Failed to clean up wrapper-owned Wwise PID $($wwiseProcess.Id): $($_.Exception.Message)"
             $exitCode = 1
         }
         finally {
             $wwiseProcess.Dispose()
+        }
+    }
+    else {
+        $wwiseStopped = $true
+    }
+
+    if ($sourceSnapshotBefore) {
+        try {
+            $sourceSnapshotAfter = Get-DirectorySnapshot -Root $sourceSnapshotBefore.Root
+            $fixtureUnchanged = Test-DirectorySnapshotsEqual `
+                -Reference $sourceSnapshotBefore `
+                -Candidate $sourceSnapshotAfter
+            $report.projectIsolation.fixtureAfter = ConvertTo-SnapshotSummary -Snapshot $sourceSnapshotAfter
+            $report.projectIsolation.fixtureUnchanged = $fixtureUnchanged
+            if (-not $fixtureUnchanged) {
+                throw 'The tracked Wwise smoke fixture changed during the disposable smoke run.'
+            }
+        }
+        catch {
+            $report.cleanup.errors += "Fixture integrity verification failed: $($_.Exception.Message)"
+            $exitCode = 1
+        }
+    }
+
+    if ($disposableRunRoot -and (Test-Path -LiteralPath $disposableRunRoot)) {
+        if ($wwiseStopped) {
+            try {
+                $resolvedProjectsRoot = [System.IO.Path]::GetFullPath($projectsRoot).TrimEnd('\')
+                $resolvedDisposableRoot = [System.IO.Path]::GetFullPath($disposableRunRoot)
+                if (-not $resolvedDisposableRoot.StartsWith(
+                    $resolvedProjectsRoot + '\',
+                    [System.StringComparison]::OrdinalIgnoreCase
+                )) {
+                    throw "Refusing to remove unexpected disposable project path '$resolvedDisposableRoot'."
+                }
+                Remove-Item -LiteralPath $resolvedDisposableRoot -Recurse -Force
+                $report.cleanup.disposableProjectRemoved = -not (
+                    Test-Path -LiteralPath $resolvedDisposableRoot
+                )
+                if (-not $report.cleanup.disposableProjectRemoved) {
+                    throw "Disposable Wwise project still exists after cleanup: '$resolvedDisposableRoot'."
+                }
+            }
+            catch {
+                $report.cleanup.errors += "Disposable project cleanup failed: $($_.Exception.Message)"
+                $exitCode = 1
+            }
+        }
+        else {
+            $report.cleanup.disposableProjectRetained = $true
+        }
+    }
+
+    if ($report.cleanup.errors.Count -gt 0) {
+        if (-not $report.error) {
+            $report.error = [ordered]@{
+                type       = 'WwiseSmokeCleanupFailure'
+                message    = [string]::Join('; ', [string[]]$report.cleanup.errors)
+                scriptLine = $null
+                position   = $null
+            }
+        }
+        else {
+            $report.error['cleanupErrors'] = [string[]]$report.cleanup.errors
         }
     }
 

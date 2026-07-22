@@ -65,7 +65,12 @@ bool RealWorldWeatherAcousticsPlugin::GetBankParameters(const GUID & in_guidPlat
     success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "MasterGainDb"));
     success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "RainIntensity"));
     success &= in_dataWriter.WriteInt32(m_propertySet.GetInt32(in_guidPlatform, "Seed"));
-    success &= in_dataWriter.WriteBool(m_propertySet.GetBool(in_guidPlatform, "GeometryEnabled"));
+    // Wwise may omit a bool equal to its XML default from the object payload.
+    // Seed the documented default because the SDK convenience GetBool() has no
+    // fallback value when its typed lookup fails.
+    bool geometryEnabled = true;
+    (void)m_propertySet.GetValueBool(in_guidPlatform, "GeometryEnabled", geometryEnabled);
+    success &= in_dataWriter.WriteBool(geometryEnabled);
     success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "ListenerX"));
     success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "ListenerY"));
     success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "ListenerZ"));
@@ -82,6 +87,11 @@ bool RealWorldWeatherAcousticsPlugin::GetBankParameters(const GUID & in_guidPlat
         success &= in_dataWriter.WriteInt32(m_propertySet.GetInt32(in_guidPlatform, kFeatureProperties[slot][5]));
         success &= in_dataWriter.WriteInt32(m_propertySet.GetInt32(in_guidPlatform, kFeatureProperties[slot][6]));
     }
+
+    // v0.2 fields are appended so v0.1 parameter IDs and bank layout remain stable.
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "WindSpeed"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "WindDirectionDegrees"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "WindGustiness"));
 
     return success;
 }

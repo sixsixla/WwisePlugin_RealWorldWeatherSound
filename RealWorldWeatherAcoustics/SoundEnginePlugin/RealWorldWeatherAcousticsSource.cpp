@@ -61,7 +61,7 @@ AKRESULT RealWorldWeatherAcousticsSource::Init(AK::IAkPluginMemAlloc* in_pAlloca
     m_pParams = static_cast<RealWorldWeatherAcousticsSourceParams*>(in_pParams);
     in_rFormat.channelConfig.SetStandard(AK_SPEAKER_SETUP_STEREO);
 
-    m_pSynth = AK_PLUGIN_NEW(in_pAllocator, rwwa::RainSynth(in_rFormat.uSampleRate));
+    m_pSynth = AK_PLUGIN_NEW(in_pAllocator, rwwa::WeatherSynth(in_rFormat.uSampleRate));
     if (m_pSynth == nullptr)
     {
         return AK_InsufficientMemory;
@@ -140,6 +140,9 @@ void RealWorldWeatherAcousticsSource::Execute(AkAudioBuffer* out_pBuffer)
 
     rwwa::WeatherState weather{};
     weather.rainIntensity = values.fRainIntensity;
+    weather.windSpeedMetersPerSecond = values.fWindSpeed;
+    weather.windDirectionRadians = values.fWindDirectionDegrees * 0.01745329251994329577f;
+    weather.windGustiness = values.fWindGustiness;
     weather.seed = static_cast<AkUInt32>(values.iSeed);
     weather.geometryEnabled = values.bGeometryEnabled;
     weather.masterGainLinear = AK_DBTOLIN(values.fMasterGainDb);

@@ -11,6 +11,9 @@
       <FullPath>D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\Core\bin\Release\rwwa_offline_renderer.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\Core\bin\Release\rwwa_source_params_bank_tests.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\Core\x64\Release\ALL_BUILD</FullPath>
     </ProjectOutput>
   </ProjectOutputs>

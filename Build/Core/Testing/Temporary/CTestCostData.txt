@@ -1,3 +1,7 @@
-rwwa_core_tests 14 0.00256012
+rwwa_core_tests 36 0.0148243
 rwwa_offline_renderer_writes_wav 14 0.0028367
+rwwa_offline_renderer_weather_ring 18 0.00462468
+rwwa_offline_renderer_open_wind 18 0.00374296
+rwwa_offline_renderer_rain_metal 18 0.00373257
+rwwa_source_params_bank_tests 14 0.000344136
 ---

@@ -1,81 +1,90 @@
-# RealWorld Weather Acoustics v0.1 Validation Report
+# RealWorld Weather Acoustics v0.2 Validation Report
 
 ## Verdict
 
-The v0.1 executable rain/Authoring slice passes its defined acceptance boundary on Wwise `2023.1.19.8928`, Windows x64, Visual Studio 2022/vc170, Release.
+The v0.2 executable slice passes its current automated acceptance boundary on Wwise `2023.1.19.8928`, Windows x64, Visual Studio 2022/vc170, Release.
 
-This verdict covers the shared Core, deterministic offline rendering, Wwise Source and Authoring binaries, the fixed-slot 2D Preview implementation, isolated build/staging, minimal Authoring installation, project reload, Transport playback, Voice/CPU observation, non-silent output, and Profiler capture. It does not claim that the future game-side runtime transport or engine adapters are complete.
+This verdict covers shared Core/DSP tests, deterministic offline rendering, Wwise Source and Authoring binaries, minimal staging and installation, official Wwise property binding for the host-owned Geometry checkbox, disposable Wwise Authoring smoke project creation, GUI smoke for the new Feature editing controls, Transport playback, Voice/CPU observation, non-silent output, Profiler capture, and smoke cleanup.
 
-## Implemented boundary
+It does not claim subjective listening approval, generated SoundBank loading/execution in an independent Native SoundEngine Host, or game-side engine integration.
 
-- Rain only; no wind or thunder renderer yet.
+## Implemented Boundary
+
+- Programmatic, physically inspired wind/rain weather source; no recorded sample pack.
+- Improved rain layer plus wind layer; still not a full physical fluid/acoustic solver.
 - One Listener with position and yaw.
-- Up to 8 `SphereProxy` feature slots; `ActiveK=4` enters DSP.
+- Fixed 8 `SphereProxy` feature slots in Wwise PropertySet; `ActiveK=4` enters DSP.
 - Metal, Wood, Glass, and Tile response profiles.
-- One response profile per feature; no front/back response switch.
-- No sky exposure, indoor/outdoor, enclosure, or `receivesRain` fields. Registration itself is the participation whitelist; `ResponseMask` selects modules.
-- Stereo output; no Ambisonics claim in this slice.
-- Three Authoring presets, 2D circles, one draggable Listener point, and a draggable yaw arrow; no Listener Path.
-- Authoring fixed slots and Runtime Source use the same Wwise PropertySet and the same shared Core/DSP.
+- Response masks: Disabled, Rain, Wind, Rain + Wind.
+- Three Authoring presets: `Open Wind`, `Rain on Metal`, `Wind + Rain Ring`.
+- Wwise Authoring 2D Preview supports Listener drag, Yaw drag, Feature Add, Feature center drag, radius-handle drag, Delete button, and Delete key.
+- No Listener Path.
+- No thunderstorm/lightning event layer.
+- No Unity/Unreal adapter, game C ABI, Scene Snapshot transport, Capture/Replay, Monitor UI, Ambisonics, or cross-platform packaging in this slice.
 
-## Fresh verification evidence
+## Fresh Verification Evidence
+
+Primary final smoke evidence:
+
+```text
+Build/WwiseSmoke/wwise-authoring-smoke-20260722T035623735Z.json
+Build/WwiseSmoke/wwise-authoring-smoke-20260722T035623735Z.prof
+```
+
+The final smoke was started at `2026-07-22T03:56:23.7387102Z` and finished at `2026-07-22T03:56:28.4149457Z`.
 
 | Claim | Result | Evidence |
 | --- | --- | --- |
-| PowerShell scripts parse | PASS | `Scripts/Test.ps1` reported `PowerShell syntax validation passed.` |
-| Core and offline tests | PASS | CTest: 2/2 passed, 0 failed |
-| Deterministic offline render | PASS | `validation_a.wav` and `validation_b.wav` are both 576,044 bytes and SHA-256 `7773F6BBFDA2E2046B4989E9E22CBF42043AD77318960276C30E83DA0FEAD7D8` |
-| Saved Wwise project reload | PASS | `WwiseConsole verify --abort-on-load-issues --verbose` loaded all Work Units and completed successfully |
-| Installed plug-in discovered and instantiated | PASS | WAAPI created Source class ID `2031682562` in the isolated smoke project |
-| Authoring Transport executes the real Source | PASS | Transport state `playing`; 1 total Voice, 1 physical Voice, non-virtual and started |
-| Plug-in executes in Wwise profiler | PASS | `RealWorld Weather Acoustics` Source row: 1 instance, about `0.0478 ms` exclusive in the sampled frame |
-| Output is non-silent | PASS | Output peak `-34.514984 dB`, above the smoke floor of `-90 dB` |
-| Profiler capture saved | PASS | Required smoke assertion passed; `.prof` size 369,119 bytes; SHA-256 `7637E9B7380F54C3B489B0184439A7AC51A4C5AB2D35BBBE52EC777B4AD8E7BF` |
-| Wrapper cleanup | PASS | No mandatory cleanup errors; wrapper stopped only the Wwise process it launched |
+| Final Wwise Authoring smoke completed | PASS | JSON `success = true`; wrapper `error = null` |
+| Installed Authoring files match staging | PASS | Installed DLL/XML SHA-256 values match staged files and `Artifacts/stage-record.json` |
+| Fixture smoke project unchanged | PASS | `fixtureUnchanged = true`; before/after file count `34`, bytes `613667`, digest unchanged |
+| Disposable smoke copy isolated and removed | PASS | `copyMatchesFixtureBytes = true`; `disposableProjectRemoved = true`; `disposableProjectRetained = false`; cleanup errors `[]` |
+| Plug-in discovered and instantiated | PASS | WAAPI created Source class ID `2031682562` in an isolated disposable project |
+| Official Wwise populate binding works | PASS | Geometry checkbox is a host-synchronized Wwise control; smoke changed `GeometryEnabled` from `true` to `false` and Wwise Undo restored `true` |
+| Inspector text matches stable preset | PASS | `inspectorTextMatchesStablePreset = true`; 13 visible Inspector edit texts matched `60`, `0.75`, `24681357`, `20`, `4 / 8`, `14`, `35`, `0.65`, and Feature1 `0`, `6`, `2.5`, `3`, `10` |
+| Add initializes complete defaults | PASS | `addButtonInitializesFeature5Defaults = true`; new Feature5 defaults include Geometry enabled, X/Z from Listener yaw, Y `0`, Radius `2`, Profile `0`, Mask `3`, Priority `1` |
+| GUI Add/drag/radius/Delete works | PASS | Add changed `FeatureCount` `4 -> 5`; center drag changed `Feature5X/Z`; radius drag changed `Feature5Radius`; Delete button changed `FeatureCount` `5 -> 4`; Delete key also changed `5 -> 4` |
+| GUI Undo gates work | PASS | Six explicit Undo gates restored Geometry, Add, center drag, radius drag, Delete button, and Delete key properties |
+| Wwise SoundBank generation serializes Authoring parameters | PASS | Geometry true/false SoundBanks are each `457` bytes; each contains the expected `273`-byte parameter block exactly once at bank offset `77`; `GeometryEnabled` is block offset `16` / bank offset `93`; true byte `1`, false byte `0`; blocks differ only at offset `16`; generation logs are only `Message`; Geometry restored `true` |
+| Transport executes the real Source | PASS | `transportState = playing`; isolated transport evidence `true` |
+| Real physical voice exists | PASS | `voicesTotal = 1`; `voicesPhysical = 1`; `voicesVirtual = 0` |
+| Output is non-silent | PASS | `OutputPeak = -28.6425437927246 dB`, above the `-90 dB` silence floor |
+| Plug-in executes in Wwise Profiler | PASS | Source row `RealWorld Weather Acoustics`: 1 instance, `0.1396999955177307 ms` exclusive CPU |
+| Profiler capture saved | PASS | `.prof` saved at `Build/WwiseSmoke/wwise-authoring-smoke-20260722T035623735Z.prof`; size `368867` bytes |
 
-Primary dynamic evidence:
+Additional automated evidence from `Build/Core/Testing/Temporary/LastTest.log`:
 
-- `Build/WwiseSmoke/wwise-authoring-smoke-20260721T110307505Z.json`
-- `Build/WwiseSmoke/wwise-authoring-smoke-20260721T110307505Z.prof`
-- `Build/Core/Fixtures/validation_a.wav`
-- `Build/Core/Fixtures/validation_b.wav`
-- `WwiseSmoke/RealWorldWeatherAcousticsSmoke/RealWorldWeatherAcousticsSmoke.wproj`
+| Claim | Result | Evidence |
+| --- | --- | --- |
+| Core/weather DSP tests | PASS | `rwwa_core_tests` passed; log includes rain/wind/gust metrics |
+| Bank parameter ABI contract | PASS | `rwwa_source_params_bank_tests` passed |
+| Offline `weather-ring` fixture | PASS | `rwwa_offline_renderer_weather_ring` wrote `Build/Core/Fixtures/weather_ring.wav` |
+| Offline `open-wind` fixture | PASS | `rwwa_offline_renderer_open_wind` wrote `Build/Core/Fixtures/open_wind.wav` |
+| Offline `rain-metal` fixture | PASS | `rwwa_offline_renderer_rain_metal` wrote `Build/Core/Fixtures/rain_metal.wav` |
 
-The JSON report records the authored four-material ring, exact project identity, every WAAPI step, Transport state, Voice rows, Source CPU row, Performance Monitor values, assertions, and cleanup state.
-
-## Staged and installed files
-
-The complete source, generated projects, intermediates, binaries, tests, smoke project, and validation outputs remain under:
-
-```text
-D:\Tool\WwisePlugin_RealWorldWeatherSound
-```
-
-The staged v0.1 package contains four files:
+The final staged files recorded in `Artifacts/stage-record.json` are:
 
 | Artifact | Size | SHA-256 |
 | --- | ---: | --- |
-| Authoring `RealWorldWeatherAcoustics.dll` | 70,656 | `1CF834674E1641569D2136AC7E10561A4E3120ED95B8A3181079BED449E61C30` |
-| Authoring `RealWorldWeatherAcoustics.xml` | 27,005 | `0A4ED851FD66BDCCAECA5712457AB7F762938BF46600EA4952FE1E300FB3B311` |
-| Runtime `RealWorldWeatherAcousticsSource.lib` | 231,810 | `8875E7FAC86E4A86A46C1AF55D63A7B51DA1297F59AC90259846FC00DD05966C` |
-| Runtime `RealWorldWeatherAcousticsSourceFactory.h` | 1,512 | `D7227F57C422DEE6DAB622FE6F59528C0D2685AE2A3B055E20B2ACA0AE8219C6` |
+| Authoring `RealWorldWeatherAcoustics.dll` | 86,528 | `0fbb33d4ae7d8066d91b5ec58def7933bb98388cdf8e961cbc24a6a41cd9597e` |
+| Authoring `RealWorldWeatherAcoustics.xml` | 29,000 | `662cd1cf63ddd88b8ae3ae75c47bc44df790b7fa42c8f63257e6892c32d2cea5` |
+| Runtime `RealWorldWeatherAcousticsSource.lib` | 273,182 | `985b211391aff17c9716d899eeec448ae27c09b14dc7b4f57ff4fabd9d49d7d6` |
+| Runtime `RealWorldWeatherAcousticsSourceFactory.h` | 1,512 | `d7227f57c422dee6dab622fe6f59528c0d2685ae2a3b055e20b2aca0ae8219c6` |
 
-Only the Authoring DLL and XML were copied into Wwise:
+## What This Does Not Prove
 
-```text
-E:\WwiseSoft2023\Wwise_2023.1.19.8928\Authoring\x64\Release\bin\Plugins\RealWorldWeatherAcoustics.dll
-E:\WwiseSoft2023\Wwise_2023.1.19.8928\Authoring\x64\Release\bin\Plugins\RealWorldWeatherAcoustics.xml
-```
-
-Their installed hashes match the staged hashes. No Runtime library, Factory Header, source tree, generated project, PDB, or build directory was copied into the Wwise installation/SDK.
+- No human subjective listening acceptance was completed in this validation pass. The generated WAV files, DSP metrics, output peak, and any spectrum/envelope checks are regression evidence only; they are not listening approval.
+- The 261-byte legacy and 273-byte current parameter ABI tests prove `SetParamsBlock` accepts the exact old/new layouts, rejects off-size blocks, and maps the appended wind fields correctly. The canonical smoke additionally proves Wwise actual SoundBank generation and Authoring parameter serialization for the generated true/false Geometry banks. It does not prove those generated banks load and execute through a standalone Native SoundEngine Host.
+- The Wwise smoke proves Authoring discovery, Source creation, GUI mutation/Undo, SoundBank generation/parameter serialization, Transport playback, Voice/CPU evidence, non-silent output, Profiler capture, fixture isolation, and cleanup. It does not prove game runtime C ABI, Scene Snapshot transport, Unity/Unreal adapters, platform packaging, or commercial release identity.
 
 ## Reproduction
 
-Run from the product root:
+Run from the product root after closing other Wwise Authoring instances:
 
 ```powershell
 $wwise = 'E:\WwiseSoft2023\Wwise_2023.1.19.8928'
 
+& .\Scripts\Resolve-Environment.ps1 -WwiseRoot $wwise
 & .\Scripts\Configure.ps1 -WwiseRoot $wwise
 & .\Scripts\Build.ps1 -WwiseRoot $wwise
 & .\Scripts\Test.ps1 -WwiseRoot $wwise
@@ -86,12 +95,11 @@ $wwise = 'E:\WwiseSoft2023\Wwise_2023.1.19.8928'
     -PythonWithWaapi 'D:\Tool\Wwise_mcp\.venv\Scripts\python.exe'
 ```
 
-The explicit Python path is local smoke-test tooling only and is not a product build/runtime dependency.
+`-PythonWithWaapi` is local smoke-test tooling only. It is not a product build or runtime dependency.
 
-## Known gaps and next proof points
+## Remaining Risks
 
-- The 2D canvas compiled and linked into the real Authoring DLL, and its property/drag logic has source review coverage. Automated smoke did not open the plug-in editor and visually drag the controls; a short manual UX/screenshot pass remains useful.
-- SoundBank serialization and a standalone Native SoundEngine Host have not yet executed the staged Runtime `.lib` and Factory Header end to end.
-- Game-side static object registry, C ABI, versioned Scene Snapshot, Custom Game Data/Native Registry choice, Capture/Replay, contribution Monitor, and MCP/Sandbox data plane are P0-B work.
-- Unity and Unreal adapters, wind, thunder, Ambisonics, multi-listener, non-Windows platforms, and complete product packaging are not implemented.
-- Development IDs are internal only: `CompanyID=64`, `PluginID=31001`. Public/commercial distribution requires Audiokinetic-assigned non-conflicting IDs and a full rebuild/revalidation.
+- A human listening pass is still needed for subjective wind/rain/material quality.
+- Standalone Native SoundEngine Host loading/executing the generated SoundBank remains the next runtime proof point.
+- Fixed 8-slot Authoring storage is a compatibility layer. Delete-left-shift can change slot-derived IDs; stable external feature identity belongs to the later registry/snapshot design.
+- Development IDs remain internal only: `CompanyID=64`, `PluginID=31001`. Public or commercial distribution requires Audiokinetic-assigned non-conflicting IDs and a full rebuild/revalidation.

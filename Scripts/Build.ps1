@@ -35,13 +35,15 @@ if (-not $SkipCore) {
             '-A', 'x64',
             '-DBUILD_TESTING=ON',
             '-DRWWA_BUILD_TESTS=ON',
-            '-DRWWA_BUILD_OFFLINE_RENDERER=ON'
-        ) -Description 'Configure shared Core, tests, and offline renderer'
+            '-DRWWA_BUILD_OFFLINE_RENDERER=ON',
+            '-DRWWA_BUILD_WWISE_BANK_TESTS=ON',
+            "-DRWWA_WWISE_SDK_ROOT=$($environment.WwiseRoot)"
+        ) -Description 'Configure shared Core, Wwise bank-contract tests, and offline renderer'
         Invoke-CheckedCommand -FilePath $environment.CMakePath -ArgumentList @(
             '--build', $coreBuild,
             '--config', $Configuration,
             '--parallel'
-        ) -Description 'Build shared Core, tests, and offline renderer'
+        ) -Description 'Build shared Core, Wwise bank-contract tests, and offline renderer'
     }
     else {
         Write-Warning "No root CMakeLists.txt exists yet; shared Core/tests/offline renderer were skipped."
@@ -50,20 +52,35 @@ if (-not $SkipCore) {
 
 if (-not $SkipWwise) {
     Assert-WwiseProjectIsolation -PluginRoot $environment.PluginRoot
-    Push-Location $environment.PluginRoot
+    # Wwise's wp.py decodes vswhere output with Python's locale default. On a
+    # GBK host that can fail intermittently when Visual Studio emits Unicode.
+    # Keep UTF-8 mode scoped to the vendor build calls and restore the caller.
+    $previousPythonUtf8 = [System.Environment]::GetEnvironmentVariable('PYTHONUTF8', 'Process')
+    $env:PYTHONUTF8 = '1'
     try {
-        Invoke-Wp -Environment $environment -ArgumentList @(
-            'build', 'Windows_vc170', '-c', 'Release(StaticCRT)', '-x', 'x64', '-t', $Toolset
-        ) -Description 'Build Wwise Runtime static-CRT dependency (Windows x64 Release)'
-        Invoke-Wp -Environment $environment -ArgumentList @(
-            'build', 'Windows_vc170', '-c', $Configuration, '-x', 'x64', '-t', $Toolset
-        ) -Description 'Build Wwise Runtime plug-in (Windows x64 Release)'
-        Invoke-Wp -Environment $environment -ArgumentList @(
-            'build', 'Authoring_Windows', '-c', $Configuration, '-x', 'x64', '-t', $Toolset
-        ) -Description 'Build Wwise Authoring plug-in (Windows x64 Release)'
+        Push-Location $environment.PluginRoot
+        try {
+            Invoke-Wp -Environment $environment -ArgumentList @(
+                'build', 'Windows_vc170', '-c', 'Release(StaticCRT)', '-x', 'x64', '-t', $Toolset
+            ) -Description 'Build Wwise Runtime static-CRT dependency (Windows x64 Release)'
+            Invoke-Wp -Environment $environment -ArgumentList @(
+                'build', 'Windows_vc170', '-c', $Configuration, '-x', 'x64', '-t', $Toolset
+            ) -Description 'Build Wwise Runtime plug-in (Windows x64 Release)'
+            Invoke-Wp -Environment $environment -ArgumentList @(
+                'build', 'Authoring_Windows', '-c', $Configuration, '-x', 'x64', '-t', $Toolset
+            ) -Description 'Build Wwise Authoring plug-in (Windows x64 Release)'
+        }
+        finally {
+            Pop-Location
+        }
     }
     finally {
-        Pop-Location
+        if ($null -eq $previousPythonUtf8) {
+            Remove-Item Env:PYTHONUTF8 -ErrorAction SilentlyContinue
+        }
+        else {
+            $env:PYTHONUTF8 = $previousPythonUtf8
+        }
     }
 
     Assert-ExpectedBuildOutputs -ProductRoot $environment.ProductRoot -Configuration $Configuration

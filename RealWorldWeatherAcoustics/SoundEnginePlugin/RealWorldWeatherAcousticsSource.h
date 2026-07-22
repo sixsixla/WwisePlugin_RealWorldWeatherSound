@@ -64,7 +64,7 @@ public:
 
 private:
     RealWorldWeatherAcousticsSourceParams* m_pParams;
-    rwwa::RainSynth* m_pSynth;
+    rwwa::WeatherSynth* m_pSynth;
     rwwa::SceneSnapshot m_sceneSnapshot;
     AkFXDurationHandler m_durationHandler;
 };

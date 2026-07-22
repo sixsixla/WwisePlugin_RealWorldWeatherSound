@@ -43,6 +43,9 @@ enum RealWorldWeatherAcousticsParameterId : AkPluginParamID
     PARAM_LISTENER_YAW_DEGREES_ID = 8,
     PARAM_FEATURE_COUNT_ID = 9,
     PARAM_FEATURES_BEGIN_ID = 10,
+    PARAM_WIND_SPEED_ID = 66,
+    PARAM_WIND_DIRECTION_DEGREES_ID = 67,
+    PARAM_WIND_GUSTINESS_ID = 68,
 };
 
 enum RealWorldWeatherAcousticsFeatureParameterOffset : AkUInt32
@@ -58,7 +61,7 @@ enum RealWorldWeatherAcousticsFeatureParameterOffset : AkUInt32
 };
 
 static const AkUInt32 FEATURE_SLOT_COUNT = 8;
-static const AkUInt32 NUM_PARAMS = PARAM_FEATURES_BEGIN_ID + FEATURE_SLOT_COUNT * PARAM_FEATURE_PARAMETER_COUNT;
+static const AkUInt32 NUM_PARAMS = 69;
 
 inline AkPluginParamID FeatureParameterId(AkUInt32 in_slot, AkUInt32 in_offset)
 {
@@ -89,6 +92,9 @@ struct RealWorldWeatherAcousticsParameterValues
     AkReal32 fListenerYawDegrees;
     AkInt32 iFeatureCount;
     RealWorldWeatherAcousticsFeatureParams Features[FEATURE_SLOT_COUNT];
+    AkReal32 fWindSpeed;
+    AkReal32 fWindDirectionDegrees;
+    AkReal32 fWindGustiness;
 };
 
 struct RealWorldWeatherAcousticsSourceParams

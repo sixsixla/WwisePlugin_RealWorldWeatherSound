@@ -90,6 +90,8 @@ private:
 		None,
 		ListenerPosition,
 		ListenerYaw,
+		FeaturePosition,
+		FeatureRadius,
 	};
 
 	static LRESULT CALLBACK CanvasWindowProc(HWND in_hWnd, UINT in_message, WPARAM in_wParam, LPARAM in_lParam);
@@ -100,6 +102,8 @@ private:
 	void UpdateControls();
 	void CommitControl(UINT in_controlId);
 	void SelectFeature(int in_featureIndex);
+	void AddFeature();
+	void DeleteSelectedFeature();
 	void ApplyPreset(int in_presetIndex);
 
 	void PaintCanvas(HWND in_hWnd);
@@ -107,9 +111,14 @@ private:
 	POINT WorldToScreen(const CanvasTransform& in_transform, float in_x, float in_z) const;
 	void ScreenToWorld(const CanvasTransform& in_transform, POINT in_point, float& out_x, float& out_z) const;
 	int HitTestFeature(POINT in_point, const CanvasTransform& in_transform) const;
+	bool HitTestFeatureRadiusHandle(POINT in_point, const CanvasTransform& in_transform) const;
 	bool HitTestListener(POINT in_point, const CanvasTransform& in_transform, bool& out_isYawHandle) const;
 
-	void BeginDrag(DragMode in_mode, const CanvasTransform& in_transform);
+	void BeginDrag(
+		DragMode in_mode,
+		const CanvasTransform& in_transform,
+		POINT in_point,
+		int in_featureIndex = -1);
 	void UpdateDrag(POINT in_point);
 	void EndDrag();
 	void InvalidatePreview();
@@ -121,6 +130,10 @@ private:
 	int m_selectedFeature = 0;
 	DragMode m_dragMode = DragMode::None;
 	CanvasTransform m_dragTransform{};
+	int m_dragFeatureIndex = -1;
+	float m_dragPointerOffsetX = 0.0f;
+	float m_dragPointerOffsetZ = 0.0f;
+	bool m_dragChanged = false;
 	ak_wwise_plugin_undo_group_id m_dragUndoGroup = 0;
 };
 

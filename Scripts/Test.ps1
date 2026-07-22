@@ -38,7 +38,7 @@ if (Test-Path -LiteralPath $cmakeProject -PathType Leaf) {
         '--test-dir', $coreBuild,
         '-C', $Configuration,
         '--output-on-failure'
-    ) -Description 'Run shared Core and offline renderer tests'
+    ) -Description 'Run Core, Wwise bank-contract, and offline renderer tests'
 }
 else {
     Write-Warning 'No root CMakeLists.txt exists; Core tests were skipped.'

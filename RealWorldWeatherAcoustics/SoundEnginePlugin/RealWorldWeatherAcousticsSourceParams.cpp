@@ -33,9 +33,18 @@ namespace
 {
 static const AkReal32 kDefaultDuration = 60.0f;
 static const AkReal32 kDefaultMasterGainDb = -12.0f;
-static const AkReal32 kDefaultRainIntensity = 0.65f;
+static const AkReal32 kDefaultRainIntensity = 0.25f;
+static const AkReal32 kDefaultWindSpeed = 12.0f;
+static const AkReal32 kDefaultWindDirectionDegrees = 0.0f;
+static const AkReal32 kDefaultWindGustiness = 0.55f;
 static const AkInt32 kDefaultSeed = 1337;
 static const AkReal32 kDefaultFeatureRadius = 2.0f;
+static const AkUInt32 kLegacyBankBlockSize =
+    39u * static_cast<AkUInt32>(sizeof(AkReal32)) +
+    26u * static_cast<AkUInt32>(sizeof(AkInt32)) +
+    static_cast<AkUInt32>(sizeof(bool));
+static const AkUInt32 kCurrentBankBlockSize =
+    kLegacyBankBlockSize + 3u * static_cast<AkUInt32>(sizeof(AkReal32));
 
 AkReal32 ClampFinite(AkReal32 in_value, AkReal32 in_minimum, AkReal32 in_maximum, AkReal32 in_fallback)
 {
@@ -108,11 +117,9 @@ AKRESULT RealWorldWeatherAcousticsSourceParams::Term(AK::IAkPluginMemAlloc* in_p
 
 AKRESULT RealWorldWeatherAcousticsSourceParams::SetParamsBlock(const void* in_pParamsBlock, AkUInt32 in_ulBlockSize)
 {
-    const AkUInt32 expectedSize =
-        39u * static_cast<AkUInt32>(sizeof(AkReal32)) +
-        26u * static_cast<AkUInt32>(sizeof(AkInt32)) +
-        static_cast<AkUInt32>(sizeof(bool));
-    if (in_pParamsBlock == nullptr || in_ulBlockSize != expectedSize)
+    const bool hasWindParameters = in_ulBlockSize == kCurrentBankBlockSize;
+    if (in_pParamsBlock == nullptr ||
+        (in_ulBlockSize != kLegacyBankBlockSize && !hasWindParameters))
     {
         return AK_InvalidParameter;
     }
@@ -141,6 +148,20 @@ AKRESULT RealWorldWeatherAcousticsSourceParams::SetParamsBlock(const void* in_pP
         feature.iProfile = READBANKDATA(AkInt32, pParamsBlock, in_ulBlockSize);
         feature.iMask = READBANKDATA(AkInt32, pParamsBlock, in_ulBlockSize);
         feature.iPriority = READBANKDATA(AkInt32, pParamsBlock, in_ulBlockSize);
+    }
+    if (hasWindParameters)
+    {
+        values.fWindSpeed = READBANKDATA(AkReal32, pParamsBlock, in_ulBlockSize);
+        values.fWindDirectionDegrees = READBANKDATA(AkReal32, pParamsBlock, in_ulBlockSize);
+        values.fWindGustiness = READBANKDATA(AkReal32, pParamsBlock, in_ulBlockSize);
+    }
+    else
+    {
+        // v0.1 banks had no wind fields. Keeping wind disabled preserves their
+        // rain-only behavior after loading them with the v0.2 SoundEngine plug-in.
+        values.fWindSpeed = 0.0f;
+        values.fWindDirectionDegrees = kDefaultWindDirectionDegrees;
+        values.fWindGustiness = 0.0f;
     }
     CHECKBANKDATASIZE(in_ulBlockSize, eResult);
 
@@ -205,8 +226,20 @@ AKRESULT RealWorldWeatherAcousticsSourceParams::SetParam(AkPluginParamID in_para
         if (in_ulParamSize != sizeof(AkInt32)) return AK_InvalidParameter;
         Values.iFeatureCount = *static_cast<const AkInt32*>(in_pValue);
         break;
+    case PARAM_WIND_SPEED_ID:
+        if (in_ulParamSize != sizeof(AkReal32)) return AK_InvalidParameter;
+        Values.fWindSpeed = *static_cast<const AkReal32*>(in_pValue);
+        break;
+    case PARAM_WIND_DIRECTION_DEGREES_ID:
+        if (in_ulParamSize != sizeof(AkReal32)) return AK_InvalidParameter;
+        Values.fWindDirectionDegrees = *static_cast<const AkReal32*>(in_pValue);
+        break;
+    case PARAM_WIND_GUSTINESS_ID:
+        if (in_ulParamSize != sizeof(AkReal32)) return AK_InvalidParameter;
+        Values.fWindGustiness = *static_cast<const AkReal32*>(in_pValue);
+        break;
     default:
-        if (in_paramID < PARAM_FEATURES_BEGIN_ID || in_paramID >= NUM_PARAMS)
+        if (in_paramID < PARAM_FEATURES_BEGIN_ID || in_paramID >= PARAM_WIND_SPEED_ID)
         {
             return AK_InvalidParameter;
         }
@@ -260,6 +293,9 @@ void RealWorldWeatherAcousticsSourceParams::SetDefaults()
     Values.fListenerZ = 0.0f;
     Values.fListenerYawDegrees = 0.0f;
     Values.iFeatureCount = 4;
+    Values.fWindSpeed = kDefaultWindSpeed;
+    Values.fWindDirectionDegrees = kDefaultWindDirectionDegrees;
+    Values.fWindGustiness = kDefaultWindGustiness;
 
     for (AkUInt32 slot = 0; slot < FEATURE_SLOT_COUNT; ++slot)
     {
@@ -269,7 +305,7 @@ void RealWorldWeatherAcousticsSourceParams::SetDefaults()
         feature.fZ = 0.0f;
         feature.fRadius = kDefaultFeatureRadius;
         feature.iProfile = static_cast<AkInt32>(slot % 4u);
-        feature.iMask = 1;
+        feature.iMask = 3;
         feature.iPriority = 1;
     }
 
@@ -290,6 +326,9 @@ void RealWorldWeatherAcousticsSourceParams::Validate()
     Values.fListenerZ = ClampFinite(Values.fListenerZ, -10000.0f, 10000.0f, 0.0f);
     Values.fListenerYawDegrees = ClampFinite(Values.fListenerYawDegrees, -180.0f, 180.0f, 0.0f);
     Values.iFeatureCount = ClampInt(Values.iFeatureCount, 0, static_cast<AkInt32>(FEATURE_SLOT_COUNT));
+    Values.fWindSpeed = ClampFinite(Values.fWindSpeed, 0.0f, 40.0f, kDefaultWindSpeed);
+    Values.fWindDirectionDegrees = ClampFinite(Values.fWindDirectionDegrees, 0.0f, 360.0f, kDefaultWindDirectionDegrees);
+    Values.fWindGustiness = ClampFinite(Values.fWindGustiness, 0.0f, 1.0f, kDefaultWindGustiness);
 
     for (AkUInt32 slot = 0; slot < FEATURE_SLOT_COUNT; ++slot)
     {
@@ -299,7 +338,7 @@ void RealWorldWeatherAcousticsSourceParams::Validate()
         feature.fZ = ClampFinite(feature.fZ, -10000.0f, 10000.0f, 0.0f);
         feature.fRadius = ClampFinite(feature.fRadius, 0.01f, 10000.0f, kDefaultFeatureRadius);
         feature.iProfile = ClampInt(feature.iProfile, 0, 3);
-        feature.iMask = ClampInt(feature.iMask, 0, 1);
+        feature.iMask = ClampInt(feature.iMask, 0, 3);
         feature.iPriority = ClampInt(feature.iPriority, 0, 1000);
     }
 }

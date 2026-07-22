@@ -2,9 +2,9 @@
 
 ## 文档状态
 
-- 状态：持续讨论基线；首个可执行垂直切片已实现并通过 Wwise 2023.1 实机验证
+- 状态：持续讨论基线；v0.2 可执行垂直切片已实现，Wwise 2023.1 QA 证据见验证报告
 - 文档版本：v1.0
-- 当前实现版本：v0.1 executable slice
+- 当前实现版本：v0.2 executable slice
 - 创建时间：2026-07-21 15:52（Asia/Shanghai）
 - 最后更新：2026-07-21（Asia/Shanghai）
 - 讨论主题：基于游戏天气、几何与表面语义数据生成风、雨、雷暴声学的通用 Wwise 产品
@@ -15,9 +15,9 @@
 ### v1.0（当前讨论与实施基线）
 
 - 完成独立产品工程、共享 C++ DSP Core、单元/离线 WAV 测试、Wwise 2023.1 Source Plug-in、参数后端、Win32 Authoring 2D Preview、隔离构建、最小 staging/install 与 WAAPI/Profiler smoke。
-- 当前可执行切片只承诺雨声：一个 Listener、最多 8 个 `SphereProxy` 固定槽位、`ActiveK=4`、Metal/Wood/Glass/Tile 四个 Profile、立体声输出。
-- Authoring Preview 已冻结为三个 Preset + 圆形列表/2D Canvas + 单个可拖动 Listener 点 + Yaw 箭头；没有 Listener Path，也没有 Preview-only 声学数据模型。
-- 固定 8 槽 PropertySet 是 Wwise 2023.1 首轮验证用兼容层：`FeatureId` 当前由 `slot + 1` 稳定派生，不在 UI 单独编辑。产品级游戏传输、可变长 Registry/Snapshot、Custom Game Data、Inner Objects、Capture/Replay 与 Monitor 仍属下一里程碑。
+- 当前可执行切片承诺物理启发的程序化风声与改进雨声：一个 Listener、最多 8 个 `SphereProxy` 固定槽位、`ActiveK=4`、Metal/Wood/Glass/Tile 四个 Profile、立体声输出。
+- Authoring Preview 已冻结为三个 Preset + 圆形列表/2D Canvas + 单个可拖动 Listener 点 + Yaw 箭头 + Feature 添加/删除/圆心拖动/半径手柄；没有 Listener Path，也没有 Preview-only 声学数据模型。
+- 固定 8 槽 PropertySet 是 Wwise 2023.1 首轮验证用兼容层：`FeatureId` 当前由 `slot + 1` 派生，只是编辑器固定槽位的局部身份；Delete 左移会改变后续对象的 ID，不能作为外部稳定 ID。产品级游戏传输、可变长 Registry/Snapshot、Custom Game Data、Inner Objects、Capture/Replay 与 Monitor 仍属下一里程碑。
 - Wwise Authoring 安装目录只复制同名 DLL/XML；Runtime `.lib` 与 Factory Header 仅留在产品 `Artifacts`，由未来引擎集成包消费。
 - 实机 smoke 已证明：Wwise 能发现并创建自定义 Source、Transport 进入 playing、产生 1 个非虚拟物理 Voice、Profiler 记录插件 CPU、输出非静音并保存 `.prof`。详细证据见 `docs/VALIDATION_REPORT.md`。
 
@@ -269,13 +269,13 @@ Authoring Preview 直接建立在产品的 Wwise Source Plug-in 上，不另做�
 5. 修改表面数量、形状、Profile 绑定等结构数据后执行 `Apply & Replay`，避免首版为复杂数组热更新承担不必要的不确定性。
 6. 通过 Monitor 面板查看 Active Slot、各表面贡献、裁剪原因、DSP CPU、Snapshot Revision 和数据超时状态。
 
-首版建议内置五个由相同圆形 Proxy 构成的确定性 Fixture：
+v0.2 已内置三个由相同圆形 Proxy 构成的确定性 Fixture：
 
-- Open Field：只有基础天气层。
-- Single Metal Sphere：单个圆形 Feature 的薄金属雨击与结构共振。
-- Same Shape / Wood：与 Metal 场景保持位置、半径和天气完全一致，只替换 Response Profile。
-- Multi-Material Ring：多个不同 Profile 的圆环绕 Listener，验证方向、距离和贡献排序。
-- Active-Set Stress：配置多于 DSP Active K 的圆，验证 Priority、裁剪、迟滞和交叉淡化。
+- Open Wind：没有 Feature 的基础风场。
+- Rain on Metal：单个圆形 Metal Feature 的雨击与结构共振。
+- Wind + Rain Ring：多个不同 Profile 的圆环绕 Listener，验证风、雨、方向、距离和贡献排序。
+
+后续仍建议补充 Same Shape / Wood 与 Active-Set Stress，用于更细的材质 A/B 与 ActiveK 裁剪回归。
 
 `Wind Gap`、Edge/Aperture 和真实屋顶朝向不再伪装成圆形 Fixture；它们属于 Native Preview Host/SpatialAudioSandbox 的完整形状测试。
 
@@ -283,8 +283,9 @@ Authoring Preview 直接建立在产品的 Wwise Source Plug-in 上，不另做�
 
 #### 3. Authoring 数据模型
 
-- 标准、可自动化的标量参数使用 Plug-in XML + `PropertySet`，例如 Rain Intensity、Wind Vector、Listener XYZ、Seed、Geometry Bypass。Listener X/Z 由 Canvas 拖动实时修改；Y 在 Inspector 中使用数值字段，默认 0。
-- Preview Feature 列表和 `SphereProxy` 属于复杂编辑数据，使用 Inner Objects/ObjectStore 保存，并由 Authoring Backend 的 CustomData 序列化给 SoundEngine 插件；Authoring 不保存 Listener Path。
+- 标准、可自动化的标量参数使用 Plug-in XML + `PropertySet`，例如 Rain Intensity、Wind Speed、Wind Direction、Wind Gustiness、Listener XYZ、Seed、Geometry Bypass。Listener X/Z 由 Canvas 拖动实时修改；Y 在 Inspector 中使用数值字段，默认 0。
+- v0.2 的 Preview Feature 列表和 `SphereProxy` 先使用固定 8 槽 `PropertySet` 保存，`GetBankParameters` 已实现对应参数块写出，261/273 字节读取合同已有可执行回归；canonical smoke 已验证 Wwise 实际 SoundBank 生成与 Authoring 参数序列化，但生成 bank 由独立 Native SoundEngine Host 加载/执行仍属于下一里程碑。Authoring 不保存 Listener Path。
+- 可变长场景、Inner Objects/ObjectStore 与 CustomData 仍属于 P0-B 方案选择，不是 v0.2 已落地能力。
 - 数据改变后由 Backend 通知 Wwise 内部数据已变化；完整刷新使用 `ALL_PLUGIN_DATA_ID`。SoundEngine 参数节点通过 `SetParam` 接收结构化数据。
 - Inner Objects 应使用稳定的 Type/List/Property 名称。Audiokinetic 文档明确说明其模型通知也可能由 WAAPI 调用触发，因此 P0 应验证 `object.get`、`object.set`、`setProperty` 对自定义 Surface 列表的支持情况。
 - Preview-only Fixture 可以保存在 Work Unit 中供设计师复用，但 `GetBankParameters` 只导出生产所需配置，避免把测试场景误写入正式 SoundBank。
@@ -298,9 +299,9 @@ Authoring Preview 直接建立在产品的 Wwise Source Plug-in 上，不另做�
 | Height 数值 | `WA_Transform.position.y` |
 | 半径拖柄/数值 | `WA_SphereProxy.radius` |
 | Profile 下拉框 | `responseProfile` |
-| Rain/Wind/Hail/Airflow 开关 | `responseMask` |
+| Rain/Wind 开关 | `responseMask`，v0.2 值域为 0 Disabled、1 Rain、2 Wind、3 Rain + Wind |
 | Priority 数值 | `priority` |
-| 只读 ID | 稳定 `WA_FeatureId` |
+| 只读 ID | 当前为 slot-derived 编辑器局部 ID；产品 Registry 才提供稳定 `WA_FeatureId` |
 
 `ResponseProfile` 的内部 DSP 参数仍在 Profile Editor 中编辑；Feature Inspector 只选择真实的 `ProfileId`。除非 production runtime 协议也增加对应字段，否则不得在 Preview 中添加 per-object Gain、Material Override 或其他只对 Authoring 生效的声学参数。
 
@@ -545,7 +546,7 @@ WeatherAcoustics/
 D:\Tool\WwisePlugin_RealWorldWeatherSound\
   docs\                    产品方案、实施说明、验证记录
   RealWorldWeatherAcoustics\ Audiokinetic Source Plug-in 工程
-  Core\                    不依赖 Wwise 的场景编译与雨声 DSP
+  Core\                    不依赖 Wwise 的场景编译与天气 DSP
   Tests\                   Core/Schema/DSP 确定性测试
   Tools\OfflineRenderer\  离线 WAV 渲染与 Fixture 执行
   Fixtures\                场景、Profile 与预期指标
@@ -559,26 +560,26 @@ Wwise SDK 不复制进产品仓库，只通过 `WWISE_ROOT`/CMake Cache 指向�
 ### 第一轮可执行功能
 
 1. Shared Core 接收一个 Listener、Weather State 和最多 8 个 Sphere Feature，选择固定 `ActiveK=4`，并输出每个贡献的距离、相对方位、权重和 Profile。
-2. 雨声 Source DSP 使用固定 Seed 的多频带噪声 + 稀疏撞击 + 简化共振，至少提供 Metal/Wood/Glass/Tile 四个 Profile；同输入必须可重复。
-3. Wwise Authoring Property 页面提供所有当前 runtime 标量；自定义 2D Canvas 提供圆形 Feature、可拖动 Listener 点和 Yaw 箭头，不提供 Path。
-4. 圆形对象 Inspector 编辑真实 `Transform/Radius/ProfileId/ResponseMask/Priority`；当前 `FeatureId=slot+1`，作为稳定身份而不是可调声学参数。Listener/Weather/Feature 修改直接写入 Source 使用的同一 PropertySet。
+2. Weather Source DSP 使用固定 Seed 的多尺度风噪/阵风、改进底雨、多材质稀疏撞击与简化共振，至少提供 Metal/Wood/Glass/Tile 四个 Profile；同输入必须可重复。
+3. Wwise Authoring Property 页面提供所有当前 runtime 标量；自定义 2D Canvas 提供圆形 Feature、可拖动 Listener 点、Yaw 箭头、Feature 添加/删除、圆心拖动和半径手柄，不提供 Path。
+4. 圆形对象 Inspector 编辑真实 `Transform/Radius/ProfileId/ResponseMask/Priority`；当前 `FeatureId=slot+1` 只是不可调的固定槽位身份，Delete 左移后可能变化。Listener/Weather/Feature 修改直接写入 Source 使用的同一 PropertySet。
 5. Offline Renderer 与 Wwise Source 使用同一 Core/DSP，不允许复制算法。
 6. Staging 输出明确区分 `Authoring` 与 `Runtime`，安装脚本只复制经过清单声明的最小文件，并可执行 dry-run/校验。
-7. 自动化 Wwise smoke 创建四材质环形 Source、播放并采集 Voice、插件 CPU、非静音 Output Peak 与 `.prof`，作为 Authoring 真实 DSP 证据。
+7. 自动化 Wwise smoke 创建四材质环形 Source，显式设置风速、风向、阵风、雨量和 Mask，播放并采集 Voice、插件 CPU、非静音 Output Peak 与 `.prof`，作为 Authoring 真实 DSP 证据。
 
-第一轮明确延后：游戏侧 C ABI/Scene Snapshot 传输、Custom Game Data/Native Registry、可变长 Surface Registry、SoundBank+原生游戏 Host、Inner Objects、Capture/Replay、贡献 Monitor、Unity/Unreal、MCP/Sandbox 数据面协议、完整风场/雷暴、自动 Mesh、Plane/Box/Convex UI、Ambisonics、Room/Portal/Spatial Audio 传播、跨平台和商业打包。
+第一轮明确延后：游戏侧 C ABI/Scene Snapshot 传输、Custom Game Data/Native Registry、可变长 Surface Registry、SoundBank+原生游戏 Host、Inner Objects、Capture/Replay、贡献 Monitor、Unity/Unreal、MCP/Sandbox 数据面协议、完整 Deflector/Aperture/Vegetation 风场、雷暴、自动 Mesh、Plane/Box/Convex UI、Ambisonics、Room/Portal/Spatial Audio 传播、跨平台和商业打包。
 
 ## 八、产品验证计划
 
-### P0-A：可执行雨声/Authoring 垂直切片（已完成）
+### P0-A：可执行天气/Authoring 垂直切片（已完成）
 
 目标：先证明共享算法、Wwise 插件 ABI、Authoring 快速试听和安全交付链成立，不把尚未验证的游戏传输包含在完成声明里。
 
 - 共享 DSP Core、固定 Seed 离线 Renderer、数值/确定性/异常输入/长尾测试已建立。
 - Wwise Weather Source 可直接在 Authoring Transport 中播放，不依赖 Unity/Unreal 或外部 Sandbox。
-- Authoring 提供三个 Preset、最多 8 个圆形 Proxy、单个可拖动 Listener、Yaw 箭头、Weather/Geometry/Feature 编辑；不实现 Listener Path。
-- Canvas/Inspector 与 Source 使用同一组 66 个 Wwise Property、同一 Core 入口与同一 DSP；没有第二套 Preview 算法。
-- Wwise 2023.1.19 自动化 smoke 已验证 Source 创建、属性保存、Transport、Profiler Voice/CPU、非静音输出和 `.prof` 保存。
+- Authoring 提供 `Open Wind`、`Rain on Metal`、`Wind + Rain Ring` 三个 Preset、最多 8 个圆形 Proxy、单个可拖动 Listener、Yaw 箭头、Weather/Geometry/Feature 编辑、Feature 添加/删除、圆心拖动和半径手柄；不实现 Listener Path。
+- Canvas/Inspector 与 Source 使用同一组 69 个 Wwise Property、同一 Core 入口与同一 DSP；没有第二套 Preview 算法。
+- Wwise 2023.1.19 自动化 smoke 已验证 Source 创建、属性保存、GUI 编辑/Undo、Wwise 实际 SoundBank 生成与 Authoring 参数序列化、Transport、Profiler Voice/CPU、非静音输出和 `.prof` 保存。
 - 构建输出与完整工程保持在产品根目录；Wwise 安装只接收 Authoring DLL/XML。
 
 退出条件：上述构建、测试、最小安装和真实 Wwise playback/profiler smoke 全部通过。状态：已达成。
@@ -589,7 +590,7 @@ Wwise SDK 不复制进产品仓库，只通过 `WWISE_ROOT`/CMake Cache 指向�
 
 - 冻结 C ABI 与 `WeatherSceneSnapshot v1`：大量注册对象在非音频线程做邻域筛选，DSP 只消费固定上限 Active Set。
 - 实测 Wwise Custom Game Data 在 Source/Bus、多实例和多监听者下的作用域；仅在不足时引入 Native Snapshot Registry。
-- 增加 SoundBank + Native SoundEngine Host，证明生成后的 runtime `.lib`、Factory Header、参数反序列化与游戏侧更新路径。
+- 增加独立 Native SoundEngine Host，加载/执行已生成的 SoundBank，并证明生成后的 runtime `.lib`、Factory Header、参数反序列化与游戏侧更新路径。
 - 决定 Authoring 可变长场景采用 Inner Objects，还是更简单可靠的 JSON Import/Export；固定 8 槽继续作为快速 Preview 兼容层。
 - 冻结 `WeatherPreviewScene` JSON、Capture/Replay 和 Preview Protocol v1；增加贡献/裁剪/数据陈旧 Monitor。
 - 连接 `wwise_mcp`/SpatialAudioSandbox 做自动化编排与完整 3D 场景测试，但不把它们变成 DSP Core 依赖。
@@ -626,7 +627,8 @@ Wwise SDK 不复制进产品仓库，只通过 `WWISE_ROOT`/CMake Cache 指向�
 
 ### P4：动态风场
 
-- Base Flow、Deflector、Edge/Hole、Vegetation。
+- v0.2 已完成基础程序化风层、方向声像、阵风调制和基于 `ResponseMask & Wind` 的圆形 Feature 风响应。
+- P4 继续补全 Base Flow 的产品调音、Deflector、Edge/Hole、Vegetation、局部风矢量和更完整的连续性测试。
 - 与静态 SoundSeed 风声/传统循环风声进行听感和 CPU 对比。
 - 对快速移动、场景流送和天气突变进行连续性测试。
 
@@ -680,7 +682,7 @@ Wwise SDK 不复制进产品仓库，只通过 `WWISE_ROOT`/CMake Cache 指向�
 3. Core SDK 使用稳定 C ABI；C++、C#、Blueprint 只是绑定层。
 4. Level 1 Semantic Surfaces 是默认接入方式，Level 2 自动 Geometry 是增强能力。
 5. 默认渲染采用 Field，显著局部声源采用 Sparse Emitter，整体为 Hybrid。
-6. 雨打表面是首个产品价值切片；风场第二；雷暴优先采用物理调度 + 客户素材。
+6. 雨打表面是首个产品价值切片；v0.2 已加入基础风声证明链路，完整 Deflector/Aperture/Vegetation 风场仍是后续产品化重点；雷暴优先采用物理调度 + 客户素材。
 7. Capture/Replay、Preview 和 Monitor 属于核心产品能力，不是后期调试附件。
 8. P0 分两段：P0-A 已在没有 Unity/Unreal 的 Offline Renderer 与 Wwise Authoring 中证明 DSP/插件闭环；P0-B 再证明游戏 Runtime Scene Contract 与 Native Host。
 9. 首版采用 Level 1 Semantic Surfaces：Game/Adapter 在加载或流送时注册静态物件，运行时常规输入只有 Listener、Weather 和离散事件。
@@ -692,7 +694,7 @@ Wwise SDK 不复制进产品仓库，只通过 `WWISE_ROOT`/CMake Cache 指向�
 15. 外部连续控制通过 Native Preview Host/C ABI 进入数据面；MCP/WAAPI 负责工程、Transport、Remote、Profiler 和高层测试编排，不承担逐帧流送。
 16. Offline Renderer + 固定 Seed Fixture 是算法回归第一层；Authoring Preview、Native Host 和双引擎样例分别验证后续边界，不能互相替代。
 17. 首版 Authoring UI 采用 Preset + 列表/简化 2D Canvas；只有一个可鼠标拖动的 Listener 点，不提供 Listener Path 编辑器。
-18. Authoring 中的圆形 Feature 是 production runtime `SphereProxy` 的顶视投影；每个对象编辑真实 `Transform/Radius/ProfileId/ResponseMask/Priority`，不定义 Preview-only 声学参数。P0-A 的 `FeatureId` 由固定槽位稳定派生，产品 Runtime Registry 再提供显式稳定 ID。
+18. Authoring 中的圆形 Feature 是 production runtime `SphereProxy` 的顶视投影；每个对象编辑真实 `Transform/Radius/ProfileId/ResponseMask/Priority`，不定义 Preview-only 声学参数。P0-A 的 `FeatureId` 由固定槽位派生且会受 Delete 左移影响；产品 Runtime Registry 再提供显式稳定 ID。
 19. Authoring Canvas 不计算另一套物理结果。P0-A 已显示/编辑几何与 Listener；Active Set、距离、贡献、裁剪原因等诊断必须在 P0-B 由 Core/Monitor 输出后再显示。Plane/Box/Convex、Edge/Aperture、完整三维关系与传播验证留给 Native Host/Sandbox。
 20. Listener 使用单个可拖动点和 Yaw 朝向箭头，不提供 Path；Listener Yaw 是真实 runtime 字段，Canvas 箭头只是其编辑器。
 21. 第一实现目标固定为 Wwise 2023.1.19.8928 / Windows x64 / vc170 / Release；工程与编译产物统一置于 `D:\Tool\WwisePlugin_RealWorldWeatherSound`，Wwise 安装目录只接收最小 staging 文件。
@@ -1006,7 +1008,7 @@ Weather_Master_Bus
 ```text
 Fixed Authoring PropertySet / Offline Fixture
     → Shared Core Scene Compiler (8 slots, ActiveK=4)
-    → Shared Rain DSP
+    → Shared Weather DSP (rain + wind)
     → Offline stereo WAV
     → Wwise 2023.1 Source + 2D Authoring Preview
     → WAAPI Transport + Profiler smoke
@@ -1017,19 +1019,21 @@ Fixed Authoring PropertySet / Offline Fixture
 - 一个 Listener；位置与 Yaw 都是 runtime 真字段。
 - Weather Only + 最多 8 个手工 `SphereProxy` Semantic Surfaces。
 - 立体声 Field 输出；本轮不声明 Ambisonics。
+- 物理启发的程序化风声与改进雨声；三个风参数为 `WindSpeed`、`WindDirectionDegrees`、`WindGustiness`。
 - Metal/Wood/Glass/Tile 四种 Response Profile；每个 Feature 单 Profile、无正背面切换。
-- 三个 Authoring Preset：Open Field、Single Metal、Multi-Material Ring。
-- 圆形 2D Canvas、单 Listener 点、Yaw 箭头、属性 Inspector；没有 Listener Path。
+- `ResponseMask` 值域为 0 Disabled、1 Rain、2 Wind、3 Rain + Wind。
+- 三个 Authoring Preset：Open Wind、Rain on Metal、Wind + Rain Ring。
+- 圆形 2D Canvas、单 Listener 点、Yaw 箭头、属性 Inspector、Feature 添加/删除、圆心拖动和半径手柄；没有 Listener Path。
 - Windows x64 / Wwise 2023.1.19.8928 / vc170 / Release 的 Authoring 与 Runtime 产物。
-- 自动化离线测试、Wwise 发现/创建/播放/Profiler smoke 和最小 DLL/XML 安装。
+- 自动化离线测试、Wwise 发现/创建/播放/Profiler smoke、Wwise 实际 SoundBank 生成与 Authoring 参数序列化，以及最小 DLL/XML 安装。
 
 当前尚未实现：
 
 - 游戏侧静态 Registry、C ABI、版本化 Snapshot、Custom Game Data 或 Native Registry。
-- SoundBank + Native SoundEngine Host 的 runtime 端到端执行。
+- 生成 bank 由独立 Native SoundEngine Host 加载/执行的 runtime 端到端验证。
 - Inner Objects、Scene JSON、Capture/Replay、贡献 Monitor、MCP/Sandbox 数据面控制。
 - 自动 Mesh 扫描、Plane/Box/Convex、Unity/Unreal Adapter、多监听者和主机平台。
-- 完整风场、程序化雷声、Ambisonics、Room/Portal/Spatial Audio 传播。
+- 完整 Deflector/Aperture/Vegetation 风场、程序化雷声、Ambisonics、Room/Portal/Spatial Audio 传播。
 - 完整 3D Authoring 编辑器和任何 Path 编辑器。
 
 ### 11. 建议源码/交付模块边界

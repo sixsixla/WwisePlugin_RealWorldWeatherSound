@@ -2,7 +2,7 @@
 
 ## Supported environment
 
-v1 intentionally targets one ABI/toolchain combination:
+v0.2 intentionally targets one ABI/toolchain combination:
 
 | Component | Required value |
 | --- | --- |
@@ -112,12 +112,46 @@ The Python environment is test tooling only; it is not linked into the plug-in a
 
 1. Verifies that the installed Authoring DLL/XML match the staged hashes.
 2. Refuses to attach to a pre-existing Wwise process.
-3. Starts the isolated project under `WwiseSmoke`, creates a Source Plug-in instance, authors the four-material ring, and saves it.
-4. Starts Profiler capture and Transport playback, then asserts a started non-virtual voice or matching Source CPU evidence plus a finite output peak above the configured silence floor.
-5. Saves structured JSON, stdout/stderr logs, and a Wwise `.prof` capture under `Build\WwiseSmoke`.
-6. Stops only the exact Wwise process started by the wrapper unless `-KeepWwiseOpen` is specified.
+3. Copies the fixture project under `Build\WwiseSmoke\Projects\<timestamp>` and runs against that disposable copy.
+4. Creates a Source Plug-in instance, authors the four-material ring, and saves the disposable project.
+5. Opens the Authoring UI and verifies the real GUI controls: the Wwise-populated `GeometryEnabled` checkbox, `Add Feature`, `Delete Feature`, and the preview canvas.
+6. Verifies five Undo gates: Geometry `true -> false -> true`, Add, Feature center drag, radius-handle drag, and Delete button. It also verifies Delete key deletion.
+7. Starts Profiler capture and Transport playback, then asserts a started non-virtual voice or matching Source CPU evidence plus a finite output peak above the configured silence floor.
+8. Saves structured JSON, stdout/stderr logs, and a Wwise `.prof` capture under `Build\WwiseSmoke`.
+9. Stops only the exact Wwise process started by the wrapper unless `-KeepWwiseOpen` is specified, checks that the fixture project is unchanged, and removes the disposable copy unless retention was requested.
 
-This proves the Authoring binary can be discovered, instantiated, executed, and observed inside the target Wwise build. It does not yet prove SoundBank serialization or a game-side Native SoundEngine integration; those are the next runtime milestone.
+This proves the Authoring binary can be discovered, instantiated, edited through the v0.2 GUI smoke path, serialized into generated Wwise SoundBanks, executed, and observed inside the target Wwise build. It does not yet prove that a generated bank loads and executes in an independent Native SoundEngine Host or game-side integration; those are the next runtime milestone.
+
+The final v0.2 evidence file is:
+
+```text
+Build\WwiseSmoke\wwise-authoring-smoke-20260722T035623735Z.json
+Build\WwiseSmoke\wwise-authoring-smoke-20260722T035623735Z.prof
+```
+
+That run recorded wrapper/client `success = true`, all GUI assertions true, fixture unchanged, disposable copy matching the fixture, disposable project removed, `inspectorTextMatchesStablePreset = true` for 13 visible Inspector edit texts (`60`, `0.75`, `24681357`, `20`, `4 / 8`, `14`, `35`, `0.65`, and Feature1 `0`, `6`, `2.5`, `3`, `10`), Add complete defaults true, 6 Undo gates including canvas Delete key Undo, actual Wwise SoundBank generation and Authoring parameter serialization, `transportState = playing`, 1 physical voice, `OutputPeak = -28.6425437927246 dB`, Source CPU `0.1396999955177307 ms`, and a `368867` byte `.prof`.
+
+The SoundBank serialization gate generated Geometry true/false banks, each `457` bytes. The expected `273`-byte parameter block matched exactly once in each bank at offset `77`; `GeometryEnabled` was at block offset `16` and bank offset `93`, with true byte `1` and false byte `0`. The two parameter blocks differed only at offset `16`, generation logs contained only `Message` severities, and Geometry was restored to `true`.
+
+## Offline renderer presets
+
+The offline renderer uses the same Core/DSP as the Wwise Source. After `Build.ps1`, these presets generate deterministic stereo WAV files for quick A/B and regression checks:
+
+```powershell
+& .\Build\Core\bin\Release\rwwa_offline_renderer.exe --preset open-wind --output Build\Core\Fixtures\open_wind.wav
+& .\Build\Core\bin\Release\rwwa_offline_renderer.exe --preset rain-metal --output Build\Core\Fixtures\rain_metal.wav
+& .\Build\Core\bin\Release\rwwa_offline_renderer.exe --preset weather-ring --output Build\Core\Fixtures\weather_ring.wav
+```
+
+Preset mapping:
+
+| Offline preset | Authoring preset | Purpose |
+| --- | --- | --- |
+| `open-wind` | `Open Wind` | Wind-only base layer, no Feature response |
+| `rain-metal` | `Rain on Metal` | Rain-only Metal surface response |
+| `weather-ring` | `Wind + Rain Ring` | Four-material ring with Rain + Wind masks |
+
+These WAVs are regression artifacts. They do not prove Wwise Authoring discovery, Transport playback, subjective listening approval, SoundBank serialization, or game Runtime integration.
 
 ## Useful bounded variants
 

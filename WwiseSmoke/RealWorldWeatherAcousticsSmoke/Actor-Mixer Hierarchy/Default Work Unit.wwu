@@ -26,8 +26,11 @@
 								<Property Name="Feature4Radius" Type="Real32" Value="2.5"/>
 								<Property Name="ListenerYawDegrees" Type="Real32" Value="20"/>
 								<Property Name="MasterGainDb" Type="Real32" Value="-6"/>
-								<Property Name="RainIntensity" Type="Real32" Value="0.85"/>
+								<Property Name="RainIntensity" Type="Real32" Value="0.75"/>
 								<Property Name="Seed" Type="int32" Value="24681357"/>
+								<Property Name="WindDirectionDegrees" Type="Real32" Value="35"/>
+								<Property Name="WindGustiness" Type="Real32" Value="0.65"/>
+								<Property Name="WindSpeed" Type="Real32" Value="14"/>
 							</PropertyList>
 							<Language>SFX</Language>
 						</SourcePlugin>

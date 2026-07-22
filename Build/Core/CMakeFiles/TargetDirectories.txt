@@ -5,6 +5,7 @@ D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/Nightly.dir
 D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/Continuous.dir
 D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/NightlyMemoryCheck.dir
 D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/rwwa_core_tests.dir
+D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/rwwa_source_params_bank_tests.dir
 D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/RUN_TESTS.dir
 D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/ALL_BUILD.dir
 D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/ZERO_CHECK.dir
