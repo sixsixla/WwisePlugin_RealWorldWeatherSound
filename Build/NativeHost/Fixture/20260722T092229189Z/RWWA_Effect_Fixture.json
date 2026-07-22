@@ -1,0 +1,332 @@
+{
+  "schemaVersion": 1,
+  "generatedAtUtc": "2026-07-22T09:22:36.906477Z",
+  "effect": {
+    "name": "RWWA_Smoke_Geometry_Effect",
+    "classId": 2031748099,
+    "pluginId": 31002,
+    "soundId": "{3E75A2B4-0D75-424C-A9EC-A1FE9B7FEC28}",
+    "audioFileSourceId": "{2D1BE60A-522F-4D1C-BA92-E5245D6EA6A3}",
+    "effectId": "{088605F5-4DCC-4F9C-9CCC-C222881BCDE2}",
+    "inputWav": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\Fixtures\\hybrid_input.wav"
+  },
+  "serialization": {
+    "parameterPropertyCount": 71,
+    "parameterBlockBytes": 281,
+    "parameterBlockDifferingOffsets": [
+      0,
+      4,
+      5,
+      6,
+      7,
+      36
+    ],
+    "wetZeroParameterBlockDifferingOffsets": [
+      0,
+      4,
+      5,
+      6,
+      7
+    ],
+    "variants": {
+      "baseline": {
+        "name": "RWWA_Effect_Baseline",
+        "variantProperties": {
+          "InputRole": 0,
+          "WetMix": 0.65,
+          "GeometryEnabled": true
+        },
+        "effectPropertyCount": 71,
+        "bankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_Baseline.bnk",
+        "bankBytes": 473,
+        "bankSha256": "605cf0d2497c4ce703e9ffbf6c529730bc034109a44594ec87e4e985be35215b",
+        "expectedBlockBytes": 281,
+        "expectedBlockSha256": "a9cf1f13b330f05483657aef61326fd70f00359138a6a46f0c37c479c539543d",
+        "parameterBlockSha256": "a9cf1f13b330f05483657aef61326fd70f00359138a6a46f0c37c479c539543d",
+        "parameterBlockOffsets": [
+          144
+        ],
+        "parameterBlockOffset": 144,
+        "inputRoleBlockOffset": 0,
+        "wetMixBlockOffset": 4,
+        "geometryByteBlockOffset": 36,
+        "generationLogCount": 9,
+        "generationLogSeverities": [
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message"
+        ],
+        "rejectedGenerationLogs": [],
+        "assertions": {
+          "readAll71EffectProperties": true,
+          "expectedBlockIs281Bytes": true,
+          "expectedBlockMatchesExactlyOnce": true,
+          "inputRoleBytesMatchVariant": true,
+          "wetMixBytesMatchVariant": true,
+          "geometryByteMatchesVariant": true,
+          "generationLogsHaveNoWarningErrorOrFatal": true,
+          "retainedBankMatchesGeneratedBank": true
+        },
+        "retainedBankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\RWWA_Effect_Baseline.bnk",
+        "retainedBankBytes": 473,
+        "retainedBankSha256": "605cf0d2497c4ce703e9ffbf6c529730bc034109a44594ec87e4e985be35215b"
+      },
+      "inputRoleWetGeometry": {
+        "name": "RWWA_Effect_InputRoleWetGeometry",
+        "variantProperties": {
+          "InputRole": 1,
+          "WetMix": 0.2,
+          "GeometryEnabled": false
+        },
+        "effectPropertyCount": 71,
+        "bankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_InputRoleWetGeometry.bnk",
+        "bankBytes": 473,
+        "bankSha256": "2cacc940f0677bb78cb9faf592f6110d7b439365296be88024e72e37e9e170bc",
+        "expectedBlockBytes": 281,
+        "expectedBlockSha256": "92ac5b3098d54cd199dfd97f8c8777557fe19783ed5bd4d537d9695577844adb",
+        "parameterBlockSha256": "92ac5b3098d54cd199dfd97f8c8777557fe19783ed5bd4d537d9695577844adb",
+        "parameterBlockOffsets": [
+          144
+        ],
+        "parameterBlockOffset": 144,
+        "inputRoleBlockOffset": 0,
+        "wetMixBlockOffset": 4,
+        "geometryByteBlockOffset": 36,
+        "generationLogCount": 8,
+        "generationLogSeverities": [
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message"
+        ],
+        "rejectedGenerationLogs": [],
+        "assertions": {
+          "readAll71EffectProperties": true,
+          "expectedBlockIs281Bytes": true,
+          "expectedBlockMatchesExactlyOnce": true,
+          "inputRoleBytesMatchVariant": true,
+          "wetMixBytesMatchVariant": true,
+          "geometryByteMatchesVariant": true,
+          "generationLogsHaveNoWarningErrorOrFatal": true,
+          "retainedBankMatchesGeneratedBank": true
+        },
+        "retainedBankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\RWWA_Effect_InputRoleWetGeometry.bnk",
+        "retainedBankBytes": 473,
+        "retainedBankSha256": "2cacc940f0677bb78cb9faf592f6110d7b439365296be88024e72e37e9e170bc"
+      },
+      "wetZero": {
+        "name": "RWWA_Effect_WetZero",
+        "variantProperties": {
+          "InputRole": 2,
+          "WetMix": 0.0,
+          "GeometryEnabled": true
+        },
+        "effectPropertyCount": 71,
+        "bankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_WetZero.bnk",
+        "bankBytes": 473,
+        "bankSha256": "2f382c65cba46dcee599ebc98dd32ebf030f31a3195007a9ace8de8d59253c98",
+        "expectedBlockBytes": 281,
+        "expectedBlockSha256": "9396b904aa416d63474e3cc3afccdd2f451f2229f9c438f05ced4f38972a2463",
+        "parameterBlockSha256": "9396b904aa416d63474e3cc3afccdd2f451f2229f9c438f05ced4f38972a2463",
+        "parameterBlockOffsets": [
+          144
+        ],
+        "parameterBlockOffset": 144,
+        "inputRoleBlockOffset": 0,
+        "wetMixBlockOffset": 4,
+        "geometryByteBlockOffset": 36,
+        "generationLogCount": 8,
+        "generationLogSeverities": [
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message",
+          "Message"
+        ],
+        "rejectedGenerationLogs": [],
+        "assertions": {
+          "readAll71EffectProperties": true,
+          "expectedBlockIs281Bytes": true,
+          "expectedBlockMatchesExactlyOnce": true,
+          "inputRoleBytesMatchVariant": true,
+          "wetMixBytesMatchVariant": true,
+          "geometryByteMatchesVariant": true,
+          "generationLogsHaveNoWarningErrorOrFatal": true,
+          "retainedBankMatchesGeneratedBank": true
+        },
+        "retainedBankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\RWWA_Effect_WetZero.bnk",
+        "retainedBankBytes": 473,
+        "retainedBankSha256": "2f382c65cba46dcee599ebc98dd32ebf030f31a3195007a9ace8de8d59253c98"
+      }
+    }
+  },
+  "linkage": {
+    "soundBankName": "RWWA_Effect_WetZero",
+    "eventName": "RWWA_Smoke_Effect_Bank_Event",
+    "inputWavName": "hybrid_input.wav",
+    "wemRelativePaths": [
+      "Media/375380935.wem"
+    ],
+    "metadataRelativePaths": [
+      "Init.txt",
+      "PlatformInfo.xml",
+      "PluginInfo.xml",
+      "RWWA_Effect_WetZero.txt",
+      "SoundbanksInfo.xml"
+    ]
+  },
+  "files": [
+    {
+      "kind": "SoundBank",
+      "relativePath": "RWWA_Effect_Baseline.bnk",
+      "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_Baseline.bnk",
+      "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\RWWA_Effect_Baseline.bnk",
+      "sourceSizeBytes": 473,
+      "sourceSha256": "605cf0d2497c4ce703e9ffbf6c529730bc034109a44594ec87e4e985be35215b",
+      "destinationSizeBytes": 473,
+      "destinationSha256": "605cf0d2497c4ce703e9ffbf6c529730bc034109a44594ec87e4e985be35215b",
+      "copyMatchesSource": true,
+      "bytes": 473,
+      "sha256": "605cf0d2497c4ce703e9ffbf6c529730bc034109a44594ec87e4e985be35215b"
+    },
+    {
+      "kind": "SoundBank",
+      "relativePath": "RWWA_Effect_InputRoleWetGeometry.bnk",
+      "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_InputRoleWetGeometry.bnk",
+      "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\RWWA_Effect_InputRoleWetGeometry.bnk",
+      "sourceSizeBytes": 473,
+      "sourceSha256": "2cacc940f0677bb78cb9faf592f6110d7b439365296be88024e72e37e9e170bc",
+      "destinationSizeBytes": 473,
+      "destinationSha256": "2cacc940f0677bb78cb9faf592f6110d7b439365296be88024e72e37e9e170bc",
+      "copyMatchesSource": true,
+      "bytes": 473,
+      "sha256": "2cacc940f0677bb78cb9faf592f6110d7b439365296be88024e72e37e9e170bc"
+    },
+    {
+      "kind": "SoundBank",
+      "relativePath": "RWWA_Effect_WetZero.bnk",
+      "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_WetZero.bnk",
+      "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\RWWA_Effect_WetZero.bnk",
+      "sourceSizeBytes": 473,
+      "sourceSha256": "2f382c65cba46dcee599ebc98dd32ebf030f31a3195007a9ace8de8d59253c98",
+      "destinationSizeBytes": 473,
+      "destinationSha256": "2f382c65cba46dcee599ebc98dd32ebf030f31a3195007a9ace8de8d59253c98",
+      "copyMatchesSource": true,
+      "bytes": 473,
+      "sha256": "2f382c65cba46dcee599ebc98dd32ebf030f31a3195007a9ace8de8d59253c98"
+    },
+    {
+      "kind": "SoundBank",
+      "relativePath": "Init.bnk",
+      "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Init.bnk",
+      "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\Init.bnk",
+      "sourceSizeBytes": 483,
+      "sourceSha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a",
+      "destinationSizeBytes": 483,
+      "destinationSha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a",
+      "copyMatchesSource": true,
+      "bytes": 483,
+      "sha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a"
+    },
+    {
+      "kind": "Metadata",
+      "relativePath": "Init.txt",
+      "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Init.txt",
+      "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\Init.txt",
+      "sourceSizeBytes": 214,
+      "sourceSha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9",
+      "destinationSizeBytes": 214,
+      "destinationSha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9",
+      "copyMatchesSource": true,
+      "bytes": 214,
+      "sha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9"
+    },
+    {
+      "kind": "Wem",
+      "relativePath": "Media/375380935.wem",
+      "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Media\\375380935.wem",
+      "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\Media\\375380935.wem",
+      "sourceSizeBytes": 768096,
+      "sourceSha256": "e18a7d689c3427e6dc2678ef0b3442bfad16f16c98f17f9f27f32ab67141f392",
+      "destinationSizeBytes": 768096,
+      "destinationSha256": "e18a7d689c3427e6dc2678ef0b3442bfad16f16c98f17f9f27f32ab67141f392",
+      "copyMatchesSource": true,
+      "bytes": 768096,
+      "sha256": "e18a7d689c3427e6dc2678ef0b3442bfad16f16c98f17f9f27f32ab67141f392"
+    },
+    {
+      "kind": "Metadata",
+      "relativePath": "PlatformInfo.xml",
+      "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\PlatformInfo.xml",
+      "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\PlatformInfo.xml",
+      "sourceSizeBytes": 1480,
+      "sourceSha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de",
+      "destinationSizeBytes": 1480,
+      "destinationSha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de",
+      "copyMatchesSource": true,
+      "bytes": 1480,
+      "sha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de"
+    },
+    {
+      "kind": "Metadata",
+      "relativePath": "PluginInfo.xml",
+      "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\PluginInfo.xml",
+      "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\PluginInfo.xml",
+      "sourceSizeBytes": 502,
+      "sourceSha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea",
+      "destinationSizeBytes": 502,
+      "destinationSha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea",
+      "copyMatchesSource": true,
+      "bytes": 502,
+      "sha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea"
+    },
+    {
+      "kind": "Metadata",
+      "relativePath": "RWWA_Effect_WetZero.txt",
+      "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_WetZero.txt",
+      "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\RWWA_Effect_WetZero.txt",
+      "sourceSizeBytes": 684,
+      "sourceSha256": "f783ee5e45e5ea81f1d9567c9aac471ceaad209e7072cb1da15f3061b6473d24",
+      "destinationSizeBytes": 684,
+      "destinationSha256": "f783ee5e45e5ea81f1d9567c9aac471ceaad209e7072cb1da15f3061b6473d24",
+      "copyMatchesSource": true,
+      "bytes": 684,
+      "sha256": "f783ee5e45e5ea81f1d9567c9aac471ceaad209e7072cb1da15f3061b6473d24"
+    },
+    {
+      "kind": "Metadata",
+      "relativePath": "SoundbanksInfo.xml",
+      "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T092229189Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\SoundbanksInfo.xml",
+      "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T092229189Z\\SoundbanksInfo.xml",
+      "sourceSizeBytes": 1931,
+      "sourceSha256": "4954bd57fed355cb30c58d30cf786162f16b760bc588fbfa664ae4c57f974ad0",
+      "destinationSizeBytes": 1931,
+      "destinationSha256": "4954bd57fed355cb30c58d30cf786162f16b760bc588fbfa664ae4c57f974ad0",
+      "copyMatchesSource": true,
+      "bytes": 1931,
+      "sha256": "4954bd57fed355cb30c58d30cf786162f16b760bc588fbfa664ae4c57f974ad0"
+    }
+  ],
+  "assertions": {
+    "threeEffectSoundBanksRetained": true,
+    "initSoundBankPresent": true,
+    "wetZeroMetadataPresent": true,
+    "wetZeroSoundBankMetadataMatched": true,
+    "wetZeroStreamedWemLinked": true,
+    "wetZeroEventMediaReferencesMatch": true,
+    "allSelectedArtifactsCopied": true
+  }
+}

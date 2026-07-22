@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\NativeHost\CMakeFiles\c9721427107d370b739fdadaaaadf4ad\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{64EF3C6A-FA01-3B61-8AC3-766434FA55C3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

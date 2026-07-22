@@ -6,6 +6,9 @@ param(
     [ValidateRange(10, 300)][int]$StartupTimeoutSeconds = 90,
     [ValidateRange(0.5, 10.0)][double]$PlaybackSeconds = 1.5,
     [ValidateRange(-200.0, -1.0)][double]$SilenceFloorDb = -90.0,
+    [ValidateRange(0, 4294967295)][long]$EffectClassId = 2031748099,
+    [string]$EffectInputWav,
+    [bool]$RequireRetainedRainDemo = $true,
     [switch]$KeepWwiseOpen
 )
 
@@ -251,6 +254,10 @@ $report = [ordered]@{
         existingWwisePids = @()
         pluginArtifacts   = @()
         python            = $null
+        effectClassId     = $EffectClassId
+        effectInputWav    = $null
+        requireRetainedRainDemo = [bool]$RequireRetainedRainDemo
+        retainedRainDemo  = $null
     }
     launch        = [ordered]@{
         pid           = $null
@@ -279,6 +286,11 @@ $report = [ordered]@{
         disposableCopy          = $null
         copyMatchesFixtureBytes = $false
     }
+    nativeHostFixture = [ordered]@{
+        root       = $null
+        files      = @()
+        assertions = [ordered]@{}
+    }
     cleanup       = [ordered]@{
         disposableProjectRemoved = $false
         disposableProjectRetained = $false
@@ -301,6 +313,29 @@ try {
         throw "Common.ps1 resolved an unexpected product root: '$($environment.ProductRoot)'."
     }
 
+    $effectInputWavCandidate = if ([string]::IsNullOrWhiteSpace($EffectInputWav)) {
+        if ($RequireRetainedRainDemo) {
+            Join-Path $productRoot 'WwiseSmoke\RealWorldWeatherAcousticsSmoke\Originals\SFX\RWWA_Heavy_Rain_Puddles_30s.wav'
+        }
+        else {
+            Join-Path $productRoot 'Build\Core\Fixtures\hybrid_input.wav'
+        }
+    }
+    else {
+        $EffectInputWav
+    }
+    if (-not (Test-Path -LiteralPath $effectInputWavCandidate -PathType Leaf)) {
+        throw "The Effect input WAV is missing: '$effectInputWavCandidate'."
+    }
+    $resolvedEffectInputWav = (Resolve-Path -LiteralPath $effectInputWavCandidate).Path
+    if (-not [System.IO.Path]::GetExtension($resolvedEffectInputWav).Equals(
+        '.wav',
+        [System.StringComparison]::OrdinalIgnoreCase
+    )) {
+        throw "The Effect input file must be a WAV: '$resolvedEffectInputWav'."
+    }
+    $report.preflight.effectInputWav = $resolvedEffectInputWav
+
     $fixtureProjectPath = Assert-PathUnderRoot `
         -Path (Join-Path $productRoot 'WwiseSmoke\RealWorldWeatherAcousticsSmoke\RealWorldWeatherAcousticsSmoke.wproj') `
         -Root $productRoot `
@@ -311,6 +346,62 @@ try {
     $fixtureProjectRoot = Split-Path -Parent $fixtureProjectPath
     $report.projectIsolation.fixtureProjectRoot = $fixtureProjectRoot
     $report.projectIsolation.fixtureProjectPath = $fixtureProjectPath
+
+    $demoSound = $null
+    $demoAudioSource = $null
+    $demoEffect = $null
+    if ($RequireRetainedRainDemo) {
+        $actorWorkUnitPath = Join-Path $fixtureProjectRoot 'Actor-Mixer Hierarchy\Default Work Unit.wwu'
+        $eventWorkUnitPath = Join-Path $fixtureProjectRoot 'Events\Default Work Unit.wwu'
+        if (-not (Test-Path -LiteralPath $actorWorkUnitPath -PathType Leaf) -or
+            -not (Test-Path -LiteralPath $eventWorkUnitPath -PathType Leaf)) {
+            throw 'The retained rain-demo Actor-Mixer or Event work unit is missing.'
+        }
+        [xml]$actorWorkUnit = Get-Content -LiteralPath $actorWorkUnitPath -Raw
+        [xml]$eventWorkUnit = Get-Content -LiteralPath $eventWorkUnitPath -Raw
+        $demoSound = $actorWorkUnit.SelectSingleNode("//Sound[@Name='RWWA_Demo_Heavy_Rain_Puddles']")
+        $demoAudioSource = if ($demoSound) {
+            $demoSound.SelectSingleNode(".//AudioFileSource[@Name='RWWA_Demo_Heavy_Rain_Puddles_Audio']")
+        }
+        else { $null }
+        $demoEffect = if ($demoSound) {
+            $demoSound.SelectSingleNode(".//Effect[@Name='RWWA_Demo_Weather_Geometry_Effect']")
+        }
+        else { $null }
+        $demoEvent = $eventWorkUnit.SelectSingleNode("//Event[@Name='Play_RWWA_Demo_Heavy_Rain_Puddles']")
+        $demoEventTarget = if ($demoEvent) {
+            $demoEvent.SelectSingleNode(".//Reference[@Name='Target']/ObjectRef[@Name='RWWA_Demo_Heavy_Rain_Puddles']")
+        }
+        else { $null }
+        $demoAssertions = [ordered]@{
+            soundPersisted           = $null -ne $demoSound
+            audioFileSourcePersisted = $null -ne $demoAudioSource
+            audioFileMatchesInput    = ($null -ne $demoAudioSource -and
+                $demoAudioSource.SelectSingleNode('./AudioFile').'#text' -eq
+                'RWWA_Heavy_Rain_Puddles_30s.wav')
+            effectPersisted          = ($null -ne $demoEffect -and
+                [string]$demoEffect.CompanyID -eq '64' -and
+                [string]$demoEffect.PluginID -eq '31002')
+            eventPersisted           = $null -ne $demoEvent
+            eventTargetsSound        = $null -ne $demoEventTarget
+        }
+        $report.preflight.retainedRainDemo = [ordered]@{
+            actorWorkUnit = $actorWorkUnitPath
+            eventWorkUnit = $eventWorkUnitPath
+            soundId       = if ($demoSound) { [string]$demoSound.ID } else { $null }
+            audioSourceId = if ($demoAudioSource) { [string]$demoAudioSource.ID } else { $null }
+            effectId      = if ($demoEffect) { [string]$demoEffect.ID } else { $null }
+            assertions    = $demoAssertions
+        }
+        $failedDemoAssertions = @(
+            $demoAssertions.GetEnumerator() |
+                Where-Object { -not [bool]$_.Value } |
+                ForEach-Object { $_.Key }
+        )
+        if ($failedDemoAssertions.Count -gt 0) {
+            throw "The retained rain demo is incomplete: $($failedDemoAssertions -join ', ')."
+        }
+    }
 
     $wwiseExecutable = Join-Path $environment.WwiseRoot 'Authoring\x64\Release\bin\Wwise.exe'
     if (-not (Test-Path -LiteralPath $wwiseExecutable -PathType Leaf)) {
@@ -472,6 +563,10 @@ try {
     if (-not (Test-Path -LiteralPath $clientPath -PathType Leaf)) {
         throw "WAAPI smoke client is missing: '$clientPath'."
     }
+    $nativeHostFixtureRoot = Assert-PathUnderRoot `
+        -Path (Join-Path $productRoot "Build\NativeHost\Fixture\$runId") `
+        -Root $productRoot `
+        -Description 'retained Native Host fixture directory'
     $clientArguments = @(
         $clientPath,
         '--project', $projectPath,
@@ -482,9 +577,19 @@ try {
         '--playback-seconds', $PlaybackSeconds.ToString([System.Globalization.CultureInfo]::InvariantCulture),
         '--silence-floor-db', $SilenceFloorDb.ToString([System.Globalization.CultureInfo]::InvariantCulture),
         '--source-class-id', '2031682562',
+        '--effect-class-id', $EffectClassId.ToString([System.Globalization.CultureInfo]::InvariantCulture),
+        '--effect-input-wav', $resolvedEffectInputWav,
+        '--native-host-fixture-dir', $nativeHostFixtureRoot,
         '--wwise-pid', $wwiseProcess.Id.ToString([System.Globalization.CultureInfo]::InvariantCulture),
         '--gui-timeout', '20'
     )
+    if ($RequireRetainedRainDemo) {
+        $clientArguments += @(
+            '--retained-effect-sound-id', ([string]$demoSound.ID),
+            '--retained-effect-audio-source-id', ([string]$demoAudioSource.ID),
+            '--retained-effect-id', ([string]$demoEffect.ID)
+        )
+    }
     $clientTimeout = [Math]::Max(90, [int][Math]::Ceiling($PlaybackSeconds + 70))
     $clientExitCode = Invoke-PythonClient `
         -Python $python `
@@ -508,6 +613,42 @@ try {
     if (-not $report.client -or -not $report.client.success) {
         throw 'WAAPI smoke client did not produce a successful structured report.'
     }
+
+    $reportedFixture = $report.client.nativeHostFixture
+    if (-not $reportedFixture) {
+        throw 'WAAPI smoke client did not report retained Native Host fixture artifacts.'
+    }
+    if (-not ([string]$reportedFixture.root).Equals(
+        $nativeHostFixtureRoot,
+        [System.StringComparison]::OrdinalIgnoreCase
+    )) {
+        throw "WAAPI smoke client retained Native Host artifacts at an unexpected root: '$($reportedFixture.root)'."
+    }
+    $failedFixtureAssertions = @(
+        $reportedFixture.assertions.PSObject.Properties |
+            Where-Object { -not [bool]$_.Value } |
+            ForEach-Object { $_.Name }
+    )
+    if ($failedFixtureAssertions.Count -gt 0) {
+        throw "Native Host fixture assertions failed: $($failedFixtureAssertions -join ', ')."
+    }
+    foreach ($fixtureFile in @($reportedFixture.files)) {
+        $fixturePath = Assert-PathUnderRoot `
+            -Path ([string]$fixtureFile.path) `
+            -Root $nativeHostFixtureRoot `
+            -Description 'retained Native Host fixture artifact'
+        if (-not (Test-Path -LiteralPath $fixturePath -PathType Leaf)) {
+            throw "Retained Native Host fixture artifact is missing: '$fixturePath'."
+        }
+        $actualFixtureHash = (Get-FileHash -LiteralPath $fixturePath -Algorithm SHA256).Hash.ToLowerInvariant()
+        if (-not $actualFixtureHash.Equals(
+            [string]$fixtureFile.sha256,
+            [System.StringComparison]::OrdinalIgnoreCase
+        )) {
+            throw "Retained Native Host fixture artifact hash mismatch: '$fixturePath'."
+        }
+    }
+    $report.nativeHostFixture = $reportedFixture
 
     $exitCode = 0
 }

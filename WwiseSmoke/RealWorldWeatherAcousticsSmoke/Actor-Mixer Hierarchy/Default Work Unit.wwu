@@ -39,6 +39,87 @@
 						<ActiveSource Name="RWWA_Smoke_Source" ID="{3DFD0927-0D25-457D-B1D6-675CCF19090C}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
+				<Sound Name="RWWA_Demo_Heavy_Rain_Puddles" ID="{9E42DF50-ACA6-4E69-988F-2231C7E98B54}" ShortID="866008986">
+					<Comment>Persistent human-listening demo: 30-second heavy-rain Audio File Source processed by RealWorld Weather Acoustics Effect.</Comment>
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="IsStreamingEnabled" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{A07A2480-0A52-4332-AE73-2D2DBB3C8D6F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{CF152753-F755-4BC3-AE8F-D276402695FA}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="RWWA_Demo_Heavy_Rain_Puddles_Audio" ID="{477B9E5B-3D32-42FE-9EB3-2DBBAB2E58FA}">
+							<Language>SFX</Language>
+							<AudioFile>RWWA_Heavy_Rain_Puddles_30s.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="528110025"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="Effects">
+							<Reference>
+								<Local>
+									<EffectSlot Name="" ID="{D3E85809-D523-4BC5-B684-7229D2B7B178}" ShortID="541183352">
+										<ReferenceList>
+											<Reference Name="Effect">
+												<Custom>
+													<Effect Name="RWWA_Demo_Weather_Geometry_Effect" ID="{FD32A4AB-B061-446F-9B19-6AEE895832CE}" ShortID="570213753" PluginName="RealWorld Weather Acoustics Effect" CompanyID="64" PluginID="31002" PluginType="3">
+														<PropertyList>
+															<Property Name="Feature1Priority" Type="int32" Value="107"/>
+															<Property Name="Feature1Radius" Type="Real32" Value="2.5"/>
+															<Property Name="Feature2Priority" Type="int32" Value="10"/>
+															<Property Name="Feature2Radius" Type="Real32" Value="2.5"/>
+															<Property Name="Feature3Priority" Type="int32" Value="10"/>
+															<Property Name="Feature3Radius" Type="Real32" Value="2.5"/>
+															<Property Name="Feature4Priority" Type="int32" Value="10"/>
+															<Property Name="Feature4Radius" Type="Real32" Value="2.5"/>
+															<Property Name="Feature5Radius" Type="Real32" Value="2.5"/>
+															<Property Name="Feature5X" Type="Real32" Value="4.25"/>
+															<Property Name="Feature5Z" Type="Real32" Value="4.25"/>
+															<Property Name="Feature6Radius" Type="Real32" Value="2.5"/>
+															<Property Name="Feature6X" Type="Real32" Value="4.25"/>
+															<Property Name="Feature6Z" Type="Real32" Value="-4.25"/>
+															<Property Name="Feature7Radius" Type="Real32" Value="2.5"/>
+															<Property Name="Feature7X" Type="Real32" Value="-4.25"/>
+															<Property Name="Feature7Z" Type="Real32" Value="-4.25"/>
+															<Property Name="Feature8Radius" Type="Real32" Value="2.5"/>
+															<Property Name="Feature8X" Type="Real32" Value="-4.25"/>
+															<Property Name="Feature8Z" Type="Real32" Value="4.25"/>
+															<Property Name="InputRole" Type="int32" Value="0"/>
+															<Property Name="ListenerYawDegrees" Type="Real32" Value="20"/>
+															<Property Name="RainIntensity" Type="Real32" Value="0.8"/>
+															<Property Name="ResponseGainDb" Type="Real32" Value="1.5"/>
+															<Property Name="Seed" Type="int32" Value="97531"/>
+															<Property Name="TransientSensitivity" Type="Real32" Value="0.75"/>
+															<Property Name="WetMix" Type="Real32" Value="0.65"/>
+															<Property Name="WindDirectionDegrees" Type="Real32" Value="35"/>
+															<Property Name="WindGustiness" Type="Real32" Value="0.65"/>
+															<Property Name="WindSpeed" Type="Real32" Value="14"/>
+														</PropertyList>
+													</Effect>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</EffectSlot>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
+					<ActiveSourceList>
+						<ActiveSource Name="RWWA_Demo_Heavy_Rain_Puddles_Audio" ID="{477B9E5B-3D32-42FE-9EB3-2DBBAB2E58FA}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

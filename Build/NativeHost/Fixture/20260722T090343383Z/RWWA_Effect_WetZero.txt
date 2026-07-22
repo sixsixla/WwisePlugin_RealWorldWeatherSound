@@ -1,0 +1,9 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2058037174	RWWA_Smoke_Effect_Bank_Event			\Default Work Unit\RWWA_Smoke_Effect_Bank_Event	
+
+Effect plug-ins	ID	Name	Type				Notes
+	262256640	RWWA_Smoke_Geometry_Effect	RealWorld Weather Acoustics Effect			
+
+Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
+	218136016	RWWA_Smoke_Effect_Sound	D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\WwiseSmoke\Projects\20260722T090343383Z\RealWorldWeatherAcousticsSmoke\.cache\Windows\SFX\hybrid_input_FBC78EF0.wem	218136016.wem	\Actor-Mixer Hierarchy\Default Work Unit\RWWA_Smoke_Effect_Sound	Owned by the automated RealWorld Weather Acoustics Effect smoke test.
+

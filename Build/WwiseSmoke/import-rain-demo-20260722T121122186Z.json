@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "tool": "RealWorldWeatherAcoustics.ImportRainDemo",
+  "startedAtUtc": "2026-07-22T12:11:23.538104+00:00",
+  "finishedAtUtc": "2026-07-22T12:11:24.242564+00:00",
+  "success": true,
+  "project": {
+    "expectedPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\PersistentImport\\20260722T121122186Z\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+    "actualPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\PersistentImport\\20260722T121122186Z\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+    "name": "RealWorldWeatherAcousticsSmoke",
+    "id": "{E5FBC81B-5EF1-41DE-B602-F2FA6EE74B41}"
+  },
+  "inputWav": {
+    "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\PersistentImport\\20260722T121122186Z\\RealWorldWeatherAcousticsSmoke\\Originals\\SFX\\RWWA_Heavy_Rain_Puddles_30s.wav",
+    "fileName": "RWWA_Heavy_Rain_Puddles_30s.wav",
+    "bytes": 8640102,
+    "sha256": "1fa150708de00627796a4e3963a9becd97595e01e5e769e6a3b0a5d1cf076adc",
+    "codec": "pcm_s24le",
+    "channels": 2,
+    "sampleRate": 48000,
+    "bitsPerSample": 24,
+    "frameCount": 1440000,
+    "durationSeconds": 30.0,
+    "assertions": {
+      "isPcm": true,
+      "isStereo": true,
+      "is48Khz": true,
+      "is24Bit": true,
+      "isExactlyThirtySeconds": true,
+      "isNonEmpty": true
+    }
+  },
+  "steps": [
+    {
+      "name": "connectWaapi",
+      "status": "passed",
+      "atUtc": "2026-07-22T12:11:23.552662Z",
+      "detail": {
+        "attempts": 1
+      }
+    },
+    {
+      "name": "ak.wwise.core.getProjectInfo",
+      "status": "passed",
+      "atUtc": "2026-07-22T12:11:24.178459Z"
+    },
+    {
+      "name": "waitForProjectReady",
+      "status": "passed",
+      "atUtc": "2026-07-22T12:11:24.178470Z",
+      "detail": {
+        "attempts": 1,
+        "uri": "ak.wwise.core.getProjectInfo"
+      }
+    },
+    {
+      "name": "ak.wwise.core.object.set",
+      "status": "passed",
+      "atUtc": "2026-07-22T12:11:24.212363Z"
+    },
+    {
+      "name": "ak.wwise.core.object.set",
+      "status": "passed",
+      "atUtc": "2026-07-22T12:11:24.216564Z"
+    },
+    {
+      "name": "ak.wwise.core.project.save",
+      "status": "passed",
+      "atUtc": "2026-07-22T12:11:24.241070Z"
+    }
+  ],
+  "demo": {
+    "sound": {
+      "@IsLoopingEnabled": true,
+      "@IsLoopingInfinite": true,
+      "@IsStreamingEnabled": true,
+      "id": "{9E42DF50-ACA6-4E69-988F-2231C7E98B54}",
+      "type": "Sound",
+      "name": "RWWA_Demo_Heavy_Rain_Puddles"
+    },
+    "audioFileSource": {
+      "id": "{477B9E5B-3D32-42FE-9EB3-2DBBAB2E58FA}",
+      "type": "AudioFileSource",
+      "name": "RWWA_Demo_Heavy_Rain_Puddles_Audio",
+      "originalFilePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\PersistentImport\\20260722T121122186Z\\RealWorldWeatherAcousticsSmoke\\Originals\\SFX\\RWWA_Heavy_Rain_Puddles_30s.wav"
+    },
+    "effect": {
+      "id": "{FD32A4AB-B061-446F-9B19-6AEE895832CE}",
+      "type": "Effect",
+      "classId": 2031748099,
+      "name": "RWWA_Demo_Weather_Geometry_Effect"
+    },
+    "event": {
+      "id": "{1BC1C9F5-0421-452C-8F29-934122055478}",
+      "type": "Event",
+      "name": "Play_RWWA_Demo_Heavy_Rain_Puddles"
+    },
+    "action": {
+      "id": "{0A6FB13D-7E83-4955-985B-0F7AADCC8397}",
+      "type": "Action",
+      "name": "",
+      "@Target": {
+        "id": "{9E42DF50-ACA6-4E69-988F-2231C7E98B54}",
+        "name": "RWWA_Demo_Heavy_Rain_Puddles"
+      },
+      "@ActionType": 1
+    },
+    "effectPropertyCount": 71,
+    "effectProperties": {
+      "InputRole": 0,
+      "WetMix": 0.6499999761581421,
+      "ResponseGainDb": 1.5,
+      "TransientSensitivity": 0.75,
+      "RainIntensity": 0.800000011920929,
+      "WindSpeed": 14.0,
+      "WindDirectionDegrees": 35.0,
+      "WindGustiness": 0.6499999761581421,
+      "Seed": 97531,
+      "GeometryEnabled": true,
+      "ListenerX": 0.0,
+      "ListenerY": 0.0,
+      "ListenerZ": 0.0,
+      "ListenerYawDegrees": 20.0,
+      "FeatureCount": 4,
+      "Feature1X": 0.0,
+      "Feature1Y": 0.0,
+      "Feature1Z": 6.0,
+      "Feature1Radius": 2.5,
+      "Feature1Profile": 0,
+      "Feature1Mask": 3,
+      "Feature1Priority": 107,
+      "Feature2X": 6.0,
+      "Feature2Y": 0.0,
+      "Feature2Z": 0.0,
+      "Feature2Radius": 2.5,
+      "Feature2Profile": 1,
+      "Feature2Mask": 3,
+      "Feature2Priority": 10,
+      "Feature3X": 0.0,
+      "Feature3Y": 0.0,
+      "Feature3Z": -6.0,
+      "Feature3Radius": 2.5,
+      "Feature3Profile": 2,
+      "Feature3Mask": 3,
+      "Feature3Priority": 10,
+      "Feature4X": -6.0,
+      "Feature4Y": 0.0,
+      "Feature4Z": 0.0,
+      "Feature4Radius": 2.5,
+      "Feature4Profile": 3,
+      "Feature4Mask": 3,
+      "Feature4Priority": 10,
+      "Feature5X": 4.25,
+      "Feature5Y": 0.0,
+      "Feature5Z": 4.25,
+      "Feature5Radius": 2.5,
+      "Feature5Profile": 0,
+      "Feature5Mask": 3,
+      "Feature5Priority": 1,
+      "Feature6X": 4.25,
+      "Feature6Y": 0.0,
+      "Feature6Z": -4.25,
+      "Feature6Radius": 2.5,
+      "Feature6Profile": 1,
+      "Feature6Mask": 3,
+      "Feature6Priority": 1,
+      "Feature7X": -4.25,
+      "Feature7Y": 0.0,
+      "Feature7Z": -4.25,
+      "Feature7Radius": 2.5,
+      "Feature7Profile": 2,
+      "Feature7Mask": 3,
+      "Feature7Priority": 1,
+      "Feature8X": -4.25,
+      "Feature8Y": 0.0,
+      "Feature8Z": 4.25,
+      "Feature8Radius": 2.5,
+      "Feature8Profile": 3,
+      "Feature8Mask": 3,
+      "Feature8Priority": 1
+    },
+    "assertions": {
+      "soundCreated": true,
+      "audioFileSourceCreated": true,
+      "audioFileSourceReferencesRainWav": true,
+      "loopingEnabled": true,
+      "loopingInfinite": true,
+      "streamingEnabled": true,
+      "effectCreated": true,
+      "all71EffectPropertiesReadable": true,
+      "effectIsConfiguredForRain": true,
+      "eventCreated": true,
+      "playActionCreated": true,
+      "playActionTargetsDemoSound": true
+    }
+  },
+  "error": null,
+  "connection": {
+    "attempts": 1,
+    "connectedAtUtc": "2026-07-22T12:11:23.552652Z",
+    "url": "ws://127.0.0.1:8080/waapi"
+  }
+}

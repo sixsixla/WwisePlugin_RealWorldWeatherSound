@@ -2,17 +2,33 @@
 
 ## 文档状态
 
-- 状态：持续讨论基线；v0.2 可执行垂直切片已实现，Wwise 2023.1 QA 证据见验证报告
-- 文档版本：v1.0
-- 当前实现版本：v0.2 executable slice
+- 状态：持续讨论基线；v0.3 Hybrid Audio File Source + Geometry Effect 纵向切片已实现，Wwise 2023.1 QA 与 Native Host 证据见验证报告
+- 文档版本：v1.2
+- 当前实现版本：v0.3 hybrid slice
 - 创建时间：2026-07-21 15:52（Asia/Shanghai）
-- 最后更新：2026-07-21（Asia/Shanghai）
+- 最后更新：2026-07-22（Asia/Shanghai）
 - 讨论主题：基于游戏天气、几何与表面语义数据生成风、雨、雷暴声学的通用 Wwise 产品
 - 当前结论：技术可行，产品价值成立；目标应是“物理启发、感知可信、跨引擎可接入”，而不是实时全物理仿真。
 
 ## 版本修订记录
 
-### v1.0（当前讨论与实施基线）
+### v1.2（v0.3 Hybrid Audio File Source + Geometry Effect 已实现切片）
+
+- 保留现有 Source `PluginID=31001` 和旧/当前 Bank 参数 ABI；v0.1 `261` 字节 legacy block 与 v0.2 `273` 字节 current block 继续作为回归合同。
+- 新增独立 Effect `PluginID=31002` 作为 v0.3 主路径：Wwise Audio File Source/streamed loop 提供高质量 rain/wind bed，Effect 添加几何与材质交互。
+- Effect 当前参数契约为 `InputRole`、`WetMix`、`ResponseGainDb`、`TransientSensitivity`、weather/listener、`FeatureCount` 和 8 组 `X/Y/Z/Radius/Profile/Mask/Priority`；共 71 参数、281-byte Bank block。
+- `InputRole` 值为 `Rain=0`、`Wind=1`、`Generic=2`，默认 `Generic`；`WetMix` 为 `0..1` 默认 `0`；`Priority` 为 `0..1000` 数值权重。
+- Runtime C ABI 已导出 scene `Set/Get/Clear` 与 Diagnostics `Reset/Get`；scene 为 392 bytes，feature 为 40 bytes，Diagnostics V1 为 96 bytes，最多 8 槽。最终 Host 对 89 个 scene payload 字段做逐字段 roundtrip 比较。
+- Baseline、InputRoleWetGeometry、WetZero 三个 Effect bank 和 Host 三态音频合同 matrix 已完成；正式 expectation 为 `changed`、`wet-bypass`、`geometry-disabled`，并有两份应失败负例验证门禁。
+- Unity/Unreal Adapter、人工主观听感、高级 DSP 参数、完整 3D 几何和产品化 Monitor 仍为后续项。
+
+### v1.1（v0.3 Hybrid Audio File Source + Geometry Effect 规格历史）
+
+- 当时决策保留 Source `PluginID=31001` 和旧/当前 Bank 参数 ABI，并将新增能力放入独立 Effect `PluginID=31002`。
+- 当时设想包含更宽的输入激励参数、频带权重、几何增益和 8 注册/4 激活预算；实际 v0.3 只实现了较窄的参数面，未实现 `EnvelopeSensitivity`、band weights、smoothing、distance scale 或 priority bias。
+- 当时静态几何继续由游戏、Native Host 或引擎 Adapter 显式提交；实际 v0.3 已完成 Native Host scene C ABI，Unity/Unreal 仍未完成。
+
+### v1.0（当前已实现基线）
 
 - 完成独立产品工程、共享 C++ DSP Core、单元/离线 WAV 测试、Wwise 2023.1 Source Plug-in、参数后端、Win32 Authoring 2D Preview、隔离构建、最小 staging/install 与 WAAPI/Profiler smoke。
 - 当前可执行切片承诺物理启发的程序化风声与改进雨声：一个 Listener、最多 8 个 `SphereProxy` 固定槽位、`ActiveK=4`、Metal/Wood/Glass/Tile 四个 Profile、立体声输出。
@@ -284,7 +300,7 @@ v0.2 已内置三个由相同圆形 Proxy 构成的确定性 Fixture：
 #### 3. Authoring 数据模型
 
 - 标准、可自动化的标量参数使用 Plug-in XML + `PropertySet`，例如 Rain Intensity、Wind Speed、Wind Direction、Wind Gustiness、Listener XYZ、Seed、Geometry Bypass。Listener X/Z 由 Canvas 拖动实时修改；Y 在 Inspector 中使用数值字段，默认 0。
-- v0.2 的 Preview Feature 列表和 `SphereProxy` 先使用固定 8 槽 `PropertySet` 保存，`GetBankParameters` 已实现对应参数块写出，261/273 字节读取合同已有可执行回归；canonical smoke 已验证 Wwise 实际 SoundBank 生成与 Authoring 参数序列化，但生成 bank 由独立 Native SoundEngine Host 加载/执行仍属于下一里程碑。Authoring 不保存 Listener Path。
+- v0.2 的 Preview Feature 列表和 `SphereProxy` 先使用固定 8 槽 `PropertySet` 保存，`GetBankParameters` 已实现对应参数块写出，261/273 字节读取合同已有可执行回归；canonical smoke 已验证 Wwise 实际 SoundBank 生成与 Authoring 参数序列化。v0.3 Effect 已补齐独立 Native SoundEngine Host 加载/执行证据；Authoring 不保存 Listener Path。
 - 可变长场景、Inner Objects/ObjectStore 与 CustomData 仍属于 P0-B 方案选择，不是 v0.2 已落地能力。
 - 数据改变后由 Backend 通知 Wwise 内部数据已变化；完整刷新使用 `ALL_PLUGIN_DATA_ID`。SoundEngine 参数节点通过 `SetParam` 接收结构化数据。
 - Inner Objects 应使用稳定的 Type/List/Property 名称。Audiokinetic 文档明确说明其模型通知也可能由 WAAPI 调用触发，因此 P0 应验证 `object.get`、`object.set`、`setProperty` 对自定义 Surface 列表的支持情况。
@@ -1001,9 +1017,9 @@ Weather_Master_Bus
 - SoundBank 参数保存 Profile 默认值、质量档和渲染设置。
 - 插件通过 Monitor Data 报告当前 active contribution、CPU、slot 裁剪和 Snapshot 延迟。
 
-### 10. 已落地的第一个可执行开发切片
+### 10. 已落地的可执行开发切片
 
-本轮实际闭环是：
+v0.2 Source 闭环是：
 
 ```text
 Fixed Authoring PropertySet / Offline Fixture
@@ -1012,6 +1028,19 @@ Fixed Authoring PropertySet / Offline Fixture
     → Offline stereo WAV
     → Wwise 2023.1 Source + 2D Authoring Preview
     → WAAPI Transport + Profiler smoke
+```
+
+v0.3 Hybrid Effect 闭环是：
+
+```text
+Wwise Audio File Source / Streamed Loop
+    → RealWorld Weather Acoustics Effect (PluginID=31002)
+    → 2D Authoring Canvas / fixed 8 feature slots
+    → 71-parameter, 281-byte Effect SoundBank block
+    → retained Native Host fixture
+    → Runtime C ABI Set/Get/Clear scene roundtrip
+    → 96-byte Diagnostics Reset/Get
+    → Native SoundEngine Host three-state audio-contract matrix
 ```
 
 当前已实现：
@@ -1026,15 +1055,25 @@ Fixed Authoring PropertySet / Offline Fixture
 - 圆形 2D Canvas、单 Listener 点、Yaw 箭头、属性 Inspector、Feature 添加/删除、圆心拖动和半径手柄；没有 Listener Path。
 - Windows x64 / Wwise 2023.1.19.8928 / vc170 / Release 的 Authoring 与 Runtime 产物。
 - 自动化离线测试、Wwise 发现/创建/播放/Profiler smoke、Wwise 实际 SoundBank 生成与 Authoring 参数序列化，以及最小 DLL/XML 安装。
+- Effect `PluginID=31002`，可挂到 Audio File Source loop 所在 Sound、Actor-Mixer 或 Bus。
+- Effect 以输入素材为声音主体，只添加几何与材质交互；当前不替代素材质量、loop、streaming、State/RTPC 或 Wwise Spatial Audio 传播。
+- Effect 实际参数为 `InputRole`、`WetMix`、`ResponseGainDb`、`TransientSensitivity`、weather/listener、`FeatureCount` 和 8 组 `X/Y/Z/Radius/Profile/Mask/Priority`。
+- Effect 参数 ABI：71 参数、281-byte block；`InputRole Rain=0/Wind=1/Generic=2(default Generic)`，`WetMix 0..1 default 0`，`ResponseGainDb -24..12`，`TransientSensitivity 0..1`。
+- `Priority` 是 `0..1000` 数值权重，不是四档枚举。
+- Runtime C ABI：`RWWA_RuntimeScene_SetV1` / `GetV1` / `ClearV1`；scene 392 bytes，feature 40 bytes，最多 8 槽。authored fallback 只允许在 API 返回 `UNCLAIMED` 且该实例从未 claim runtime scene 时使用；first-claim `BUSY` 不回退，已有 snapshot 时 `BUSY` 复用保留的 runtime scene。
+- Runtime Diagnostics V1：96-byte ABI，导出 `RWWA_RuntimeDiagnostics_ResetV1` / `GetV1`，覆盖 execute/frame、runtime/fallback、wet bypass、geometry disabled、revision、input/output/wet-difference peaks 与 non-finite sample counter。Get 返回 coherent snapshot；publish/reset handshake 使用 sequential consistency，Get 把 generation 作为最后一次并发观测。五个 `last*` 字段通过 no-wait try-commit 形成完整 per-block tuple；争用时 tuple 可落后，但不会混合不同 block，其他 counters/max/generation 仍继续累加。重叠时 Get/Reset 返回 `BUSY` 供控制线程重试，并有确定性 race、forced-contention 与 multi-writer encoding 测试。
+- Wwise fixture 已保留 Baseline、InputRoleWetGeometry、WetZero 三个 473-byte bank；三者内部 Effect block 均为 281 bytes。
+- Native Host 已验证 31001/31002 注册、scene 89-field full-payload roundtrip、generated bank load、PostEvent、render 0 failures、clean term，以及 `Wet>0 changed` / `Wet=0 wet-bypass` / `GeometryOff geometry-disabled` 三态合同。GeometryOff 使用 Baseline bank + disabled runtime scene 隔离 runtime override；三态与双负例均 mismatch 0、non-finite 0，双负例以 diagnostics code 52 正确失败。
 
 当前尚未实现：
 
-- 游戏侧静态 Registry、C ABI、版本化 Snapshot、Custom Game Data 或 Native Registry。
-- 生成 bank 由独立 Native SoundEngine Host 加载/执行的 runtime 端到端验证。
-- Inner Objects、Scene JSON、Capture/Replay、贡献 Monitor、MCP/Sandbox 数据面控制。
-- 自动 Mesh 扫描、Plane/Box/Convex、Unity/Unreal Adapter、多监听者和主机平台。
+- Unity/Unreal Adapter、游戏引擎生命周期接入和平台打包。
+- Inner Objects、Capture/Replay、贡献 Monitor、MCP/Sandbox 数据面控制。
+- 自动 Mesh 扫描、Plane/Box/Convex、多监听者和主机平台。
 - 完整 Deflector/Aperture/Vegetation 风场、程序化雷声、Ambisonics、Room/Portal/Spatial Audio 传播。
 - 完整 3D Authoring 编辑器和任何 Path 编辑器。
+- 高级 DSP 参数：`EnvelopeSensitivity`、band weights、smoothing、distance scale、priority bias。
+- 人工主观听感验收。
 
 ### 11. 建议源码/交付模块边界
 

@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{59869AA1-D51F-4918-B528-994B00E9935A}" SchemaVersion="119">
 	<Events>
-		<WorkUnit Name="Default Work Unit" ID="{59869AA1-D51F-4918-B528-994B00E9935A}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{59869AA1-D51F-4918-B528-994B00E9935A}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_RWWA_Demo_Heavy_Rain_Puddles" ID="{1BC1C9F5-0421-452C-8F29-934122055478}">
+					<ChildrenList>
+						<Action Name="" ID="{0A6FB13D-7E83-4955-985B-0F7AADCC8397}" ShortID="855442393">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="RWWA_Demo_Heavy_Rain_Puddles" ID="{9E42DF50-ACA6-4E69-988F-2231C7E98B54}" WorkUnitID="{ADF0D99E-8544-46BE-859A-7F055F753C99}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>

@@ -1,0 +1,18 @@
+Start testing: Jul 22 17:46 中国标准时间
+----------------------------------------------------------
+1/1 Testing: rwwa_native_host_scene_payload_tests
+1/1 Test: rwwa_native_host_scene_payload_tests
+Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/NativeHost/Release/rwwa_native_host_scene_payload_tests.exe"
+Directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/NativeHost
+"rwwa_native_host_scene_payload_tests" start time: Jul 22 17:46 中国标准时间
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"rwwa_native_host_scene_payload_tests" end time: Jul 22 17:46 中国标准时间
+"rwwa_native_host_scene_payload_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 22 17:46 中国标准时间

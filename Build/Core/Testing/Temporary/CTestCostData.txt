@@ -1,7 +1,10 @@
-rwwa_core_tests 36 0.0148243
+rwwa_core_tests 59 0.00925217
 rwwa_offline_renderer_writes_wav 14 0.0028367
-rwwa_offline_renderer_weather_ring 18 0.00462468
-rwwa_offline_renderer_open_wind 18 0.00374296
-rwwa_offline_renderer_rain_metal 18 0.00373257
-rwwa_source_params_bank_tests 14 0.000344136
+rwwa_offline_renderer_weather_ring 37 0.00272203
+rwwa_offline_renderer_open_wind 37 0.00189407
+rwwa_offline_renderer_rain_metal 37 0.00190046
+rwwa_source_params_bank_tests 35 0.000894366
+rwwa_geometry_interaction_tests 23 0.00369166
+rwwa_effect_params_bank_tests 20 0.00159181
+rwwa_runtime_scene_api_tests 26 0.00288704
 ---

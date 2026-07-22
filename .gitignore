@@ -15,6 +15,7 @@
 /Build/Core/rwwa_source_params_bank_tests.dir/Debug/
 /Build/Core/x64/Debug/
 /Build/WwiseSmoke/Projects/
+/Build/WwiseSmoke/PersistentImport/
 /Build/WwiseBankQA/
 **/__pycache__/
 *.pyc

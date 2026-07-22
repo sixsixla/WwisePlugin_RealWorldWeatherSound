@@ -1,0 +1,5283 @@
+{
+  "schemaVersion": 1,
+  "tool": "RealWorldWeatherAcoustics.WwiseAuthoringSmokeWrapper",
+  "startedAtUtc": "2026-07-22T12:30:34.2803876Z",
+  "finishedAtUtc": "2026-07-22T12:30:41.1741733Z",
+  "success": true,
+  "reportPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T123034276Z.json",
+  "preflight": {
+    "productRoot": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound",
+    "existingWwisePids": [],
+    "pluginArtifacts": [
+      {
+        "id": "authoring-dll",
+        "installedPath": "E:\\WwiseSoft2023\\Wwise_2023.1.19.8928\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.dll",
+        "installedSha256": "d87395eef53dff0ccbf1c3d8d287961dcd87da9edddb39de2ef03ab7f968349d",
+        "stagedPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Artifacts\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.dll",
+        "stagedExists": true,
+        "stagedSha256": "d87395eef53dff0ccbf1c3d8d287961dcd87da9edddb39de2ef03ab7f968349d",
+        "hashMatchesStage": true,
+        "stageRecordSha256": "d87395eef53dff0ccbf1c3d8d287961dcd87da9edddb39de2ef03ab7f968349d",
+        "hashMatchesStageRecord": true
+      },
+      {
+        "id": "authoring-xml",
+        "installedPath": "E:\\WwiseSoft2023\\Wwise_2023.1.19.8928\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.xml",
+        "installedSha256": "275921b2ae9cd5fddddb219275a171afd8bb03d16d6793489fda9c383b412d96",
+        "stagedPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Artifacts\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.xml",
+        "stagedExists": true,
+        "stagedSha256": "275921b2ae9cd5fddddb219275a171afd8bb03d16d6793489fda9c383b412d96",
+        "hashMatchesStage": true,
+        "stageRecordSha256": "275921b2ae9cd5fddddb219275a171afd8bb03d16d6793489fda9c383b412d96",
+        "hashMatchesStageRecord": true
+      }
+    ],
+    "python": {
+      "Path": "D:\\Tool\\Wwise_mcp\\.venv\\Scripts\\python.exe",
+      "PrefixArguments": [],
+      "Source": "Parameter:-PythonWithWaapi",
+      "DevelopmentFallback": false,
+      "Executable": "D:\\Tool\\Wwise_mcp\\.venv\\Scripts\\python.exe",
+      "Version": "3.13.5",
+      "WaapiModule": "D:\\Tool\\Wwise_mcp\\.venv\\Lib\\site-packages\\waapi\\__init__.py"
+    },
+    "effectClassId": 2031748099,
+    "effectInputWav": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Originals\\SFX\\RWWA_Heavy_Rain_Puddles_30s.wav",
+    "requireRetainedRainDemo": true,
+    "retainedRainDemo": {
+      "actorWorkUnit": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Actor-Mixer Hierarchy\\Default Work Unit.wwu",
+      "eventWorkUnit": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Events\\Default Work Unit.wwu",
+      "soundId": "{9E42DF50-ACA6-4E69-988F-2231C7E98B54}",
+      "audioSourceId": "{477B9E5B-3D32-42FE-9EB3-2DBBAB2E58FA}",
+      "effectId": "{FD32A4AB-B061-446F-9B19-6AEE895832CE}",
+      "assertions": {
+        "soundPersisted": true,
+        "audioFileSourcePersisted": true,
+        "audioFileMatchesInput": true,
+        "effectPersisted": true,
+        "eventPersisted": true,
+        "eventTargetsSound": true
+      }
+    }
+  },
+  "launch": {
+    "pid": 23588,
+    "keepWwiseOpen": false,
+    "waapiReady": true,
+    "stoppedByWrapper": true,
+    "exitedNaturally": false
+  },
+  "client": {
+    "schemaVersion": 1,
+    "tool": "RealWorldWeatherAcoustics.WwiseAuthoringSmokeClient",
+    "startedAtUtc": "2026-07-22T12:30:36.067187Z",
+    "finishedAtUtc": "2026-07-22T12:30:40.982722Z",
+    "success": true,
+    "inputs": {
+      "projectPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+      "waapiUrl": "ws://127.0.0.1:8080/waapi",
+      "sourceClassId": 2031682562,
+      "effectClassId": 2031748099,
+      "effectInputWav": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Originals\\SFX\\RWWA_Heavy_Rain_Puddles_30s.wav",
+      "retainedEffectSoundId": "{9E42DF50-ACA6-4E69-988F-2231C7E98B54}",
+      "retainedEffectAudioSourceId": "{477B9E5B-3D32-42FE-9EB3-2DBBAB2E58FA}",
+      "retainedEffectId": "{FD32A4AB-B061-446F-9B19-6AEE895832CE}",
+      "nativeHostFixtureDir": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z",
+      "playbackSeconds": 1.5,
+      "silenceFloorDb": -90.0,
+      "wwiseProcessId": 23588,
+      "guiTimeoutSeconds": 20.0,
+      "effectInputWavFormat": {
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Originals\\SFX\\RWWA_Heavy_Rain_Puddles_30s.wav",
+        "fileName": "RWWA_Heavy_Rain_Puddles_30s.wav",
+        "bytes": 8640102,
+        "sha256": "1fa150708de00627796a4e3963a9becd97595e01e5e769e6a3b0a5d1cf076adc",
+        "channels": 2,
+        "sampleRate": 48000,
+        "bitsPerSample": 24,
+        "frameCount": 1440000,
+        "durationSeconds": 30.0,
+        "isRetainedRainAsset": true,
+        "requiredAssertions": {
+          "isPcm": true,
+          "hasSupportedChannelCount": true,
+          "hasSupportedSampleRate": true,
+          "hasSupportedBitDepth": true,
+          "hasPositiveDuration": true,
+          "isNonEmpty": true,
+          "isStereo": true,
+          "is48Khz": true,
+          "is24Bit": true,
+          "isExactlyThirtySeconds": true
+        },
+        "retainedRainProfile": {
+          "isStereo": true,
+          "is48Khz": true,
+          "is24Bit": true,
+          "isExactlyThirtySeconds": true
+        }
+      }
+    },
+    "waapiCompatibility": {
+      "wwiseVersion": "2023.1.19.8928",
+      "projectInfoUri": "ak.wwise.core.getProjectInfo",
+      "undoUri": "ak.wwise.core.undo.undo",
+      "note": "Wwise 2023.1 exposes ak.wwise.core.getProjectInfo; ak.wwise.core.project.getInfo is not present in its installed schema."
+    },
+    "steps": [
+      {
+        "name": "connectWaapi",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.080731Z",
+        "detail": {
+          "attempts": 1
+        }
+      },
+      {
+        "name": "ak.wwise.core.getProjectInfo",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.574871Z"
+      },
+      {
+        "name": "waitForProjectReady",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.574881Z",
+        "detail": {
+          "attempts": 1,
+          "uri": "ak.wwise.core.getProjectInfo"
+        }
+      },
+      {
+        "name": "ak.wwise.core.object.set",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.594823Z"
+      },
+      {
+        "name": "ak.wwise.ui.commands.execute",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.688509Z"
+      },
+      {
+        "name": "authoringGui.findControls",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.808397Z",
+        "detail": {
+          "processId": 23588,
+          "dialogHandle": 1380952,
+          "canvasHandle": 1446486,
+          "geometryCheckboxHandle": 2165100,
+          "addButtonHandle": 136656,
+          "deleteButtonHandle": 136658,
+          "inventory": [
+            {
+              "handle": 1446486,
+              "parentHandle": 1380952,
+              "processId": 23588,
+              "className": "RealWorldWeatherAcousticsPreviewCanvas",
+              "controlId": 2000
+            },
+            {
+              "handle": 2165100,
+              "parentHandle": 1380952,
+              "processId": 23588,
+              "className": "Button",
+              "controlId": 2104
+            },
+            {
+              "handle": 136656,
+              "parentHandle": 1380952,
+              "processId": 23588,
+              "className": "Button",
+              "controlId": 2600
+            },
+            {
+              "handle": 136658,
+              "parentHandle": 1380952,
+              "processId": 23588,
+              "className": "Button",
+              "controlId": 2601
+            }
+          ],
+          "durationEditHandle": 1707474,
+          "rainIntensityEditHandle": 3738092,
+          "seedEditHandle": 2427782,
+          "listenerYawEditHandle": 14158380,
+          "featureCountEditHandle": 2035254,
+          "windSpeedEditHandle": 1642992,
+          "windDirectionEditHandle": 5638656,
+          "windGustinessEditHandle": 1905126,
+          "featureXEditHandle": 7409968,
+          "featureZEditHandle": 1249874,
+          "featureRadiusEditHandle": 266816,
+          "featureMaskEditHandle": 267712,
+          "featurePriorityEditHandle": 136646,
+          "states": {
+            "dialog": {
+              "handle": 1380952,
+              "processId": 23588,
+              "parentHandle": 1446492,
+              "className": "#32770",
+              "controlId": 0,
+              "text": "Empty Dialog",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 10,
+                "top": 95,
+                "right": 1158,
+                "bottom": 368,
+                "width": 1148,
+                "height": 273
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 1148,
+                "bottom": 273,
+                "width": 1148,
+                "height": 273
+              }
+            },
+            "canvas": {
+              "handle": 1446486,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "RealWorldWeatherAcousticsPreviewCanvas",
+              "controlId": 2000,
+              "text": "",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 18,
+                "top": 103,
+                "right": 521,
+                "bottom": 327,
+                "width": 503,
+                "height": 224
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 499,
+                "bottom": 220,
+                "width": 499,
+                "height": 220
+              }
+            },
+            "geometryCheckbox": {
+              "handle": 2165100,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Button",
+              "controlId": 2104,
+              "text": "Geometry enabled",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 533,
+                "top": 195,
+                "right": 834,
+                "bottom": 213,
+                "width": 301,
+                "height": 18
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 301,
+                "bottom": 18,
+                "width": 301,
+                "height": 18
+              }
+            },
+            "addButton": {
+              "handle": 136656,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Button",
+              "controlId": 2600,
+              "text": "Add",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 1031,
+                "top": 103,
+                "right": 1089,
+                "bottom": 123,
+                "width": 58,
+                "height": 20
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 58,
+                "bottom": 20,
+                "width": 58,
+                "height": 20
+              }
+            },
+            "deleteButton": {
+              "handle": 136658,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Button",
+              "controlId": 2601,
+              "text": "Delete",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 1092,
+                "top": 103,
+                "right": 1150,
+                "bottom": 123,
+                "width": 58,
+                "height": 20
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 58,
+                "bottom": 20,
+                "width": 58,
+                "height": 20
+              }
+            },
+            "duration": {
+              "handle": 1707474,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2100,
+              "text": "60",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 667,
+                "top": 123,
+                "right": 830,
+                "bottom": 140,
+                "width": 163,
+                "height": 17
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 153,
+                "bottom": 15,
+                "width": 153,
+                "height": 15
+              }
+            },
+            "rainIntensity": {
+              "handle": 3738092,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2102,
+              "text": "0.75",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 780,
+                "top": 159,
+                "right": 830,
+                "bottom": 176,
+                "width": 50,
+                "height": 17
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 40,
+                "bottom": 15,
+                "width": 40,
+                "height": 15
+              }
+            },
+            "seed": {
+              "handle": 2427782,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2103,
+              "text": "24681357",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 667,
+                "top": 177,
+                "right": 754,
+                "bottom": 194,
+                "width": 87,
+                "height": 17
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 77,
+                "bottom": 15,
+                "width": 77,
+                "height": 15
+              }
+            },
+            "listenerYaw": {
+              "handle": 14158380,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2108,
+              "text": "20.0",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 780,
+                "top": 267,
+                "right": 830,
+                "bottom": 284,
+                "width": 50,
+                "height": 17
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 40,
+                "bottom": 15,
+                "width": 40,
+                "height": 15
+              }
+            },
+            "featureCount": {
+              "handle": 2035254,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2109,
+              "text": "4 / 8",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 667,
+                "top": 285,
+                "right": 830,
+                "bottom": 302,
+                "width": 163,
+                "height": 17
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 153,
+                "bottom": 15,
+                "width": 153,
+                "height": 15
+              }
+            },
+            "windSpeed": {
+              "handle": 1642992,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2110,
+              "text": "14.0",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 780,
+                "top": 303,
+                "right": 830,
+                "bottom": 320,
+                "width": 50,
+                "height": 17
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 40,
+                "bottom": 15,
+                "width": 40,
+                "height": 15
+              }
+            },
+            "windDirection": {
+              "handle": 5638656,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2111,
+              "text": "35.0",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 780,
+                "top": 321,
+                "right": 830,
+                "bottom": 338,
+                "width": 50,
+                "height": 17
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 40,
+                "bottom": 15,
+                "width": 40,
+                "height": 15
+              }
+            },
+            "windGustiness": {
+              "handle": 1905126,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2112,
+              "text": "0.65",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 780,
+                "top": 339,
+                "right": 830,
+                "bottom": 356,
+                "width": 50,
+                "height": 17
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 40,
+                "bottom": 15,
+                "width": 40,
+                "height": 15
+              }
+            },
+            "featureX": {
+              "handle": 7409968,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2200,
+              "text": "0",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 985,
+                "top": 123,
+                "right": 1146,
+                "bottom": 145,
+                "width": 161,
+                "height": 22
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 151,
+                "bottom": 15,
+                "width": 151,
+                "height": 15
+              }
+            },
+            "featureZ": {
+              "handle": 1249874,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2202,
+              "text": "6",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 985,
+                "top": 169,
+                "right": 1146,
+                "bottom": 191,
+                "width": 161,
+                "height": 22
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 151,
+                "bottom": 15,
+                "width": 151,
+                "height": 15
+              }
+            },
+            "featureRadius": {
+              "handle": 266816,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2203,
+              "text": "2.50",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 1096,
+                "top": 192,
+                "right": 1146,
+                "bottom": 214,
+                "width": 50,
+                "height": 22
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 40,
+                "bottom": 15,
+                "width": 40,
+                "height": 15
+              }
+            },
+            "featureMask": {
+              "handle": 267712,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "ComboBox",
+              "controlId": 2205,
+              "text": "Rain + Wind",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 985,
+                "top": 238,
+                "right": 1146,
+                "bottom": 258,
+                "width": 161,
+                "height": 20
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 161,
+                "bottom": 20,
+                "width": 161,
+                "height": 20
+              }
+            },
+            "featurePriority": {
+              "handle": 136646,
+              "processId": 23588,
+              "parentHandle": 1380952,
+              "className": "Edit",
+              "controlId": 2206,
+              "text": "10",
+              "isWindow": true,
+              "isWindowVisible": true,
+              "isWindowEnabled": true,
+              "windowRect": {
+                "left": 1096,
+                "top": 261,
+                "right": 1146,
+                "bottom": 283,
+                "width": 50,
+                "height": 22
+              },
+              "clientRect": {
+                "left": 0,
+                "top": 0,
+                "right": 40,
+                "bottom": 15,
+                "width": 40,
+                "height": 15
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.812185Z"
+      },
+      {
+        "name": "ak.wwise.core.undo.undo",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.815766Z"
+      },
+      {
+        "name": "authoringGui.undo.featurePriority107",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.81686Z",
+        "detail": {
+          "action": "featurePriority107",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "Feature1Priority": 10
+          },
+          "valuesAfterAction": {
+            "Feature1Priority": 107
+          },
+          "valuesAfterUndo": {
+            "Feature1Priority": 10
+          },
+          "changedProperties": [
+            "Feature1Priority"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "Feature1Priority": true
+            },
+            "visibleNumericRestored": true
+          },
+          "visibleTextAfterUndo": "10"
+        }
+      },
+      {
+        "name": "authoringGui.geometryCheckbox",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.821216Z",
+        "detail": {
+          "action": "geometryCheckbox",
+          "controlHandle": 2165100,
+          "beforeGeometryEnabled": true,
+          "afterGeometryEnabled": false,
+          "assertion": true
+        }
+      },
+      {
+        "name": "ak.wwise.core.undo.undo",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.823272Z"
+      },
+      {
+        "name": "authoringGui.undo.geometryCheckbox",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.82442Z",
+        "detail": {
+          "action": "geometryCheckbox",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "GeometryEnabled": true
+          },
+          "valuesAfterAction": {
+            "GeometryEnabled": false
+          },
+          "valuesAfterUndo": {
+            "GeometryEnabled": true
+          },
+          "changedProperties": [
+            "GeometryEnabled"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "GeometryEnabled": true
+            }
+          }
+        }
+      },
+      {
+        "name": "authoringGui.addButton",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.831509Z",
+        "detail": {
+          "action": "addButton",
+          "controlHandle": 136656,
+          "beforeFeatureCount": 4,
+          "afterFeatureCount": 5,
+          "expectedFeature5Defaults": {
+            "FeatureCount": 5,
+            "GeometryEnabled": true,
+            "Feature5X": 1.3680805733026749,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.7587704831436337,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "actualFeature5Defaults": {
+            "FeatureCount": 5,
+            "GeometryEnabled": true,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "defaultAssertions": {
+            "FeatureCount": true,
+            "GeometryEnabled": true,
+            "Feature5X": true,
+            "Feature5Y": true,
+            "Feature5Z": true,
+            "Feature5Radius": true,
+            "Feature5Profile": true,
+            "Feature5Mask": true,
+            "Feature5Priority": true
+          },
+          "assertion": true
+        }
+      },
+      {
+        "name": "ak.wwise.core.undo.undo",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.832505Z"
+      },
+      {
+        "name": "authoringGui.undo.addButton",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.83499Z",
+        "detail": {
+          "action": "addButton",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "FeatureCount": 4,
+            "GeometryEnabled": true,
+            "ListenerX": 0.0,
+            "ListenerY": 0.0,
+            "ListenerZ": 0.0,
+            "ListenerYawDegrees": 20.0,
+            "Feature5X": 0.0,
+            "Feature5Y": 0.0,
+            "Feature5Z": 0.0,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "valuesAfterAction": {
+            "FeatureCount": 5,
+            "GeometryEnabled": true,
+            "ListenerX": 0.0,
+            "ListenerY": 0.0,
+            "ListenerZ": 0.0,
+            "ListenerYawDegrees": 20.0,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "valuesAfterUndo": {
+            "FeatureCount": 4,
+            "GeometryEnabled": true,
+            "ListenerX": 0.0,
+            "ListenerY": 0.0,
+            "ListenerZ": 0.0,
+            "ListenerYawDegrees": 20.0,
+            "Feature5X": 0.0,
+            "Feature5Y": 0.0,
+            "Feature5Z": 0.0,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "changedProperties": [
+            "FeatureCount",
+            "Feature5X",
+            "Feature5Z"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "FeatureCount": true,
+              "GeometryEnabled": true,
+              "ListenerX": true,
+              "ListenerY": true,
+              "ListenerZ": true,
+              "ListenerYawDegrees": true,
+              "Feature5X": true,
+              "Feature5Y": true,
+              "Feature5Z": true,
+              "Feature5Radius": true,
+              "Feature5Profile": true,
+              "Feature5Mask": true,
+              "Feature5Priority": true
+            }
+          }
+        }
+      },
+      {
+        "name": "authoringGui.dragFeatureCenter",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:36.999676Z",
+        "detail": {
+          "action": "dragFeature5Center",
+          "canvasHandle": 1446486,
+          "canvasClientSize": {
+            "width": 499,
+            "height": 220
+          },
+          "transform": {
+            "plotRect": {
+              "left": 36,
+              "top": 18,
+              "right": 481,
+              "bottom": 190
+            },
+            "worldCenterX": 0.0,
+            "worldCenterZ": 0.0,
+            "pixelsPerMeter": 7.166666666666667
+          },
+          "startHandle": {
+            "x": 268,
+            "y": 77
+          },
+          "destinationHandle": {
+            "x": 279,
+            "y": 72
+          },
+          "before": {
+            "x": 1.3680806159973145,
+            "z": 3.75877046585083
+          },
+          "requestedTarget": {
+            "x": 2.8680806159973145,
+            "z": 4.50877046585083
+          },
+          "after": {
+            "x": 2.9029645919799805,
+            "z": 4.45644474029541
+          },
+          "inputMode": "window-message",
+          "readbackConverged": true,
+          "assertions": {
+            "xChanged": true,
+            "zChanged": true,
+            "xNearRequestedTarget": true,
+            "zNearRequestedTarget": true
+          }
+        }
+      },
+      {
+        "name": "ak.wwise.core.undo.undo",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.000604Z"
+      },
+      {
+        "name": "authoringGui.undo.dragFeatureCenter",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.001548Z",
+        "detail": {
+          "action": "dragFeatureCenter",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "Feature5X": 1.3680806159973145,
+            "Feature5Z": 3.75877046585083
+          },
+          "valuesAfterAction": {
+            "Feature5X": 2.9029645919799805,
+            "Feature5Z": 4.45644474029541
+          },
+          "valuesAfterUndo": {
+            "Feature5X": 1.3680806159973145,
+            "Feature5Z": 3.75877046585083
+          },
+          "changedProperties": [
+            "Feature5X",
+            "Feature5Z"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "Feature5X": true,
+              "Feature5Z": true
+            }
+          }
+        }
+      },
+      {
+        "name": "authoringGui.dragRadiusHandle",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.161916Z",
+        "detail": {
+          "action": "dragFeature5RadiusHandle",
+          "canvasHandle": 1446486,
+          "transform": {
+            "plotRect": {
+              "left": 36,
+              "top": 18,
+              "right": 481,
+              "bottom": 190
+            },
+            "worldCenterX": 0.0,
+            "worldCenterZ": 0.0,
+            "pixelsPerMeter": 7.166666666666667
+          },
+          "featureCenterHandle": {
+            "x": 268,
+            "y": 77
+          },
+          "radiusHandle": {
+            "x": 282,
+            "y": 77
+          },
+          "destinationHandle": {
+            "x": 293,
+            "y": 77
+          },
+          "beforeRadius": 2.0,
+          "requestedRadius": 3.5,
+          "afterRadius": 3.4458837509155273,
+          "inputMode": "window-message",
+          "readbackConverged": true,
+          "assertions": {
+            "radiusIncreased": true,
+            "radiusNearRequestedTarget": true
+          }
+        }
+      },
+      {
+        "name": "ak.wwise.core.undo.undo",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.162769Z"
+      },
+      {
+        "name": "authoringGui.undo.dragRadiusHandle",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.164001Z",
+        "detail": {
+          "action": "dragRadiusHandle",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "Feature5Radius": 2.0
+          },
+          "valuesAfterAction": {
+            "Feature5Radius": 3.4458837509155273
+          },
+          "valuesAfterUndo": {
+            "Feature5Radius": 2.0
+          },
+          "changedProperties": [
+            "Feature5Radius"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "Feature5Radius": true
+            }
+          }
+        }
+      },
+      {
+        "name": "authoringGui.deleteButton",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.171164Z",
+        "detail": {
+          "action": "deleteButton",
+          "controlHandle": 136658,
+          "beforeFeatureCount": 5,
+          "afterFeatureCount": 4,
+          "assertion": true
+        }
+      },
+      {
+        "name": "ak.wwise.core.undo.undo",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.172616Z"
+      },
+      {
+        "name": "authoringGui.undo.deleteButton",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.173756Z",
+        "detail": {
+          "action": "deleteButton",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "FeatureCount": 5,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "valuesAfterAction": {
+            "FeatureCount": 4,
+            "Feature5X": 0.0,
+            "Feature5Y": 0.0,
+            "Feature5Z": 0.0,
+            "Feature5Radius": 0.20000000298023224,
+            "Feature5Profile": 0,
+            "Feature5Mask": 0,
+            "Feature5Priority": 0
+          },
+          "valuesAfterUndo": {
+            "FeatureCount": 5,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "changedProperties": [
+            "FeatureCount",
+            "Feature5X",
+            "Feature5Z",
+            "Feature5Radius",
+            "Feature5Mask",
+            "Feature5Priority"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "FeatureCount": true,
+              "Feature5X": true,
+              "Feature5Y": true,
+              "Feature5Z": true,
+              "Feature5Radius": true,
+              "Feature5Profile": true,
+              "Feature5Mask": true,
+              "Feature5Priority": true
+            }
+          }
+        }
+      },
+      {
+        "name": "authoringGui.canvasDeleteKey",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.180398Z",
+        "detail": {
+          "action": "canvasDeleteKey",
+          "canvasHandle": 1446486,
+          "beforeFeatureCount": 5,
+          "virtualKey": 46,
+          "afterFeatureCount": 4,
+          "assertion": true
+        }
+      },
+      {
+        "name": "ak.wwise.core.undo.undo",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.181388Z"
+      },
+      {
+        "name": "authoringGui.undo.canvasDeleteKey",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.183415Z",
+        "detail": {
+          "action": "canvasDeleteKey",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "FeatureCount": 5,
+            "Feature1X": 0.0,
+            "Feature1Y": 0.0,
+            "Feature1Z": 6.0,
+            "Feature1Radius": 2.5,
+            "Feature1Profile": 0,
+            "Feature1Mask": 3,
+            "Feature1Priority": 10,
+            "Feature2X": 6.0,
+            "Feature2Y": 0.0,
+            "Feature2Z": 0.0,
+            "Feature2Radius": 2.5,
+            "Feature2Profile": 1,
+            "Feature2Mask": 3,
+            "Feature2Priority": 10,
+            "Feature3X": 0.0,
+            "Feature3Y": 0.0,
+            "Feature3Z": -6.0,
+            "Feature3Radius": 2.5,
+            "Feature3Profile": 2,
+            "Feature3Mask": 3,
+            "Feature3Priority": 10,
+            "Feature4X": -6.0,
+            "Feature4Y": 0.0,
+            "Feature4Z": 0.0,
+            "Feature4Radius": 2.5,
+            "Feature4Profile": 3,
+            "Feature4Mask": 3,
+            "Feature4Priority": 10,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "valuesAfterAction": {
+            "FeatureCount": 4,
+            "Feature1X": 0.0,
+            "Feature1Y": 0.0,
+            "Feature1Z": 6.0,
+            "Feature1Radius": 2.5,
+            "Feature1Profile": 0,
+            "Feature1Mask": 3,
+            "Feature1Priority": 10,
+            "Feature2X": 6.0,
+            "Feature2Y": 0.0,
+            "Feature2Z": 0.0,
+            "Feature2Radius": 2.5,
+            "Feature2Profile": 1,
+            "Feature2Mask": 3,
+            "Feature2Priority": 10,
+            "Feature3X": 0.0,
+            "Feature3Y": 0.0,
+            "Feature3Z": -6.0,
+            "Feature3Radius": 2.5,
+            "Feature3Profile": 2,
+            "Feature3Mask": 3,
+            "Feature3Priority": 10,
+            "Feature4X": 1.3680806159973145,
+            "Feature4Y": 0.0,
+            "Feature4Z": 3.75877046585083,
+            "Feature4Radius": 2.0,
+            "Feature4Profile": 0,
+            "Feature4Mask": 3,
+            "Feature4Priority": 1,
+            "Feature5X": 0.0,
+            "Feature5Y": 0.0,
+            "Feature5Z": 0.0,
+            "Feature5Radius": 0.20000000298023224,
+            "Feature5Profile": 0,
+            "Feature5Mask": 0,
+            "Feature5Priority": 0
+          },
+          "valuesAfterUndo": {
+            "FeatureCount": 5,
+            "Feature1X": 0.0,
+            "Feature1Y": 0.0,
+            "Feature1Z": 6.0,
+            "Feature1Radius": 2.5,
+            "Feature1Profile": 0,
+            "Feature1Mask": 3,
+            "Feature1Priority": 10,
+            "Feature2X": 6.0,
+            "Feature2Y": 0.0,
+            "Feature2Z": 0.0,
+            "Feature2Radius": 2.5,
+            "Feature2Profile": 1,
+            "Feature2Mask": 3,
+            "Feature2Priority": 10,
+            "Feature3X": 0.0,
+            "Feature3Y": 0.0,
+            "Feature3Z": -6.0,
+            "Feature3Radius": 2.5,
+            "Feature3Profile": 2,
+            "Feature3Mask": 3,
+            "Feature3Priority": 10,
+            "Feature4X": -6.0,
+            "Feature4Y": 0.0,
+            "Feature4Z": 0.0,
+            "Feature4Radius": 2.5,
+            "Feature4Profile": 3,
+            "Feature4Mask": 3,
+            "Feature4Priority": 10,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "changedProperties": [
+            "FeatureCount",
+            "Feature4X",
+            "Feature4Z",
+            "Feature4Radius",
+            "Feature4Profile",
+            "Feature4Priority",
+            "Feature5X",
+            "Feature5Z",
+            "Feature5Radius",
+            "Feature5Mask",
+            "Feature5Priority"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "FeatureCount": true,
+              "Feature1X": true,
+              "Feature1Y": true,
+              "Feature1Z": true,
+              "Feature1Radius": true,
+              "Feature1Profile": true,
+              "Feature1Mask": true,
+              "Feature1Priority": true,
+              "Feature2X": true,
+              "Feature2Y": true,
+              "Feature2Z": true,
+              "Feature2Radius": true,
+              "Feature2Profile": true,
+              "Feature2Mask": true,
+              "Feature2Priority": true,
+              "Feature3X": true,
+              "Feature3Y": true,
+              "Feature3Z": true,
+              "Feature3Radius": true,
+              "Feature3Profile": true,
+              "Feature3Mask": true,
+              "Feature3Priority": true,
+              "Feature4X": true,
+              "Feature4Y": true,
+              "Feature4Z": true,
+              "Feature4Radius": true,
+              "Feature4Profile": true,
+              "Feature4Mask": true,
+              "Feature4Priority": true,
+              "Feature5X": true,
+              "Feature5Y": true,
+              "Feature5Z": true,
+              "Feature5Radius": true,
+              "Feature5Profile": true,
+              "Feature5Mask": true,
+              "Feature5Priority": true
+            }
+          }
+        }
+      },
+      {
+        "name": "authoringGui.restoreWeatherRing",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.216063Z",
+        "detail": {
+          "properties": {
+            "Duration": 60.0,
+            "MasterGainDb": -6.0,
+            "RainIntensity": 0.75,
+            "WindSpeed": 14.0,
+            "WindDirectionDegrees": 35.0,
+            "WindGustiness": 0.6499999761581421,
+            "Seed": 24681357,
+            "GeometryEnabled": true,
+            "ListenerX": 0.0,
+            "ListenerY": 0.0,
+            "ListenerZ": 0.0,
+            "ListenerYawDegrees": 20.0,
+            "Feature1X": 0.0,
+            "Feature1Y": 0.0,
+            "Feature1Z": 6.0,
+            "Feature1Radius": 2.5,
+            "Feature1Profile": 0,
+            "Feature1Mask": 3,
+            "Feature1Priority": 10,
+            "Feature2X": 6.0,
+            "Feature2Y": 0.0,
+            "Feature2Z": 0.0,
+            "Feature2Radius": 2.5,
+            "Feature2Profile": 1,
+            "Feature2Mask": 3,
+            "Feature2Priority": 10,
+            "Feature3X": 0.0,
+            "Feature3Y": 0.0,
+            "Feature3Z": -6.0,
+            "Feature3Radius": 2.5,
+            "Feature3Profile": 2,
+            "Feature3Mask": 3,
+            "Feature3Priority": 10,
+            "Feature4X": -6.0,
+            "Feature4Y": 0.0,
+            "Feature4Z": 0.0,
+            "Feature4Radius": 2.5,
+            "Feature4Profile": 3,
+            "Feature4Mask": 3,
+            "Feature4Priority": 10,
+            "FeatureCount": 4
+          },
+          "assertions": {
+            "allStablePropertiesMatch": true,
+            "propertiesMatch": {
+              "Duration": true,
+              "MasterGainDb": true,
+              "RainIntensity": true,
+              "WindSpeed": true,
+              "WindDirectionDegrees": true,
+              "WindGustiness": true,
+              "Seed": true,
+              "GeometryEnabled": true,
+              "ListenerX": true,
+              "ListenerY": true,
+              "ListenerZ": true,
+              "ListenerYawDegrees": true,
+              "Feature1X": true,
+              "Feature1Y": true,
+              "Feature1Z": true,
+              "Feature1Radius": true,
+              "Feature1Profile": true,
+              "Feature1Mask": true,
+              "Feature1Priority": true,
+              "Feature2X": true,
+              "Feature2Y": true,
+              "Feature2Z": true,
+              "Feature2Radius": true,
+              "Feature2Profile": true,
+              "Feature2Mask": true,
+              "Feature2Priority": true,
+              "Feature3X": true,
+              "Feature3Y": true,
+              "Feature3Z": true,
+              "Feature3Radius": true,
+              "Feature3Profile": true,
+              "Feature3Mask": true,
+              "Feature3Priority": true,
+              "Feature4X": true,
+              "Feature4Y": true,
+              "Feature4Z": true,
+              "Feature4Radius": true,
+              "Feature4Profile": true,
+              "Feature4Mask": true,
+              "Feature4Priority": true,
+              "FeatureCount": true
+            }
+          }
+        }
+      },
+      {
+        "name": "ak.wwise.core.object.set",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.219177Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.219977Z"
+      },
+      {
+        "name": "ak.wwise.core.soundbank.generate",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.328241Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.330172Z"
+      },
+      {
+        "name": "ak.wwise.core.soundbank.generate",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.410193Z"
+      },
+      {
+        "name": "ak.wwise.core.object.delete",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.415263Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.416699Z"
+      },
+      {
+        "name": "soundBankSerialization",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.417263Z",
+        "detail": {
+          "trueVariantPassed": true,
+          "falseVariantPassed": true,
+          "geometryTrueByteIsOne": true,
+          "geometryFalseByteIsZero": true,
+          "parameterBlocksDifferOnlyAtGeometryByte": true,
+          "geometryRestoredTrue": true
+        }
+      },
+      {
+        "name": "effectObjectSet",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.421228Z",
+        "detail": {
+          "soundCreatedAndReadable": true,
+          "audioFileSourceCreatedAndReadable": true,
+          "audioFileSourceReferencesImportedWav": true,
+          "loopingEnabled": true,
+          "streamingEnabled": true,
+          "effectCreatedAndReadable": true,
+          "effectClassIdMatches": true,
+          "readAll71EffectProperties": true,
+          "allEffectPropertiesMatchStablePreset": true,
+          "coreEffectPropertiesMatchStablePreset": true
+        }
+      },
+      {
+        "name": "ak.wwise.core.object.set",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.423544Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.424056Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.424798Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.425193Z"
+      },
+      {
+        "name": "ak.wwise.core.soundbank.generate",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.562767Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.571033Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.573174Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.573876Z"
+      },
+      {
+        "name": "ak.wwise.core.soundbank.generate",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.662081Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.672536Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.674078Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.675341Z"
+      },
+      {
+        "name": "ak.wwise.core.soundbank.generate",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.752202Z"
+      },
+      {
+        "name": "ak.wwise.core.object.delete",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.821638Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.822462Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.822962Z"
+      },
+      {
+        "name": "ak.wwise.core.object.setProperty",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.823394Z"
+      },
+      {
+        "name": "effectSoundBankSerialization",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.824299Z",
+        "detail": {
+          "baselineVariantPassed": true,
+          "inputRoleWetGeometryVariantPassed": true,
+          "inputRoleHasSerializedDifference": true,
+          "wetMixHasSerializedDifference": true,
+          "geometryHasSerializedDifference": true,
+          "parameterBlocksDifferOnlyAtVariantFields": true,
+          "wetZeroVariantPassed": true,
+          "wetZeroBlockIs281Bytes": true,
+          "wetZeroBlockMatchesExactlyOnce": true,
+          "wetZeroInputRoleIsGeneric": true,
+          "wetZeroWetMixBytesAreZero": true,
+          "wetZeroGeometryByteIsTrue": true,
+          "wetZeroStableFieldsMatchBaseline": true,
+          "nativeHostFixtureRetained": true,
+          "stablePropertiesRestored": true
+        }
+      },
+      {
+        "name": "ak.wwise.core.project.save",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.840656Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.enableProfilerData",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.863646Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.startCapture",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.866369Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.create",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.867026Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.executeAction",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:37.868047Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.getState",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:39.369191Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.getVoices",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:39.377788Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.getCpuUsage",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:39.394012Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.getPerformanceMonitor",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:39.409471Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.executeAction",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:39.409918Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.destroy",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:39.410195Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.create",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:39.410504Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.executeAction",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:39.410971Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.getState",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:40.91187Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.getVoices",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:40.927809Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.getCpuUsage",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:40.943824Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.getPerformanceMonitor",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:40.959432Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.executeAction",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:40.960099Z"
+      },
+      {
+        "name": "ak.wwise.core.transport.destroy",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:40.960369Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.stopCapture",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:40.9773Z"
+      },
+      {
+        "name": "ak.wwise.core.profiler.saveCapture",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:30:40.981425Z"
+      }
+    ],
+    "assertions": {
+      "transportPlaying": true,
+      "smokeVoiceOrSourceCpuEvidence": true,
+      "outputPeakFinite": true,
+      "outputPeakAboveSilenceFloor": true,
+      "authoringGuiInteractions": true,
+      "soundBankParameterSerialization": true,
+      "effectObjectCreatedAndReadable": true,
+      "effectSoundBankParameterSerialization": true,
+      "effectTransportPlaying": true,
+      "effectAudioFileVoiceEvidence": true,
+      "effectCpuEvidence": true,
+      "effectOutputPeakFinite": true,
+      "effectOutputPeakAboveSilenceFloor": true,
+      "profilerCaptureSaved": true
+    },
+    "assertionGroups": {
+      "source": {
+        "transportPlaying": true,
+        "smokeVoiceOrSourceCpuEvidence": true,
+        "outputPeakFinite": true,
+        "outputPeakAboveSilenceFloor": true,
+        "authoringGuiInteractions": true,
+        "soundBankParameterSerialization": true
+      },
+      "effect": {
+        "effectObjectCreatedAndReadable": true,
+        "effectSoundBankParameterSerialization": true,
+        "effectTransportPlaying": true,
+        "effectAudioFileVoiceEvidence": true,
+        "effectCpuEvidence": true,
+        "effectOutputPeakFinite": true,
+        "effectOutputPeakAboveSilenceFloor": true
+      },
+      "shared": {
+        "profilerCaptureSaved": true
+      }
+    },
+    "cleanup": {
+      "mandatoryErrors": [],
+      "warnings": []
+    },
+    "error": null,
+    "connection": {
+      "attempts": 1,
+      "connectedAtUtc": "2026-07-22T12:30:36.080722Z",
+      "url": "ws://127.0.0.1:8080/waapi"
+    },
+    "project": {
+      "expectedPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+      "actualPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+      "name": "RealWorldWeatherAcousticsSmoke",
+      "id": "{E5FBC81B-5EF1-41DE-B602-F2FA6EE74B41}",
+      "queryUri": "ak.wwise.core.getProjectInfo"
+    },
+    "objectSet": {
+      "mode": "replace",
+      "parent": "\\Actor-Mixer Hierarchy\\Default Work Unit",
+      "soundName": "RWWA_Smoke",
+      "soundId": "{AE1C337B-B21E-4AD9-9BA9-6099FCF8EA4F}",
+      "sourceName": "RWWA_Smoke_Source",
+      "sourceId": "{51082B0F-DA54-4726-9CAB-D9B204D0BE69}",
+      "sourceClassId": 2031682562,
+      "sourceProperties": {
+        "type": "SourcePlugin",
+        "name": "RWWA_Smoke_Source",
+        "classId": 2031682562,
+        "@Duration": 60.0,
+        "@MasterGainDb": -6.0,
+        "@RainIntensity": 0.75,
+        "@WindSpeed": 14.0,
+        "@WindDirectionDegrees": 35.0,
+        "@WindGustiness": 0.65,
+        "@Seed": 24681357,
+        "@GeometryEnabled": true,
+        "@ListenerX": 0.0,
+        "@ListenerY": 0.0,
+        "@ListenerZ": 0.0,
+        "@ListenerYawDegrees": 20.0,
+        "@FeatureCount": 4,
+        "@Feature1X": 0.0,
+        "@Feature1Y": 0.0,
+        "@Feature1Z": 6.0,
+        "@Feature1Radius": 2.5,
+        "@Feature1Profile": 0,
+        "@Feature1Mask": 3,
+        "@Feature1Priority": 10,
+        "@Feature2X": 6.0,
+        "@Feature2Y": 0.0,
+        "@Feature2Z": 0.0,
+        "@Feature2Radius": 2.5,
+        "@Feature2Profile": 1,
+        "@Feature2Mask": 3,
+        "@Feature2Priority": 10,
+        "@Feature3X": 0.0,
+        "@Feature3Y": 0.0,
+        "@Feature3Z": -6.0,
+        "@Feature3Radius": 2.5,
+        "@Feature3Profile": 2,
+        "@Feature3Mask": 3,
+        "@Feature3Priority": 10,
+        "@Feature4X": -6.0,
+        "@Feature4Y": 0.0,
+        "@Feature4Z": 0.0,
+        "@Feature4Radius": 2.5,
+        "@Feature4Profile": 3,
+        "@Feature4Mask": 3,
+        "@Feature4Priority": 10
+      }
+    },
+    "authoringGui": {
+      "expectedProcessId": 23588,
+      "command": "ShowSourceEditor",
+      "controls": {
+        "processId": 23588,
+        "dialogHandle": 1380952,
+        "canvasHandle": 1446486,
+        "geometryCheckboxHandle": 2165100,
+        "addButtonHandle": 136656,
+        "deleteButtonHandle": 136658,
+        "inventory": [
+          {
+            "handle": 1446486,
+            "parentHandle": 1380952,
+            "processId": 23588,
+            "className": "RealWorldWeatherAcousticsPreviewCanvas",
+            "controlId": 2000
+          },
+          {
+            "handle": 2165100,
+            "parentHandle": 1380952,
+            "processId": 23588,
+            "className": "Button",
+            "controlId": 2104
+          },
+          {
+            "handle": 136656,
+            "parentHandle": 1380952,
+            "processId": 23588,
+            "className": "Button",
+            "controlId": 2600
+          },
+          {
+            "handle": 136658,
+            "parentHandle": 1380952,
+            "processId": 23588,
+            "className": "Button",
+            "controlId": 2601
+          }
+        ],
+        "durationEditHandle": 1707474,
+        "rainIntensityEditHandle": 3738092,
+        "seedEditHandle": 2427782,
+        "listenerYawEditHandle": 14158380,
+        "featureCountEditHandle": 2035254,
+        "windSpeedEditHandle": 1642992,
+        "windDirectionEditHandle": 5638656,
+        "windGustinessEditHandle": 1905126,
+        "featureXEditHandle": 7409968,
+        "featureZEditHandle": 1249874,
+        "featureRadiusEditHandle": 266816,
+        "featureMaskEditHandle": 267712,
+        "featurePriorityEditHandle": 136646,
+        "states": {
+          "dialog": {
+            "handle": 1380952,
+            "processId": 23588,
+            "parentHandle": 1446492,
+            "className": "#32770",
+            "controlId": 0,
+            "text": "Empty Dialog",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 10,
+              "top": 95,
+              "right": 1158,
+              "bottom": 368,
+              "width": 1148,
+              "height": 273
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 1148,
+              "bottom": 273,
+              "width": 1148,
+              "height": 273
+            }
+          },
+          "canvas": {
+            "handle": 1446486,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "RealWorldWeatherAcousticsPreviewCanvas",
+            "controlId": 2000,
+            "text": "",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 18,
+              "top": 103,
+              "right": 521,
+              "bottom": 327,
+              "width": 503,
+              "height": 224
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 499,
+              "bottom": 220,
+              "width": 499,
+              "height": 220
+            }
+          },
+          "geometryCheckbox": {
+            "handle": 2165100,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Button",
+            "controlId": 2104,
+            "text": "Geometry enabled",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 533,
+              "top": 195,
+              "right": 834,
+              "bottom": 213,
+              "width": 301,
+              "height": 18
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 301,
+              "bottom": 18,
+              "width": 301,
+              "height": 18
+            }
+          },
+          "addButton": {
+            "handle": 136656,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Button",
+            "controlId": 2600,
+            "text": "Add",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 1031,
+              "top": 103,
+              "right": 1089,
+              "bottom": 123,
+              "width": 58,
+              "height": 20
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 58,
+              "bottom": 20,
+              "width": 58,
+              "height": 20
+            }
+          },
+          "deleteButton": {
+            "handle": 136658,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Button",
+            "controlId": 2601,
+            "text": "Delete",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 1092,
+              "top": 103,
+              "right": 1150,
+              "bottom": 123,
+              "width": 58,
+              "height": 20
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 58,
+              "bottom": 20,
+              "width": 58,
+              "height": 20
+            }
+          },
+          "duration": {
+            "handle": 1707474,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2100,
+            "text": "60",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 667,
+              "top": 123,
+              "right": 830,
+              "bottom": 140,
+              "width": 163,
+              "height": 17
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 153,
+              "bottom": 15,
+              "width": 153,
+              "height": 15
+            }
+          },
+          "rainIntensity": {
+            "handle": 3738092,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2102,
+            "text": "0.75",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 780,
+              "top": 159,
+              "right": 830,
+              "bottom": 176,
+              "width": 50,
+              "height": 17
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 40,
+              "bottom": 15,
+              "width": 40,
+              "height": 15
+            }
+          },
+          "seed": {
+            "handle": 2427782,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2103,
+            "text": "24681357",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 667,
+              "top": 177,
+              "right": 754,
+              "bottom": 194,
+              "width": 87,
+              "height": 17
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 77,
+              "bottom": 15,
+              "width": 77,
+              "height": 15
+            }
+          },
+          "listenerYaw": {
+            "handle": 14158380,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2108,
+            "text": "20.0",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 780,
+              "top": 267,
+              "right": 830,
+              "bottom": 284,
+              "width": 50,
+              "height": 17
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 40,
+              "bottom": 15,
+              "width": 40,
+              "height": 15
+            }
+          },
+          "featureCount": {
+            "handle": 2035254,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2109,
+            "text": "4 / 8",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 667,
+              "top": 285,
+              "right": 830,
+              "bottom": 302,
+              "width": 163,
+              "height": 17
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 153,
+              "bottom": 15,
+              "width": 153,
+              "height": 15
+            }
+          },
+          "windSpeed": {
+            "handle": 1642992,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2110,
+            "text": "14.0",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 780,
+              "top": 303,
+              "right": 830,
+              "bottom": 320,
+              "width": 50,
+              "height": 17
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 40,
+              "bottom": 15,
+              "width": 40,
+              "height": 15
+            }
+          },
+          "windDirection": {
+            "handle": 5638656,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2111,
+            "text": "35.0",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 780,
+              "top": 321,
+              "right": 830,
+              "bottom": 338,
+              "width": 50,
+              "height": 17
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 40,
+              "bottom": 15,
+              "width": 40,
+              "height": 15
+            }
+          },
+          "windGustiness": {
+            "handle": 1905126,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2112,
+            "text": "0.65",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 780,
+              "top": 339,
+              "right": 830,
+              "bottom": 356,
+              "width": 50,
+              "height": 17
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 40,
+              "bottom": 15,
+              "width": 40,
+              "height": 15
+            }
+          },
+          "featureX": {
+            "handle": 7409968,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2200,
+            "text": "0",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 985,
+              "top": 123,
+              "right": 1146,
+              "bottom": 145,
+              "width": 161,
+              "height": 22
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 151,
+              "bottom": 15,
+              "width": 151,
+              "height": 15
+            }
+          },
+          "featureZ": {
+            "handle": 1249874,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2202,
+            "text": "6",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 985,
+              "top": 169,
+              "right": 1146,
+              "bottom": 191,
+              "width": 161,
+              "height": 22
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 151,
+              "bottom": 15,
+              "width": 151,
+              "height": 15
+            }
+          },
+          "featureRadius": {
+            "handle": 266816,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2203,
+            "text": "2.50",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 1096,
+              "top": 192,
+              "right": 1146,
+              "bottom": 214,
+              "width": 50,
+              "height": 22
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 40,
+              "bottom": 15,
+              "width": 40,
+              "height": 15
+            }
+          },
+          "featureMask": {
+            "handle": 267712,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "ComboBox",
+            "controlId": 2205,
+            "text": "Rain + Wind",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 985,
+              "top": 238,
+              "right": 1146,
+              "bottom": 258,
+              "width": 161,
+              "height": 20
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 161,
+              "bottom": 20,
+              "width": 161,
+              "height": 20
+            }
+          },
+          "featurePriority": {
+            "handle": 136646,
+            "processId": 23588,
+            "parentHandle": 1380952,
+            "className": "Edit",
+            "controlId": 2206,
+            "text": "10",
+            "isWindow": true,
+            "isWindowVisible": true,
+            "isWindowEnabled": true,
+            "windowRect": {
+              "left": 1096,
+              "top": 261,
+              "right": 1146,
+              "bottom": 283,
+              "width": 50,
+              "height": 22
+            },
+            "clientRect": {
+              "left": 0,
+              "top": 0,
+              "right": 40,
+              "bottom": 15,
+              "width": 40,
+              "height": 15
+            }
+          }
+        }
+      },
+      "interactions": [
+        {
+          "action": "setFeature1Priority107",
+          "beforePriority": 10,
+          "afterPriority": 107,
+          "visibleText": "107",
+          "assertion": true
+        },
+        {
+          "action": "geometryCheckbox",
+          "controlHandle": 2165100,
+          "beforeGeometryEnabled": true,
+          "afterGeometryEnabled": false,
+          "assertion": true
+        },
+        {
+          "action": "addButton",
+          "controlHandle": 136656,
+          "beforeFeatureCount": 4,
+          "afterFeatureCount": 5,
+          "expectedFeature5Defaults": {
+            "FeatureCount": 5,
+            "GeometryEnabled": true,
+            "Feature5X": 1.3680805733026749,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.7587704831436337,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "actualFeature5Defaults": {
+            "FeatureCount": 5,
+            "GeometryEnabled": true,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "defaultAssertions": {
+            "FeatureCount": true,
+            "GeometryEnabled": true,
+            "Feature5X": true,
+            "Feature5Y": true,
+            "Feature5Z": true,
+            "Feature5Radius": true,
+            "Feature5Profile": true,
+            "Feature5Mask": true,
+            "Feature5Priority": true
+          },
+          "assertion": true
+        },
+        {
+          "action": "dragFeature5Center",
+          "canvasHandle": 1446486,
+          "canvasClientSize": {
+            "width": 499,
+            "height": 220
+          },
+          "transform": {
+            "plotRect": {
+              "left": 36,
+              "top": 18,
+              "right": 481,
+              "bottom": 190
+            },
+            "worldCenterX": 0.0,
+            "worldCenterZ": 0.0,
+            "pixelsPerMeter": 7.166666666666667
+          },
+          "startHandle": {
+            "x": 268,
+            "y": 77
+          },
+          "destinationHandle": {
+            "x": 279,
+            "y": 72
+          },
+          "before": {
+            "x": 1.3680806159973145,
+            "z": 3.75877046585083
+          },
+          "requestedTarget": {
+            "x": 2.8680806159973145,
+            "z": 4.50877046585083
+          },
+          "after": {
+            "x": 2.9029645919799805,
+            "z": 4.45644474029541
+          },
+          "inputMode": "window-message",
+          "readbackConverged": true,
+          "assertions": {
+            "xChanged": true,
+            "zChanged": true,
+            "xNearRequestedTarget": true,
+            "zNearRequestedTarget": true
+          }
+        },
+        {
+          "action": "dragFeature5RadiusHandle",
+          "canvasHandle": 1446486,
+          "transform": {
+            "plotRect": {
+              "left": 36,
+              "top": 18,
+              "right": 481,
+              "bottom": 190
+            },
+            "worldCenterX": 0.0,
+            "worldCenterZ": 0.0,
+            "pixelsPerMeter": 7.166666666666667
+          },
+          "featureCenterHandle": {
+            "x": 268,
+            "y": 77
+          },
+          "radiusHandle": {
+            "x": 282,
+            "y": 77
+          },
+          "destinationHandle": {
+            "x": 293,
+            "y": 77
+          },
+          "beforeRadius": 2.0,
+          "requestedRadius": 3.5,
+          "afterRadius": 3.4458837509155273,
+          "inputMode": "window-message",
+          "readbackConverged": true,
+          "assertions": {
+            "radiusIncreased": true,
+            "radiusNearRequestedTarget": true
+          }
+        },
+        {
+          "action": "deleteButton",
+          "controlHandle": 136658,
+          "beforeFeatureCount": 5,
+          "afterFeatureCount": 4,
+          "assertion": true
+        },
+        {
+          "action": "canvasDeleteKey",
+          "canvasHandle": 1446486,
+          "beforeFeatureCount": 5,
+          "virtualKey": 46,
+          "afterFeatureCount": 4,
+          "assertion": true
+        }
+      ],
+      "undoGates": [
+        {
+          "action": "featurePriority107",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "Feature1Priority": 10
+          },
+          "valuesAfterAction": {
+            "Feature1Priority": 107
+          },
+          "valuesAfterUndo": {
+            "Feature1Priority": 10
+          },
+          "changedProperties": [
+            "Feature1Priority"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "Feature1Priority": true
+            },
+            "visibleNumericRestored": true
+          },
+          "visibleTextAfterUndo": "10"
+        },
+        {
+          "action": "geometryCheckbox",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "GeometryEnabled": true
+          },
+          "valuesAfterAction": {
+            "GeometryEnabled": false
+          },
+          "valuesAfterUndo": {
+            "GeometryEnabled": true
+          },
+          "changedProperties": [
+            "GeometryEnabled"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "GeometryEnabled": true
+            }
+          }
+        },
+        {
+          "action": "addButton",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "FeatureCount": 4,
+            "GeometryEnabled": true,
+            "ListenerX": 0.0,
+            "ListenerY": 0.0,
+            "ListenerZ": 0.0,
+            "ListenerYawDegrees": 20.0,
+            "Feature5X": 0.0,
+            "Feature5Y": 0.0,
+            "Feature5Z": 0.0,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "valuesAfterAction": {
+            "FeatureCount": 5,
+            "GeometryEnabled": true,
+            "ListenerX": 0.0,
+            "ListenerY": 0.0,
+            "ListenerZ": 0.0,
+            "ListenerYawDegrees": 20.0,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "valuesAfterUndo": {
+            "FeatureCount": 4,
+            "GeometryEnabled": true,
+            "ListenerX": 0.0,
+            "ListenerY": 0.0,
+            "ListenerZ": 0.0,
+            "ListenerYawDegrees": 20.0,
+            "Feature5X": 0.0,
+            "Feature5Y": 0.0,
+            "Feature5Z": 0.0,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "changedProperties": [
+            "FeatureCount",
+            "Feature5X",
+            "Feature5Z"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "FeatureCount": true,
+              "GeometryEnabled": true,
+              "ListenerX": true,
+              "ListenerY": true,
+              "ListenerZ": true,
+              "ListenerYawDegrees": true,
+              "Feature5X": true,
+              "Feature5Y": true,
+              "Feature5Z": true,
+              "Feature5Radius": true,
+              "Feature5Profile": true,
+              "Feature5Mask": true,
+              "Feature5Priority": true
+            }
+          }
+        },
+        {
+          "action": "dragFeatureCenter",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "Feature5X": 1.3680806159973145,
+            "Feature5Z": 3.75877046585083
+          },
+          "valuesAfterAction": {
+            "Feature5X": 2.9029645919799805,
+            "Feature5Z": 4.45644474029541
+          },
+          "valuesAfterUndo": {
+            "Feature5X": 1.3680806159973145,
+            "Feature5Z": 3.75877046585083
+          },
+          "changedProperties": [
+            "Feature5X",
+            "Feature5Z"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "Feature5X": true,
+              "Feature5Z": true
+            }
+          }
+        },
+        {
+          "action": "dragRadiusHandle",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "Feature5Radius": 2.0
+          },
+          "valuesAfterAction": {
+            "Feature5Radius": 3.4458837509155273
+          },
+          "valuesAfterUndo": {
+            "Feature5Radius": 2.0
+          },
+          "changedProperties": [
+            "Feature5Radius"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "Feature5Radius": true
+            }
+          }
+        },
+        {
+          "action": "deleteButton",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "FeatureCount": 5,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "valuesAfterAction": {
+            "FeatureCount": 4,
+            "Feature5X": 0.0,
+            "Feature5Y": 0.0,
+            "Feature5Z": 0.0,
+            "Feature5Radius": 0.20000000298023224,
+            "Feature5Profile": 0,
+            "Feature5Mask": 0,
+            "Feature5Priority": 0
+          },
+          "valuesAfterUndo": {
+            "FeatureCount": 5,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "changedProperties": [
+            "FeatureCount",
+            "Feature5X",
+            "Feature5Z",
+            "Feature5Radius",
+            "Feature5Mask",
+            "Feature5Priority"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "FeatureCount": true,
+              "Feature5X": true,
+              "Feature5Y": true,
+              "Feature5Z": true,
+              "Feature5Radius": true,
+              "Feature5Profile": true,
+              "Feature5Mask": true,
+              "Feature5Priority": true
+            }
+          }
+        },
+        {
+          "action": "canvasDeleteKey",
+          "undoUri": "ak.wwise.core.undo.undo",
+          "expectedBeforeAction": {
+            "FeatureCount": 5,
+            "Feature1X": 0.0,
+            "Feature1Y": 0.0,
+            "Feature1Z": 6.0,
+            "Feature1Radius": 2.5,
+            "Feature1Profile": 0,
+            "Feature1Mask": 3,
+            "Feature1Priority": 10,
+            "Feature2X": 6.0,
+            "Feature2Y": 0.0,
+            "Feature2Z": 0.0,
+            "Feature2Radius": 2.5,
+            "Feature2Profile": 1,
+            "Feature2Mask": 3,
+            "Feature2Priority": 10,
+            "Feature3X": 0.0,
+            "Feature3Y": 0.0,
+            "Feature3Z": -6.0,
+            "Feature3Radius": 2.5,
+            "Feature3Profile": 2,
+            "Feature3Mask": 3,
+            "Feature3Priority": 10,
+            "Feature4X": -6.0,
+            "Feature4Y": 0.0,
+            "Feature4Z": 0.0,
+            "Feature4Radius": 2.5,
+            "Feature4Profile": 3,
+            "Feature4Mask": 3,
+            "Feature4Priority": 10,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "valuesAfterAction": {
+            "FeatureCount": 4,
+            "Feature1X": 0.0,
+            "Feature1Y": 0.0,
+            "Feature1Z": 6.0,
+            "Feature1Radius": 2.5,
+            "Feature1Profile": 0,
+            "Feature1Mask": 3,
+            "Feature1Priority": 10,
+            "Feature2X": 6.0,
+            "Feature2Y": 0.0,
+            "Feature2Z": 0.0,
+            "Feature2Radius": 2.5,
+            "Feature2Profile": 1,
+            "Feature2Mask": 3,
+            "Feature2Priority": 10,
+            "Feature3X": 0.0,
+            "Feature3Y": 0.0,
+            "Feature3Z": -6.0,
+            "Feature3Radius": 2.5,
+            "Feature3Profile": 2,
+            "Feature3Mask": 3,
+            "Feature3Priority": 10,
+            "Feature4X": 1.3680806159973145,
+            "Feature4Y": 0.0,
+            "Feature4Z": 3.75877046585083,
+            "Feature4Radius": 2.0,
+            "Feature4Profile": 0,
+            "Feature4Mask": 3,
+            "Feature4Priority": 1,
+            "Feature5X": 0.0,
+            "Feature5Y": 0.0,
+            "Feature5Z": 0.0,
+            "Feature5Radius": 0.20000000298023224,
+            "Feature5Profile": 0,
+            "Feature5Mask": 0,
+            "Feature5Priority": 0
+          },
+          "valuesAfterUndo": {
+            "FeatureCount": 5,
+            "Feature1X": 0.0,
+            "Feature1Y": 0.0,
+            "Feature1Z": 6.0,
+            "Feature1Radius": 2.5,
+            "Feature1Profile": 0,
+            "Feature1Mask": 3,
+            "Feature1Priority": 10,
+            "Feature2X": 6.0,
+            "Feature2Y": 0.0,
+            "Feature2Z": 0.0,
+            "Feature2Radius": 2.5,
+            "Feature2Profile": 1,
+            "Feature2Mask": 3,
+            "Feature2Priority": 10,
+            "Feature3X": 0.0,
+            "Feature3Y": 0.0,
+            "Feature3Z": -6.0,
+            "Feature3Radius": 2.5,
+            "Feature3Profile": 2,
+            "Feature3Mask": 3,
+            "Feature3Priority": 10,
+            "Feature4X": -6.0,
+            "Feature4Y": 0.0,
+            "Feature4Z": 0.0,
+            "Feature4Radius": 2.5,
+            "Feature4Profile": 3,
+            "Feature4Mask": 3,
+            "Feature4Priority": 10,
+            "Feature5X": 1.3680806159973145,
+            "Feature5Y": 0.0,
+            "Feature5Z": 3.75877046585083,
+            "Feature5Radius": 2.0,
+            "Feature5Profile": 0,
+            "Feature5Mask": 3,
+            "Feature5Priority": 1
+          },
+          "changedProperties": [
+            "FeatureCount",
+            "Feature4X",
+            "Feature4Z",
+            "Feature4Radius",
+            "Feature4Profile",
+            "Feature4Priority",
+            "Feature5X",
+            "Feature5Z",
+            "Feature5Radius",
+            "Feature5Mask",
+            "Feature5Priority"
+          ],
+          "assertions": {
+            "mutationObservedBeforeUndo": true,
+            "allExpectedPropertiesRestored": true,
+            "propertiesRestored": {
+              "FeatureCount": true,
+              "Feature1X": true,
+              "Feature1Y": true,
+              "Feature1Z": true,
+              "Feature1Radius": true,
+              "Feature1Profile": true,
+              "Feature1Mask": true,
+              "Feature1Priority": true,
+              "Feature2X": true,
+              "Feature2Y": true,
+              "Feature2Z": true,
+              "Feature2Radius": true,
+              "Feature2Profile": true,
+              "Feature2Mask": true,
+              "Feature2Priority": true,
+              "Feature3X": true,
+              "Feature3Y": true,
+              "Feature3Z": true,
+              "Feature3Radius": true,
+              "Feature3Profile": true,
+              "Feature3Mask": true,
+              "Feature3Priority": true,
+              "Feature4X": true,
+              "Feature4Y": true,
+              "Feature4Z": true,
+              "Feature4Radius": true,
+              "Feature4Profile": true,
+              "Feature4Mask": true,
+              "Feature4Priority": true,
+              "Feature5X": true,
+              "Feature5Y": true,
+              "Feature5Z": true,
+              "Feature5Radius": true,
+              "Feature5Profile": true,
+              "Feature5Mask": true,
+              "Feature5Priority": true
+            }
+          }
+        }
+      ],
+      "assertions": {
+        "allControlsBelongToExpectedProcess": true,
+        "dialogIsVisible": true,
+        "dialogWindowRectIsNonzero": true,
+        "dialogClientRectIsNonzero": true,
+        "canvasIsVisible": true,
+        "canvasWindowRectIsNonzero": true,
+        "canvasClientRectIsNonzero": true,
+        "geometryCheckboxIsVisible": true,
+        "geometryCheckboxIsEnabled": true,
+        "geometryCheckboxWindowRectIsNonzero": true,
+        "geometryCheckboxMatchesProperty": true,
+        "addButtonIsVisible": true,
+        "addButtonIsEnabled": true,
+        "addButtonWindowRectIsNonzero": true,
+        "addButtonClientRectIsNonzero": true,
+        "deleteButtonIsVisible": true,
+        "deleteButtonIsEnabled": true,
+        "deleteButtonWindowRectIsNonzero": true,
+        "deleteButtonClientRectIsNonzero": true,
+        "inspectorTextMatchesStablePreset": true,
+        "initialFeatureCountIsFour": true,
+        "featurePriority107RoundTripAndVisible": true,
+        "featurePriority107UndoRestores10": true,
+        "geometryCheckboxCommitsFalse": true,
+        "geometryCheckboxUndoRestoresTrue": true,
+        "addButtonIncrementsFeatureCount": true,
+        "addButtonInitializesFeature5Defaults": true,
+        "addButtonUndoRestoresProperties": true,
+        "featureCenterDragChangesPosition": true,
+        "featureCenterUndoRestoresPosition": true,
+        "radiusHandleDragIncreasesRadius": true,
+        "radiusHandleUndoRestoresRadius": true,
+        "deleteButtonDecrementsFeatureCount": true,
+        "deleteButtonUndoRestoresProperties": true,
+        "canvasDeleteKeyDecrementsFeatureCount": true,
+        "canvasDeleteKeyUndoRestoresProperties": true
+      },
+      "restore": {
+        "properties": {
+          "Duration": 60.0,
+          "MasterGainDb": -6.0,
+          "RainIntensity": 0.75,
+          "WindSpeed": 14.0,
+          "WindDirectionDegrees": 35.0,
+          "WindGustiness": 0.6499999761581421,
+          "Seed": 24681357,
+          "GeometryEnabled": true,
+          "ListenerX": 0.0,
+          "ListenerY": 0.0,
+          "ListenerZ": 0.0,
+          "ListenerYawDegrees": 20.0,
+          "Feature1X": 0.0,
+          "Feature1Y": 0.0,
+          "Feature1Z": 6.0,
+          "Feature1Radius": 2.5,
+          "Feature1Profile": 0,
+          "Feature1Mask": 3,
+          "Feature1Priority": 10,
+          "Feature2X": 6.0,
+          "Feature2Y": 0.0,
+          "Feature2Z": 0.0,
+          "Feature2Radius": 2.5,
+          "Feature2Profile": 1,
+          "Feature2Mask": 3,
+          "Feature2Priority": 10,
+          "Feature3X": 0.0,
+          "Feature3Y": 0.0,
+          "Feature3Z": -6.0,
+          "Feature3Radius": 2.5,
+          "Feature3Profile": 2,
+          "Feature3Mask": 3,
+          "Feature3Priority": 10,
+          "Feature4X": -6.0,
+          "Feature4Y": 0.0,
+          "Feature4Z": 0.0,
+          "Feature4Radius": 2.5,
+          "Feature4Profile": 3,
+          "Feature4Mask": 3,
+          "Feature4Priority": 10,
+          "FeatureCount": 4
+        },
+        "assertions": {
+          "allStablePropertiesMatch": true,
+          "propertiesMatch": {
+            "Duration": true,
+            "MasterGainDb": true,
+            "RainIntensity": true,
+            "WindSpeed": true,
+            "WindDirectionDegrees": true,
+            "WindGustiness": true,
+            "Seed": true,
+            "GeometryEnabled": true,
+            "ListenerX": true,
+            "ListenerY": true,
+            "ListenerZ": true,
+            "ListenerYawDegrees": true,
+            "Feature1X": true,
+            "Feature1Y": true,
+            "Feature1Z": true,
+            "Feature1Radius": true,
+            "Feature1Profile": true,
+            "Feature1Mask": true,
+            "Feature1Priority": true,
+            "Feature2X": true,
+            "Feature2Y": true,
+            "Feature2Z": true,
+            "Feature2Radius": true,
+            "Feature2Profile": true,
+            "Feature2Mask": true,
+            "Feature2Priority": true,
+            "Feature3X": true,
+            "Feature3Y": true,
+            "Feature3Z": true,
+            "Feature3Radius": true,
+            "Feature3Profile": true,
+            "Feature3Mask": true,
+            "Feature3Priority": true,
+            "Feature4X": true,
+            "Feature4Y": true,
+            "Feature4Z": true,
+            "Feature4Radius": true,
+            "Feature4Profile": true,
+            "Feature4Mask": true,
+            "Feature4Priority": true,
+            "FeatureCount": true
+          }
+        }
+      }
+    },
+    "soundBankSerialization": {
+      "parameterPropertyCount": 69,
+      "parameterBlockBytes": 273,
+      "geometryByteBlockOffset": 16,
+      "eventId": "{ECE7C091-F2CE-4D0A-8885-C5A5DBE6083D}",
+      "variants": {
+        "geometryTrue": {
+          "name": "RWWA_GeometryTrue",
+          "geometryEnabled": true,
+          "sourcePropertyCount": 69,
+          "bankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_GeometryTrue.bnk",
+          "bankBytes": 457,
+          "bankSha256": "66b17bb254d83177664fd9b71ce9b824e5a5a19a417efe51932d5d961c8f1e1c",
+          "expectedBlockBytes": 273,
+          "expectedBlockSha256": "cf31746daece4d58b1e1d3295bd74f1a44d49f20df5d1fb2c3e57dddc100ec04",
+          "parameterBlockSha256": "cf31746daece4d58b1e1d3295bd74f1a44d49f20df5d1fb2c3e57dddc100ec04",
+          "parameterBlockOffsets": [
+            77
+          ],
+          "parameterBlockOffset": 77,
+          "geometryByteBlockOffset": 16,
+          "geometryByteBankOffset": 93,
+          "generationLogCount": 7,
+          "generationLogSeverities": [
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message"
+          ],
+          "rejectedGenerationLogs": [],
+          "assertions": {
+            "readAll69SourceProperties": true,
+            "expectedBlockIs273Bytes": true,
+            "expectedBlockMatchesExactlyOnce": true,
+            "geometryByteMatchesVariant": true,
+            "generationLogsHaveNoWarningErrorOrFatal": true
+          }
+        },
+        "geometryFalse": {
+          "name": "RWWA_GeometryFalse",
+          "geometryEnabled": false,
+          "sourcePropertyCount": 69,
+          "bankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_GeometryFalse.bnk",
+          "bankBytes": 457,
+          "bankSha256": "d0453def46dcb491e6f672e18dae6f320a13ed3091f4950149ee859e8fa7b65f",
+          "expectedBlockBytes": 273,
+          "expectedBlockSha256": "2acd99a5e3f43d09c8bdfd93d5ef532f063853548e17f1141ff1e185e5206d6b",
+          "parameterBlockSha256": "2acd99a5e3f43d09c8bdfd93d5ef532f063853548e17f1141ff1e185e5206d6b",
+          "parameterBlockOffsets": [
+            77
+          ],
+          "parameterBlockOffset": 77,
+          "geometryByteBlockOffset": 16,
+          "geometryByteBankOffset": 93,
+          "generationLogCount": 8,
+          "generationLogSeverities": [
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message"
+          ],
+          "rejectedGenerationLogs": [],
+          "assertions": {
+            "readAll69SourceProperties": true,
+            "expectedBlockIs273Bytes": true,
+            "expectedBlockMatchesExactlyOnce": true,
+            "geometryByteMatchesVariant": true,
+            "generationLogsHaveNoWarningErrorOrFatal": true
+          }
+        }
+      },
+      "assertions": {
+        "trueVariantPassed": true,
+        "falseVariantPassed": true,
+        "geometryTrueByteIsOne": true,
+        "geometryFalseByteIsZero": true,
+        "parameterBlocksDifferOnlyAtGeometryByte": true,
+        "geometryRestoredTrue": true
+      },
+      "cleanup": {
+        "temporaryEventDeleted": true,
+        "geometryRestoredTrue": true,
+        "errors": []
+      },
+      "parameterBlockDifferingOffsets": [
+        16
+      ]
+    },
+    "effectObjectSet": {
+      "mode": "existing-template",
+      "parent": "\\Actor-Mixer Hierarchy\\Default Work Unit",
+      "soundName": "RWWA_Demo_Heavy_Rain_Puddles",
+      "soundId": "{9E42DF50-ACA6-4E69-988F-2231C7E98B54}",
+      "audioSourceName": "RWWA_Demo_Heavy_Rain_Puddles_Audio",
+      "audioSourceId": "{477B9E5B-3D32-42FE-9EB3-2DBBAB2E58FA}",
+      "effectSlotId": null,
+      "effectName": "RWWA_Demo_Weather_Geometry_Effect",
+      "effectId": "{FD32A4AB-B061-446F-9B19-6AEE895832CE}",
+      "effectClassId": 2031748099,
+      "inputWav": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Originals\\SFX\\RWWA_Heavy_Rain_Puddles_30s.wav",
+      "soundReadback": {
+        "id": "{9E42DF50-ACA6-4E69-988F-2231C7E98B54}",
+        "type": "Sound",
+        "name": "RWWA_Demo_Heavy_Rain_Puddles",
+        "@IsLoopingEnabled": true,
+        "@IsStreamingEnabled": true
+      },
+      "audioSourceReadback": {
+        "originalFilePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\Originals\\SFX\\RWWA_Heavy_Rain_Puddles_30s.wav",
+        "id": "{477B9E5B-3D32-42FE-9EB3-2DBBAB2E58FA}",
+        "type": "AudioFileSource",
+        "name": "RWWA_Demo_Heavy_Rain_Puddles_Audio"
+      },
+      "effectReadback": {
+        "id": "{FD32A4AB-B061-446F-9B19-6AEE895832CE}",
+        "classId": 2031748099,
+        "type": "Effect",
+        "name": "RWWA_Demo_Weather_Geometry_Effect"
+      },
+      "effectProperties": {
+        "InputRole": 0,
+        "WetMix": 0.6499999761581421,
+        "ResponseGainDb": 1.5,
+        "TransientSensitivity": 0.75,
+        "RainIntensity": 0.800000011920929,
+        "WindSpeed": 14.0,
+        "WindDirectionDegrees": 35.0,
+        "WindGustiness": 0.6499999761581421,
+        "Seed": 97531,
+        "GeometryEnabled": true,
+        "ListenerX": 0.0,
+        "ListenerY": 0.0,
+        "ListenerZ": 0.0,
+        "ListenerYawDegrees": 20.0,
+        "FeatureCount": 4,
+        "Feature1X": 0.0,
+        "Feature1Y": 0.0,
+        "Feature1Z": 6.0,
+        "Feature1Radius": 2.5,
+        "Feature1Profile": 0,
+        "Feature1Mask": 3,
+        "Feature1Priority": 107,
+        "Feature2X": 6.0,
+        "Feature2Y": 0.0,
+        "Feature2Z": 0.0,
+        "Feature2Radius": 2.5,
+        "Feature2Profile": 1,
+        "Feature2Mask": 3,
+        "Feature2Priority": 10,
+        "Feature3X": 0.0,
+        "Feature3Y": 0.0,
+        "Feature3Z": -6.0,
+        "Feature3Radius": 2.5,
+        "Feature3Profile": 2,
+        "Feature3Mask": 3,
+        "Feature3Priority": 10,
+        "Feature4X": -6.0,
+        "Feature4Y": 0.0,
+        "Feature4Z": 0.0,
+        "Feature4Radius": 2.5,
+        "Feature4Profile": 3,
+        "Feature4Mask": 3,
+        "Feature4Priority": 10,
+        "Feature5X": 4.25,
+        "Feature5Y": 0.0,
+        "Feature5Z": 4.25,
+        "Feature5Radius": 2.5,
+        "Feature5Profile": 0,
+        "Feature5Mask": 3,
+        "Feature5Priority": 1,
+        "Feature6X": 4.25,
+        "Feature6Y": 0.0,
+        "Feature6Z": -4.25,
+        "Feature6Radius": 2.5,
+        "Feature6Profile": 1,
+        "Feature6Mask": 3,
+        "Feature6Priority": 1,
+        "Feature7X": -4.25,
+        "Feature7Y": 0.0,
+        "Feature7Z": -4.25,
+        "Feature7Radius": 2.5,
+        "Feature7Profile": 2,
+        "Feature7Mask": 3,
+        "Feature7Priority": 1,
+        "Feature8X": -4.25,
+        "Feature8Y": 0.0,
+        "Feature8Z": 4.25,
+        "Feature8Radius": 2.5,
+        "Feature8Profile": 3,
+        "Feature8Mask": 3,
+        "Feature8Priority": 1
+      },
+      "effectPropertyAssertions": {
+        "InputRole": true,
+        "WetMix": true,
+        "ResponseGainDb": true,
+        "TransientSensitivity": true,
+        "RainIntensity": true,
+        "WindSpeed": true,
+        "WindDirectionDegrees": true,
+        "WindGustiness": true,
+        "Seed": true,
+        "GeometryEnabled": true,
+        "ListenerX": true,
+        "ListenerY": true,
+        "ListenerZ": true,
+        "ListenerYawDegrees": true,
+        "FeatureCount": true,
+        "Feature1X": true,
+        "Feature1Y": true,
+        "Feature1Z": true,
+        "Feature1Radius": true,
+        "Feature1Profile": true,
+        "Feature1Mask": true,
+        "Feature1Priority": true,
+        "Feature2X": true,
+        "Feature2Y": true,
+        "Feature2Z": true,
+        "Feature2Radius": true,
+        "Feature2Profile": true,
+        "Feature2Mask": true,
+        "Feature2Priority": true,
+        "Feature3X": true,
+        "Feature3Y": true,
+        "Feature3Z": true,
+        "Feature3Radius": true,
+        "Feature3Profile": true,
+        "Feature3Mask": true,
+        "Feature3Priority": true,
+        "Feature4X": true,
+        "Feature4Y": true,
+        "Feature4Z": true,
+        "Feature4Radius": true,
+        "Feature4Profile": true,
+        "Feature4Mask": true,
+        "Feature4Priority": true,
+        "Feature5X": true,
+        "Feature5Y": true,
+        "Feature5Z": true,
+        "Feature5Radius": true,
+        "Feature5Profile": true,
+        "Feature5Mask": true,
+        "Feature5Priority": true,
+        "Feature6X": true,
+        "Feature6Y": true,
+        "Feature6Z": true,
+        "Feature6Radius": true,
+        "Feature6Profile": true,
+        "Feature6Mask": true,
+        "Feature6Priority": true,
+        "Feature7X": true,
+        "Feature7Y": true,
+        "Feature7Z": true,
+        "Feature7Radius": true,
+        "Feature7Profile": true,
+        "Feature7Mask": true,
+        "Feature7Priority": true,
+        "Feature8X": true,
+        "Feature8Y": true,
+        "Feature8Z": true,
+        "Feature8Radius": true,
+        "Feature8Profile": true,
+        "Feature8Mask": true,
+        "Feature8Priority": true
+      },
+      "assertions": {
+        "soundCreatedAndReadable": true,
+        "audioFileSourceCreatedAndReadable": true,
+        "audioFileSourceReferencesImportedWav": true,
+        "loopingEnabled": true,
+        "streamingEnabled": true,
+        "effectCreatedAndReadable": true,
+        "effectClassIdMatches": true,
+        "readAll71EffectProperties": true,
+        "allEffectPropertiesMatchStablePreset": true,
+        "coreEffectPropertiesMatchStablePreset": true
+      }
+    },
+    "effectSoundBankSerialization": {
+      "parameterPropertyCount": 71,
+      "parameterBlockBytes": 281,
+      "inputRoleBlockOffset": 0,
+      "wetMixBlockOffset": 4,
+      "geometryByteBlockOffset": 36,
+      "eventId": "{53F48E28-D6A0-4AB4-86CF-CAB2D67302D6}",
+      "variants": {
+        "baseline": {
+          "name": "RWWA_Effect_Baseline",
+          "variantProperties": {
+            "InputRole": 0,
+            "WetMix": 0.65,
+            "GeometryEnabled": true
+          },
+          "effectPropertyCount": 71,
+          "bankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_Baseline.bnk",
+          "bankBytes": 473,
+          "bankSha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b",
+          "expectedBlockBytes": 281,
+          "expectedBlockSha256": "a9cf1f13b330f05483657aef61326fd70f00359138a6a46f0c37c479c539543d",
+          "parameterBlockSha256": "a9cf1f13b330f05483657aef61326fd70f00359138a6a46f0c37c479c539543d",
+          "parameterBlockOffsets": [
+            144
+          ],
+          "parameterBlockOffset": 144,
+          "inputRoleBlockOffset": 0,
+          "wetMixBlockOffset": 4,
+          "geometryByteBlockOffset": 36,
+          "generationLogCount": 9,
+          "generationLogSeverities": [
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message"
+          ],
+          "rejectedGenerationLogs": [],
+          "assertions": {
+            "readAll71EffectProperties": true,
+            "expectedBlockIs281Bytes": true,
+            "expectedBlockMatchesExactlyOnce": true,
+            "inputRoleBytesMatchVariant": true,
+            "wetMixBytesMatchVariant": true,
+            "geometryByteMatchesVariant": true,
+            "generationLogsHaveNoWarningErrorOrFatal": true,
+            "retainedBankMatchesGeneratedBank": true
+          },
+          "retainedBankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_Baseline.bnk",
+          "retainedBankBytes": 473,
+          "retainedBankSha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b"
+        },
+        "inputRoleWetGeometry": {
+          "name": "RWWA_Effect_InputRoleWetGeometry",
+          "variantProperties": {
+            "InputRole": 1,
+            "WetMix": 0.2,
+            "GeometryEnabled": false
+          },
+          "effectPropertyCount": 71,
+          "bankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_InputRoleWetGeometry.bnk",
+          "bankBytes": 473,
+          "bankSha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da",
+          "expectedBlockBytes": 281,
+          "expectedBlockSha256": "92ac5b3098d54cd199dfd97f8c8777557fe19783ed5bd4d537d9695577844adb",
+          "parameterBlockSha256": "92ac5b3098d54cd199dfd97f8c8777557fe19783ed5bd4d537d9695577844adb",
+          "parameterBlockOffsets": [
+            144
+          ],
+          "parameterBlockOffset": 144,
+          "inputRoleBlockOffset": 0,
+          "wetMixBlockOffset": 4,
+          "geometryByteBlockOffset": 36,
+          "generationLogCount": 8,
+          "generationLogSeverities": [
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message"
+          ],
+          "rejectedGenerationLogs": [],
+          "assertions": {
+            "readAll71EffectProperties": true,
+            "expectedBlockIs281Bytes": true,
+            "expectedBlockMatchesExactlyOnce": true,
+            "inputRoleBytesMatchVariant": true,
+            "wetMixBytesMatchVariant": true,
+            "geometryByteMatchesVariant": true,
+            "generationLogsHaveNoWarningErrorOrFatal": true,
+            "retainedBankMatchesGeneratedBank": true
+          },
+          "retainedBankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_InputRoleWetGeometry.bnk",
+          "retainedBankBytes": 473,
+          "retainedBankSha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da"
+        },
+        "wetZero": {
+          "name": "RWWA_Effect_WetZero",
+          "variantProperties": {
+            "InputRole": 2,
+            "WetMix": 0.0,
+            "GeometryEnabled": true
+          },
+          "effectPropertyCount": 71,
+          "bankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_WetZero.bnk",
+          "bankBytes": 473,
+          "bankSha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c",
+          "expectedBlockBytes": 281,
+          "expectedBlockSha256": "9396b904aa416d63474e3cc3afccdd2f451f2229f9c438f05ced4f38972a2463",
+          "parameterBlockSha256": "9396b904aa416d63474e3cc3afccdd2f451f2229f9c438f05ced4f38972a2463",
+          "parameterBlockOffsets": [
+            144
+          ],
+          "parameterBlockOffset": 144,
+          "inputRoleBlockOffset": 0,
+          "wetMixBlockOffset": 4,
+          "geometryByteBlockOffset": 36,
+          "generationLogCount": 8,
+          "generationLogSeverities": [
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message",
+            "Message"
+          ],
+          "rejectedGenerationLogs": [],
+          "assertions": {
+            "readAll71EffectProperties": true,
+            "expectedBlockIs281Bytes": true,
+            "expectedBlockMatchesExactlyOnce": true,
+            "inputRoleBytesMatchVariant": true,
+            "wetMixBytesMatchVariant": true,
+            "geometryByteMatchesVariant": true,
+            "generationLogsHaveNoWarningErrorOrFatal": true,
+            "retainedBankMatchesGeneratedBank": true
+          },
+          "retainedBankPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_WetZero.bnk",
+          "retainedBankBytes": 473,
+          "retainedBankSha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c"
+        }
+      },
+      "assertions": {
+        "baselineVariantPassed": true,
+        "inputRoleWetGeometryVariantPassed": true,
+        "inputRoleHasSerializedDifference": true,
+        "wetMixHasSerializedDifference": true,
+        "geometryHasSerializedDifference": true,
+        "parameterBlocksDifferOnlyAtVariantFields": true,
+        "wetZeroVariantPassed": true,
+        "wetZeroBlockIs281Bytes": true,
+        "wetZeroBlockMatchesExactlyOnce": true,
+        "wetZeroInputRoleIsGeneric": true,
+        "wetZeroWetMixBytesAreZero": true,
+        "wetZeroGeometryByteIsTrue": true,
+        "wetZeroStableFieldsMatchBaseline": true,
+        "nativeHostFixtureRetained": true,
+        "stablePropertiesRestored": true
+      },
+      "cleanup": {
+        "temporaryEventDeleted": true,
+        "stablePropertiesRestored": true,
+        "errors": []
+      },
+      "parameterBlockDifferingOffsets": [
+        0,
+        4,
+        5,
+        6,
+        7,
+        36
+      ],
+      "wetZeroParameterBlockDifferingOffsets": [
+        0,
+        4,
+        5,
+        6,
+        7
+      ],
+      "nativeHostFixture": {
+        "root": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z",
+        "manifestPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_Fixture.json",
+        "linkage": {
+          "soundBankName": "RWWA_Effect_WetZero",
+          "eventName": "RWWA_Smoke_Effect_Bank_Event",
+          "inputWavName": "RWWA_Heavy_Rain_Puddles_30s.wav",
+          "wemRelativePaths": [
+            "Media/528110025.wem"
+          ],
+          "metadataRelativePaths": [
+            "Init.txt",
+            "PlatformInfo.xml",
+            "PluginInfo.xml",
+            "RWWA_Effect_WetZero.txt",
+            "SoundbanksInfo.xml"
+          ]
+        },
+        "files": [
+          {
+            "kind": "SoundBank",
+            "relativePath": "RWWA_Effect_Baseline.bnk",
+            "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_Baseline.bnk",
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_Baseline.bnk",
+            "sourceSizeBytes": 473,
+            "sourceSha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b",
+            "destinationSizeBytes": 473,
+            "destinationSha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b",
+            "copyMatchesSource": true,
+            "bytes": 473,
+            "sha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b"
+          },
+          {
+            "kind": "SoundBank",
+            "relativePath": "RWWA_Effect_InputRoleWetGeometry.bnk",
+            "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_InputRoleWetGeometry.bnk",
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_InputRoleWetGeometry.bnk",
+            "sourceSizeBytes": 473,
+            "sourceSha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da",
+            "destinationSizeBytes": 473,
+            "destinationSha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da",
+            "copyMatchesSource": true,
+            "bytes": 473,
+            "sha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da"
+          },
+          {
+            "kind": "SoundBank",
+            "relativePath": "RWWA_Effect_WetZero.bnk",
+            "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_WetZero.bnk",
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_WetZero.bnk",
+            "sourceSizeBytes": 473,
+            "sourceSha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c",
+            "destinationSizeBytes": 473,
+            "destinationSha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c",
+            "copyMatchesSource": true,
+            "bytes": 473,
+            "sha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c"
+          },
+          {
+            "kind": "SoundBank",
+            "relativePath": "Init.bnk",
+            "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Init.bnk",
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\Init.bnk",
+            "sourceSizeBytes": 483,
+            "sourceSha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a",
+            "destinationSizeBytes": 483,
+            "destinationSha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a",
+            "copyMatchesSource": true,
+            "bytes": 483,
+            "sha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a"
+          },
+          {
+            "kind": "Metadata",
+            "relativePath": "Init.txt",
+            "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Init.txt",
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\Init.txt",
+            "sourceSizeBytes": 214,
+            "sourceSha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9",
+            "destinationSizeBytes": 214,
+            "destinationSha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9",
+            "copyMatchesSource": true,
+            "bytes": 214,
+            "sha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9"
+          },
+          {
+            "kind": "Wem",
+            "relativePath": "Media/528110025.wem",
+            "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Media\\528110025.wem",
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\Media\\528110025.wem",
+            "sourceSizeBytes": 5760096,
+            "sourceSha256": "765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5",
+            "destinationSizeBytes": 5760096,
+            "destinationSha256": "765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5",
+            "copyMatchesSource": true,
+            "bytes": 5760096,
+            "sha256": "765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5"
+          },
+          {
+            "kind": "Metadata",
+            "relativePath": "PlatformInfo.xml",
+            "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\PlatformInfo.xml",
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\PlatformInfo.xml",
+            "sourceSizeBytes": 1480,
+            "sourceSha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de",
+            "destinationSizeBytes": 1480,
+            "destinationSha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de",
+            "copyMatchesSource": true,
+            "bytes": 1480,
+            "sha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de"
+          },
+          {
+            "kind": "Metadata",
+            "relativePath": "PluginInfo.xml",
+            "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\PluginInfo.xml",
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\PluginInfo.xml",
+            "sourceSizeBytes": 502,
+            "sourceSha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea",
+            "destinationSizeBytes": 502,
+            "destinationSha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea",
+            "copyMatchesSource": true,
+            "bytes": 502,
+            "sha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea"
+          },
+          {
+            "kind": "Metadata",
+            "relativePath": "RWWA_Effect_WetZero.txt",
+            "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_WetZero.txt",
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_WetZero.txt",
+            "sourceSizeBytes": 766,
+            "sourceSha256": "cd0c61ad25cb548b410ba62d5d96057ab5ca44fdff76730bc69130c7eeb267bc",
+            "destinationSizeBytes": 766,
+            "destinationSha256": "cd0c61ad25cb548b410ba62d5d96057ab5ca44fdff76730bc69130c7eeb267bc",
+            "copyMatchesSource": true,
+            "bytes": 766,
+            "sha256": "cd0c61ad25cb548b410ba62d5d96057ab5ca44fdff76730bc69130c7eeb267bc"
+          },
+          {
+            "kind": "Metadata",
+            "relativePath": "SoundbanksInfo.xml",
+            "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\SoundbanksInfo.xml",
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\SoundbanksInfo.xml",
+            "sourceSizeBytes": 1966,
+            "sourceSha256": "3f0f00dda841fab8c5399ba08796dd3f2cea6d930442b627b4b9a21bf4ec2d40",
+            "destinationSizeBytes": 1966,
+            "destinationSha256": "3f0f00dda841fab8c5399ba08796dd3f2cea6d930442b627b4b9a21bf4ec2d40",
+            "copyMatchesSource": true,
+            "bytes": 1966,
+            "sha256": "3f0f00dda841fab8c5399ba08796dd3f2cea6d930442b627b4b9a21bf4ec2d40"
+          },
+          {
+            "kind": "Metadata",
+            "relativePath": "RWWA_Effect_Fixture.json",
+            "sourcePath": null,
+            "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_Fixture.json",
+            "sourceSizeBytes": null,
+            "sourceSha256": null,
+            "destinationSizeBytes": 15903,
+            "destinationSha256": "828bfd13028bf9c06ff42e0ffe77fbebb21e5c64928fc423b7b5ef58dca3f8e4",
+            "copyMatchesSource": null,
+            "bytes": 15903,
+            "sha256": "828bfd13028bf9c06ff42e0ffe77fbebb21e5c64928fc423b7b5ef58dca3f8e4"
+          }
+        ],
+        "assertions": {
+          "threeEffectSoundBanksRetained": true,
+          "initSoundBankPresent": true,
+          "wetZeroMetadataPresent": true,
+          "wetZeroSoundBankMetadataMatched": true,
+          "wetZeroStreamedWemLinked": true,
+          "wetZeroEventMediaReferencesMatch": true,
+          "allSelectedArtifactsCopied": true,
+          "fixtureManifestWritten": true
+        }
+      }
+    },
+    "nativeHostFixture": {
+      "root": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z",
+      "manifestPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_Fixture.json",
+      "linkage": {
+        "soundBankName": "RWWA_Effect_WetZero",
+        "eventName": "RWWA_Smoke_Effect_Bank_Event",
+        "inputWavName": "RWWA_Heavy_Rain_Puddles_30s.wav",
+        "wemRelativePaths": [
+          "Media/528110025.wem"
+        ],
+        "metadataRelativePaths": [
+          "Init.txt",
+          "PlatformInfo.xml",
+          "PluginInfo.xml",
+          "RWWA_Effect_WetZero.txt",
+          "SoundbanksInfo.xml"
+        ]
+      },
+      "files": [
+        {
+          "kind": "SoundBank",
+          "relativePath": "RWWA_Effect_Baseline.bnk",
+          "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_Baseline.bnk",
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_Baseline.bnk",
+          "sourceSizeBytes": 473,
+          "sourceSha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b",
+          "destinationSizeBytes": 473,
+          "destinationSha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b",
+          "copyMatchesSource": true,
+          "bytes": 473,
+          "sha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b"
+        },
+        {
+          "kind": "SoundBank",
+          "relativePath": "RWWA_Effect_InputRoleWetGeometry.bnk",
+          "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_InputRoleWetGeometry.bnk",
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_InputRoleWetGeometry.bnk",
+          "sourceSizeBytes": 473,
+          "sourceSha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da",
+          "destinationSizeBytes": 473,
+          "destinationSha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da",
+          "copyMatchesSource": true,
+          "bytes": 473,
+          "sha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da"
+        },
+        {
+          "kind": "SoundBank",
+          "relativePath": "RWWA_Effect_WetZero.bnk",
+          "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_WetZero.bnk",
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_WetZero.bnk",
+          "sourceSizeBytes": 473,
+          "sourceSha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c",
+          "destinationSizeBytes": 473,
+          "destinationSha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c",
+          "copyMatchesSource": true,
+          "bytes": 473,
+          "sha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c"
+        },
+        {
+          "kind": "SoundBank",
+          "relativePath": "Init.bnk",
+          "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Init.bnk",
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\Init.bnk",
+          "sourceSizeBytes": 483,
+          "sourceSha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a",
+          "destinationSizeBytes": 483,
+          "destinationSha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a",
+          "copyMatchesSource": true,
+          "bytes": 483,
+          "sha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a"
+        },
+        {
+          "kind": "Metadata",
+          "relativePath": "Init.txt",
+          "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Init.txt",
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\Init.txt",
+          "sourceSizeBytes": 214,
+          "sourceSha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9",
+          "destinationSizeBytes": 214,
+          "destinationSha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9",
+          "copyMatchesSource": true,
+          "bytes": 214,
+          "sha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9"
+        },
+        {
+          "kind": "Wem",
+          "relativePath": "Media/528110025.wem",
+          "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Media\\528110025.wem",
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\Media\\528110025.wem",
+          "sourceSizeBytes": 5760096,
+          "sourceSha256": "765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5",
+          "destinationSizeBytes": 5760096,
+          "destinationSha256": "765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5",
+          "copyMatchesSource": true,
+          "bytes": 5760096,
+          "sha256": "765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5"
+        },
+        {
+          "kind": "Metadata",
+          "relativePath": "PlatformInfo.xml",
+          "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\PlatformInfo.xml",
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\PlatformInfo.xml",
+          "sourceSizeBytes": 1480,
+          "sourceSha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de",
+          "destinationSizeBytes": 1480,
+          "destinationSha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de",
+          "copyMatchesSource": true,
+          "bytes": 1480,
+          "sha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de"
+        },
+        {
+          "kind": "Metadata",
+          "relativePath": "PluginInfo.xml",
+          "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\PluginInfo.xml",
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\PluginInfo.xml",
+          "sourceSizeBytes": 502,
+          "sourceSha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea",
+          "destinationSizeBytes": 502,
+          "destinationSha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea",
+          "copyMatchesSource": true,
+          "bytes": 502,
+          "sha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea"
+        },
+        {
+          "kind": "Metadata",
+          "relativePath": "RWWA_Effect_WetZero.txt",
+          "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_WetZero.txt",
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_WetZero.txt",
+          "sourceSizeBytes": 766,
+          "sourceSha256": "cd0c61ad25cb548b410ba62d5d96057ab5ca44fdff76730bc69130c7eeb267bc",
+          "destinationSizeBytes": 766,
+          "destinationSha256": "cd0c61ad25cb548b410ba62d5d96057ab5ca44fdff76730bc69130c7eeb267bc",
+          "copyMatchesSource": true,
+          "bytes": 766,
+          "sha256": "cd0c61ad25cb548b410ba62d5d96057ab5ca44fdff76730bc69130c7eeb267bc"
+        },
+        {
+          "kind": "Metadata",
+          "relativePath": "SoundbanksInfo.xml",
+          "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\SoundbanksInfo.xml",
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\SoundbanksInfo.xml",
+          "sourceSizeBytes": 1966,
+          "sourceSha256": "3f0f00dda841fab8c5399ba08796dd3f2cea6d930442b627b4b9a21bf4ec2d40",
+          "destinationSizeBytes": 1966,
+          "destinationSha256": "3f0f00dda841fab8c5399ba08796dd3f2cea6d930442b627b4b9a21bf4ec2d40",
+          "copyMatchesSource": true,
+          "bytes": 1966,
+          "sha256": "3f0f00dda841fab8c5399ba08796dd3f2cea6d930442b627b4b9a21bf4ec2d40"
+        },
+        {
+          "kind": "Metadata",
+          "relativePath": "RWWA_Effect_Fixture.json",
+          "sourcePath": null,
+          "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_Fixture.json",
+          "sourceSizeBytes": null,
+          "sourceSha256": null,
+          "destinationSizeBytes": 15903,
+          "destinationSha256": "828bfd13028bf9c06ff42e0ffe77fbebb21e5c64928fc423b7b5ef58dca3f8e4",
+          "copyMatchesSource": null,
+          "bytes": 15903,
+          "sha256": "828bfd13028bf9c06ff42e0ffe77fbebb21e5c64928fc423b7b5ef58dca3f8e4"
+        }
+      ],
+      "assertions": {
+        "threeEffectSoundBanksRetained": true,
+        "initSoundBankPresent": true,
+        "wetZeroMetadataPresent": true,
+        "wetZeroSoundBankMetadataMatched": true,
+        "wetZeroStreamedWemLinked": true,
+        "wetZeroEventMediaReferencesMatch": true,
+        "allSelectedArtifactsCopied": true,
+        "fixtureManifestWritten": true
+      }
+    },
+    "profiler": {
+      "captureStartTimeMs": 2080,
+      "transportId": 0,
+      "transportState": "playing",
+      "voices": [
+        {
+          "objectName": "RWWA_Smoke",
+          "objectGUID": "{AE1C337B-B21E-4AD9-9BA9-6099FCF8EA4F}",
+          "pipelineID": 1,
+          "playingID": 1,
+          "playTargetName": "RWWA_Smoke",
+          "isStarted": true,
+          "isVirtual": false,
+          "playTargetGUID": "{AE1C337B-B21E-4AD9-9BA9-6099FCF8EA4F}"
+        }
+      ],
+      "smokeVoices": [
+        {
+          "objectName": "RWWA_Smoke",
+          "objectGUID": "{AE1C337B-B21E-4AD9-9BA9-6099FCF8EA4F}",
+          "pipelineID": 1,
+          "playingID": 1,
+          "playTargetName": "RWWA_Smoke",
+          "isStarted": true,
+          "isVirtual": false,
+          "playTargetGUID": "{AE1C337B-B21E-4AD9-9BA9-6099FCF8EA4F}"
+        }
+      ],
+      "cpuUsage": [
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.00019999999494757503,
+          "millisecondsInclusive": 0.0005000000237487257,
+          "instances": 1,
+          "elementName": "Global Extension",
+          "percentInclusive": 0.004687499720603228,
+          "percentExclusive": 0.0018749998416751623
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0034000000450760126,
+          "millisecondsInclusive": 0.004699999932199717,
+          "instances": 1,
+          "elementName": "CAkLEngine::SoftwarePerformEpilogue",
+          "percentInclusive": 0.04406249523162842,
+          "percentExclusive": 0.03187499940395355
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0007999999797903001,
+          "millisecondsInclusive": 0.0007999999797903001,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::EndRender",
+          "percentInclusive": 0.007499999366700649,
+          "percentExclusive": 0.007499999366700649
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.003700000001117587,
+          "millisecondsInclusive": 0.003700000001117587,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::EndPerformIteration",
+          "percentInclusive": 0.03468749672174454,
+          "percentExclusive": 0.03468749672174454
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "millisecondsInclusive": 0.015399999916553497,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::Perform",
+          "percentInclusive": 0.1443749964237213,
+          "percentExclusive": 0.0009374999208375812
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0003000000142492354,
+          "millisecondsInclusive": 0.0003000000142492354,
+          "instances": 1,
+          "elementName": "AK::SoundEngine::RenderAudio",
+          "percentInclusive": 0.0028124998789280653,
+          "percentExclusive": 0.0028124998789280653
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.00019999999494757503,
+          "millisecondsInclusive": 0.00019999999494757503,
+          "instances": 1,
+          "elementName": "AK Acquire GlobalLock",
+          "percentInclusive": 0.0018749998416751623,
+          "percentExclusive": 0.0018749998416751623
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.00419999985024333,
+          "millisecondsInclusive": 0.00419999985024333,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::BeginPerform",
+          "percentInclusive": 0.03937499597668648,
+          "percentExclusive": 0.03937499597668648
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0012000000569969416,
+          "millisecondsInclusive": 0.002099999925121665,
+          "instances": 2,
+          "elementName": "CAkAudioMgr::ProcessPlayCmds",
+          "percentInclusive": 0.01968749798834324,
+          "percentExclusive": 0.011249999515712261
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.060100000351667404,
+          "millisecondsInclusive": 0.060100000351667404,
+          "instances": 2,
+          "elementName": "AkMonitor::DispatchNotification",
+          "percentInclusive": 0.5634374618530273,
+          "percentExclusive": 0.5634374618530273
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0013000000035390258,
+          "millisecondsInclusive": 0.0017999999690800905,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::PerformPrologue",
+          "percentInclusive": 0.016874998807907104,
+          "percentExclusive": 0.01218749862164259
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.004100000020116568,
+          "millisecondsInclusive": 0.01489999983459711,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::ProcessAllCommands",
+          "percentInclusive": 0.13968749344348907,
+          "percentExclusive": 0.03843749687075615
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.00019999999494757503,
+          "millisecondsInclusive": 0.00019999999494757503,
+          "instances": 1,
+          "elementName": "CAkMusicRenderer::ProcessNextFrame",
+          "percentInclusive": 0.0018749998416751623,
+          "percentExclusive": 0.0018749998416751623
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0006000000284984708,
+          "millisecondsInclusive": 0.015300000086426735,
+          "instances": 1,
+          "elementName": "AK::JobMgr::WorkUntilDone",
+          "percentInclusive": 0.1434374898672104,
+          "percentExclusive": 0.005624999757856131
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.00019999999494757503,
+          "millisecondsInclusive": 0.00019999999494757503,
+          "instances": 2,
+          "elementName": "CAkAudioMgr::BeginPerformIteration",
+          "percentInclusive": 0.0018749998416751623,
+          "percentExclusive": 0.0018749998416751623
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0006000000284984708,
+          "millisecondsInclusive": 0.0007999999797903001,
+          "instances": 4,
+          "elementName": "CAkAudioMgr::ProcessMsgQueue",
+          "percentInclusive": 0.007499999366700649,
+          "percentExclusive": 0.005624999757856131
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.002099999925121665,
+          "millisecondsInclusive": 0.002099999925121665,
+          "instances": 1,
+          "elementName": "CAkLEngine::PostRunVpls",
+          "percentInclusive": 0.01968749798834324,
+          "percentExclusive": 0.01968749798834324
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0008999999845400453,
+          "millisecondsInclusive": 0.010700000450015068,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::PerformEpilogue",
+          "percentInclusive": 0.1003124937415123,
+          "percentExclusive": 0.008437499403953552
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "millisecondsInclusive": 9.999999747378752E-05,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::EndPerform",
+          "percentInclusive": 0.0009374999208375812,
+          "percentExclusive": 0.0009374999208375812
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.00019999999494757503,
+          "millisecondsInclusive": 0.00019999999494757503,
+          "instances": 1,
+          "elementName": "CAkLEngine::ReleaseBuffersAndFeedback",
+          "percentInclusive": 0.0018749998416751623,
+          "percentExclusive": 0.0018749998416751623
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "millisecondsInclusive": 9.999999747378752E-05,
+          "instances": 1,
+          "elementName": "CAkLEngineCmds::ProcessPendingCommands",
+          "percentInclusive": 0.0009374999208375812,
+          "percentExclusive": 0.0009374999208375812
+        },
+        {
+          "id": 196608,
+          "type": "",
+          "millisecondsExclusive": 0.008700000122189522,
+          "millisecondsInclusive": 0.008700000122189522,
+          "instances": 1,
+          "elementName": "CAkLEngine::AnalyzeMixingGraph",
+          "percentInclusive": 0.08156249672174454,
+          "percentExclusive": 0.08156249672174454
+        },
+        {
+          "id": 262144,
+          "type": "",
+          "millisecondsExclusive": 0.0015999999595806003,
+          "millisecondsInclusive": 0.0015999999595806003,
+          "instances": 1,
+          "elementName": "CAkLEngine::PreprocessSources",
+          "percentInclusive": 0.014999998733401299,
+          "percentExclusive": 0.014999998733401299
+        },
+        {
+          "id": 327680,
+          "type": "",
+          "millisecondsExclusive": 0.003000000026077032,
+          "millisecondsInclusive": 0.1445000022649765,
+          "instances": 1,
+          "elementName": "CAkLEngine::VoiceTask",
+          "percentInclusive": 1.3546874523162842,
+          "percentExclusive": 0.02812499739229679
+        },
+        {
+          "id": 393216,
+          "type": "",
+          "millisecondsExclusive": 0.00039999998989515007,
+          "millisecondsInclusive": 0.00039999998989515007,
+          "instances": 1,
+          "elementName": "CAkLEngine::VoiceTaskParallelAsync",
+          "percentInclusive": 0.0037499996833503246,
+          "percentExclusive": 0.0037499996833503246
+        },
+        {
+          "id": 458752,
+          "type": "",
+          "millisecondsExclusive": 0.0013000000035390258,
+          "millisecondsInclusive": 0.0013000000035390258,
+          "instances": 1,
+          "elementName": "AkPerf::PostPipelineStats",
+          "percentInclusive": 0.01218749862164259,
+          "percentExclusive": 0.01218749862164259
+        },
+        {
+          "id": 524288,
+          "type": "",
+          "millisecondsExclusive": 0.009800000116229057,
+          "millisecondsInclusive": 0.009800000116229057,
+          "instances": 1,
+          "elementName": "AK::CommunicationCentral::Process",
+          "percentInclusive": 0.09187499433755875,
+          "percentExclusive": 0.09187499433755875
+        },
+        {
+          "id": 655360,
+          "type": "",
+          "millisecondsExclusive": 0.00019999999494757503,
+          "millisecondsInclusive": 0.14470000565052032,
+          "instances": 1,
+          "elementName": "AK SwVoice",
+          "percentInclusive": 1.3565623760223389,
+          "percentExclusive": 0.0018749998416751623
+        },
+        {
+          "id": 786432,
+          "type": "",
+          "millisecondsExclusive": 0.007899999618530273,
+          "millisecondsInclusive": 0.007899999618530273,
+          "instances": 1,
+          "elementName": "AK BusTask",
+          "percentInclusive": 0.07406249642372131,
+          "percentExclusive": 0.07406249642372131
+        },
+        {
+          "id": 52494344,
+          "type": "Global Extension",
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "millisecondsInclusive": 0.0003000000142492354,
+          "instances": 1,
+          "elementName": "Interactive Music",
+          "percentInclusive": 0.0028124998789280653,
+          "percentExclusive": 0.0009374999208375812
+        },
+        {
+          "id": 52559880,
+          "type": "Global Extension",
+          "millisecondsExclusive": 0.0006000000284984708,
+          "millisecondsInclusive": 0.0006000000284984708,
+          "instances": 1,
+          "elementName": "MIDI Device Manager",
+          "percentInclusive": 0.005624999757856131,
+          "percentExclusive": 0.005624999757856131
+        },
+        {
+          "id": 2031682562,
+          "type": "Source",
+          "millisecondsExclusive": 0.14149999618530273,
+          "millisecondsInclusive": 0.14149999618530273,
+          "instances": 1,
+          "elementName": "RealWorld Weather Acoustics",
+          "percentInclusive": 1.3265624046325684,
+          "percentExclusive": 1.3265624046325684
+        }
+      ],
+      "sourceCpuEvidence": [
+        {
+          "id": 2031682562,
+          "type": "Source",
+          "millisecondsExclusive": 0.14149999618530273,
+          "millisecondsInclusive": 0.14149999618530273,
+          "instances": 1,
+          "elementName": "RealWorld Weather Acoustics",
+          "percentInclusive": 1.3265624046325684,
+          "percentExclusive": 1.3265624046325684
+        }
+      ],
+      "performanceMonitor": [
+        {
+          "value": 0,
+          "id": "ActiveTransitions",
+          "name": "Number of Transitions/Interpolations"
+        },
+        {
+          "value": 0,
+          "id": "StateTransitions",
+          "name": "Number of State Transitions"
+        },
+        {
+          "value": 1,
+          "id": "RegisteredObjects",
+          "name": "Number of Registered Objects"
+        },
+        {
+          "value": 0,
+          "id": "CommandQueueSize",
+          "name": "Command Queue Size"
+        },
+        {
+          "value": 0.0,
+          "id": "CommandQueueUsed",
+          "name": "Command Queue Used"
+        },
+        {
+          "value": 0,
+          "id": "PreparedEvents",
+          "name": "Number of Prepared Events"
+        },
+        {
+          "value": 1,
+          "id": "ActiveEvents",
+          "name": "Number of Active Events"
+        },
+        {
+          "value": 0,
+          "id": "LoadedBanksMemory",
+          "name": "Loaded Banks (Memory)"
+        },
+        {
+          "value": 0,
+          "id": "PreparedEventsMemory",
+          "name": "Prepared Events (Memory)"
+        },
+        {
+          "value": 0,
+          "id": "SystemAudioObjects",
+          "name": "Number of Audio Objects Used (System)"
+        },
+        {
+          "value": 0,
+          "id": "TotalMediaMemory",
+          "name": "Total Media (Memory)"
+        },
+        {
+          "value": 235546,
+          "id": "ProfilerBandwidth",
+          "name": "Profiler Bandwidth"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioPrimaryRays",
+          "name": "Spatial Audio - Primary Rays"
+        },
+        {
+          "value": 0.0,
+          "id": "SpatialAudioCPU",
+          "name": "Spatial Audio - CPU"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioEmitters",
+          "name": "Spatial Audio - Emitters Processed"
+        },
+        {
+          "value": 0.0,
+          "id": "SpatialAudioRaytracingCPU",
+          "name": "Spatial Audio - Raytracing CPU"
+        },
+        {
+          "value": 0.0,
+          "id": "SpatialAudioPathValidationCPU",
+          "name": "Spatial Audio - Path Validation CPU"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioTriangles",
+          "name": "Spatial Audio - Triangles"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioDiffractionEdges",
+          "name": "Spatial Audio - Diffraction Edges"
+        },
+        {
+          "value": 0.0,
+          "id": "SpatialAudioPortalRaytracingCPU",
+          "name": "Spatial Audio - Portal Raytracing CPU"
+        },
+        {
+          "value": 0.0,
+          "id": "SpatialAudioPortalPathValidationCPU",
+          "name": "Spatial Audio - Portal Path Validation CPU"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioComputedEdges",
+          "name": "Spatial Audio - Computed Edges"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioTasksRemaining",
+          "name": "Spatial Audio - Tasks Remaining"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioTasksExecuted",
+          "name": "Spatial Audio - Tasks Executed"
+        },
+        {
+          "value": 1.7653123140335083,
+          "id": "CpuTotal",
+          "name": "CPU - Total"
+        },
+        {
+          "value": 1.3106249570846558,
+          "id": "CpuPluginTotal",
+          "name": "CPU - Plug-in Total"
+        },
+        {
+          "value": 42270720,
+          "id": "TotalReservedMemory",
+          "name": "Total Reserved Memory"
+        },
+        {
+          "value": 36848944,
+          "id": "TotalUsedMemory",
+          "name": "Total Used Memory"
+        },
+        {
+          "value": 9968,
+          "id": "JobMgrMemoryCurrent",
+          "name": "JobMgr Memory (Current)"
+        },
+        {
+          "value": 12200,
+          "id": "JobMgrMemoryPeak",
+          "name": "JobMgr Memory (Peak)"
+        },
+        {
+          "value": 2,
+          "id": "JobMgrMemorySlabsCurrent",
+          "name": "JobMgr Memory Slabs Reserved (Current)"
+        },
+        {
+          "value": 3,
+          "id": "JobMgrMemorySlabsPeak",
+          "name": "JobMgr Memory Slabs Reserved (Peak)"
+        },
+        {
+          "value": 0,
+          "id": "TotalStreamingBandwidthLowLevel",
+          "name": "Total Streaming Bandwidth (Low-Level)"
+        },
+        {
+          "value": 0,
+          "id": "TotalStreamingBandwidth",
+          "name": "Total Streaming Bandwidth"
+        },
+        {
+          "value": 0,
+          "id": "TotalStreams",
+          "name": "Number of Streams"
+        },
+        {
+          "value": 0,
+          "id": "ActiveStreams",
+          "name": "Number of Streams (Active)"
+        },
+        {
+          "value": 1,
+          "id": "VoicesTotal",
+          "name": "Number of Voices (Total)"
+        },
+        {
+          "value": 0,
+          "id": "VoicesVirtual",
+          "name": "Number of Voices (Virtual)"
+        },
+        {
+          "value": 1,
+          "id": "VoicesPhysical",
+          "name": "Number of Voices (Physical)"
+        },
+        {
+          "value": 1,
+          "id": "ActiveListeners",
+          "name": "Number of Active Listeners"
+        },
+        {
+          "value": -26.456918716430664,
+          "id": "OutputPeak",
+          "name": "Output Peak"
+        },
+        {
+          "value": 0,
+          "id": "ActiveSends",
+          "name": "Number of Active Sends"
+        },
+        {
+          "value": 0,
+          "id": "ApiCalls",
+          "name": "API calls"
+        }
+      ],
+      "voicesPhysical": 1,
+      "voicesTotal": 1,
+      "outputPeakDb": -26.456918716430664,
+      "silenceFloorDb": -90.0,
+      "isolatedTransportEvidence": true,
+      "effectTransportId": 1,
+      "effectTransportState": "playing",
+      "effectVoices": [
+        {
+          "objectName": "RWWA_Demo_Heavy_Rain_Puddles",
+          "objectGUID": "{9E42DF50-ACA6-4E69-988F-2231C7E98B54}",
+          "pipelineID": 3,
+          "playingID": 2,
+          "playTargetName": "RWWA_Demo_Heavy_Rain_Puddles",
+          "isStarted": true,
+          "isVirtual": false,
+          "playTargetGUID": "{9E42DF50-ACA6-4E69-988F-2231C7E98B54}"
+        }
+      ],
+      "effectSmokeVoices": [
+        {
+          "objectName": "RWWA_Demo_Heavy_Rain_Puddles",
+          "objectGUID": "{9E42DF50-ACA6-4E69-988F-2231C7E98B54}",
+          "pipelineID": 3,
+          "playingID": 2,
+          "playTargetName": "RWWA_Demo_Heavy_Rain_Puddles",
+          "isStarted": true,
+          "isVirtual": false,
+          "playTargetGUID": "{9E42DF50-ACA6-4E69-988F-2231C7E98B54}"
+        }
+      ],
+      "effectCpuUsage": [
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0003000000142492354,
+          "millisecondsInclusive": 0.00039999998989515007,
+          "instances": 1,
+          "elementName": "Global Extension",
+          "percentInclusive": 0.0037499996833503246,
+          "percentExclusive": 0.0028124998789280653
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.003700000001117587,
+          "millisecondsInclusive": 0.0066999997943639755,
+          "instances": 1,
+          "elementName": "CAkLEngine::SoftwarePerformEpilogue",
+          "percentInclusive": 0.06281249225139618,
+          "percentExclusive": 0.03468749672174454
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0007999999797903001,
+          "millisecondsInclusive": 0.0007999999797903001,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::EndRender",
+          "percentInclusive": 0.007499999366700649,
+          "percentExclusive": 0.007499999366700649
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.003599999938160181,
+          "millisecondsInclusive": 0.003599999938160181,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::EndPerformIteration",
+          "percentInclusive": 0.03374999761581421,
+          "percentExclusive": 0.03374999761581421
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0,
+          "millisecondsInclusive": 0.013399999588727951,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::Perform",
+          "percentInclusive": 0.12562498450279236,
+          "percentExclusive": 0.0
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "millisecondsInclusive": 9.999999747378752E-05,
+          "instances": 1,
+          "elementName": "AK::SoundEngine::RenderAudio",
+          "percentInclusive": 0.0009374999208375812,
+          "percentExclusive": 0.0009374999208375812
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0003000000142492354,
+          "millisecondsInclusive": 0.0003000000142492354,
+          "instances": 1,
+          "elementName": "AK Acquire GlobalLock",
+          "percentInclusive": 0.0028124998789280653,
+          "percentExclusive": 0.0028124998789280653
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.004600000102072954,
+          "millisecondsInclusive": 0.004600000102072954,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::BeginPerform",
+          "percentInclusive": 0.04312499612569809,
+          "percentExclusive": 0.04312499612569809
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0013000000035390258,
+          "millisecondsInclusive": 0.002300000051036477,
+          "instances": 2,
+          "elementName": "CAkAudioMgr::ProcessPlayCmds",
+          "percentInclusive": 0.021562498062849045,
+          "percentExclusive": 0.01218749862164259
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.06289999932050705,
+          "millisecondsInclusive": 0.06289999932050705,
+          "instances": 2,
+          "elementName": "AkMonitor::DispatchNotification",
+          "percentInclusive": 0.5896874666213989,
+          "percentExclusive": 0.5896874666213989
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0010000000474974513,
+          "millisecondsInclusive": 0.00139999995008111,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::PerformPrologue",
+          "percentInclusive": 0.013124998658895493,
+          "percentExclusive": 0.009374999441206455
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.003700000001117587,
+          "millisecondsInclusive": 0.01269999984651804,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::ProcessAllCommands",
+          "percentInclusive": 0.11906249076128006,
+          "percentExclusive": 0.03468749672174454
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0003000000142492354,
+          "millisecondsInclusive": 0.0003000000142492354,
+          "instances": 1,
+          "elementName": "CAkMusicRenderer::ProcessNextFrame",
+          "percentInclusive": 0.0028124998789280653,
+          "percentExclusive": 0.0028124998789280653
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0007999999797903001,
+          "millisecondsInclusive": 0.013399999588727951,
+          "instances": 1,
+          "elementName": "AK::JobMgr::WorkUntilDone",
+          "percentInclusive": 0.12562498450279236,
+          "percentExclusive": 0.007499999366700649
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.00019999999494757503,
+          "millisecondsInclusive": 0.00019999999494757503,
+          "instances": 2,
+          "elementName": "CAkAudioMgr::BeginPerformIteration",
+          "percentInclusive": 0.0018749998416751623,
+          "percentExclusive": 0.0018749998416751623
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0006000000284984708,
+          "millisecondsInclusive": 0.0008999999845400453,
+          "instances": 4,
+          "elementName": "CAkAudioMgr::ProcessMsgQueue",
+          "percentInclusive": 0.008437499403953552,
+          "percentExclusive": 0.005624999757856131
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.002099999925121665,
+          "millisecondsInclusive": 0.002099999925121665,
+          "instances": 1,
+          "elementName": "CAkLEngine::PostRunVpls",
+          "percentInclusive": 0.01968749798834324,
+          "percentExclusive": 0.01968749798834324
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.000699999975040555,
+          "millisecondsInclusive": 0.008700000122189522,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::PerformEpilogue",
+          "percentInclusive": 0.08156249672174454,
+          "percentExclusive": 0.006562499329447746
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.0,
+          "millisecondsInclusive": 0.0,
+          "instances": 1,
+          "elementName": "CAkAudioMgr::EndPerform",
+          "percentInclusive": 0.0,
+          "percentExclusive": 0.0
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 0.00019999999494757503,
+          "millisecondsInclusive": 0.00019999999494757503,
+          "instances": 1,
+          "elementName": "CAkLEngine::ReleaseBuffersAndFeedback",
+          "percentInclusive": 0.0018749998416751623,
+          "percentExclusive": 0.0018749998416751623
+        },
+        {
+          "id": 0,
+          "type": "",
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "millisecondsInclusive": 9.999999747378752E-05,
+          "instances": 1,
+          "elementName": "CAkLEngineCmds::ProcessPendingCommands",
+          "percentInclusive": 0.0009374999208375812,
+          "percentExclusive": 0.0009374999208375812
+        },
+        {
+          "id": 196608,
+          "type": "",
+          "millisecondsExclusive": 0.006899999920278788,
+          "millisecondsInclusive": 0.006899999920278788,
+          "instances": 1,
+          "elementName": "CAkLEngine::AnalyzeMixingGraph",
+          "percentInclusive": 0.06468749791383743,
+          "percentExclusive": 0.06468749791383743
+        },
+        {
+          "id": 262144,
+          "type": "",
+          "millisecondsExclusive": 0.0017999999690800905,
+          "millisecondsInclusive": 0.0017999999690800905,
+          "instances": 1,
+          "elementName": "CAkLEngine::PreprocessSources",
+          "percentInclusive": 0.016874998807907104,
+          "percentExclusive": 0.016874998807907104
+        },
+        {
+          "id": 327680,
+          "type": "",
+          "millisecondsExclusive": 0.003700000001117587,
+          "millisecondsInclusive": 0.120899997651577,
+          "instances": 1,
+          "elementName": "CAkLEngine::VoiceTask",
+          "percentInclusive": 1.1334373950958252,
+          "percentExclusive": 0.03468749672174454
+        },
+        {
+          "id": 393216,
+          "type": "",
+          "millisecondsExclusive": 0.00019999999494757503,
+          "millisecondsInclusive": 0.00019999999494757503,
+          "instances": 1,
+          "elementName": "CAkLEngine::VoiceTaskParallelAsync",
+          "percentInclusive": 0.0018749998416751623,
+          "percentExclusive": 0.0018749998416751623
+        },
+        {
+          "id": 458752,
+          "type": "",
+          "millisecondsExclusive": 0.003000000026077032,
+          "millisecondsInclusive": 0.003000000026077032,
+          "instances": 1,
+          "elementName": "AkPerf::PostPipelineStats",
+          "percentInclusive": 0.02812499739229679,
+          "percentExclusive": 0.02812499739229679
+        },
+        {
+          "id": 458753,
+          "type": "Codec",
+          "millisecondsExclusive": 0.0015999999595806003,
+          "millisecondsInclusive": 0.0015999999595806003,
+          "instances": 1,
+          "elementName": "Original WAV",
+          "percentInclusive": 0.014999998733401299,
+          "percentExclusive": 0.014999998733401299
+        },
+        {
+          "id": 524288,
+          "type": "",
+          "millisecondsExclusive": 0.00800000037997961,
+          "millisecondsInclusive": 0.00800000037997961,
+          "instances": 1,
+          "elementName": "AK::CommunicationCentral::Process",
+          "percentInclusive": 0.07499999552965164,
+          "percentExclusive": 0.07499999552965164
+        },
+        {
+          "id": 655360,
+          "type": "",
+          "millisecondsExclusive": 0.0003000000142492354,
+          "millisecondsInclusive": 0.12120000272989273,
+          "instances": 1,
+          "elementName": "AK SwVoice",
+          "percentInclusive": 1.1362498998641968,
+          "percentExclusive": 0.0028124998789280653
+        },
+        {
+          "id": 786432,
+          "type": "",
+          "millisecondsExclusive": 0.008799999952316284,
+          "millisecondsInclusive": 0.008799999952316284,
+          "instances": 1,
+          "elementName": "AK BusTask",
+          "percentInclusive": 0.08249999582767487,
+          "percentExclusive": 0.08249999582767487
+        },
+        {
+          "id": 52494344,
+          "type": "Global Extension",
+          "millisecondsExclusive": 9.999999747378752E-05,
+          "millisecondsInclusive": 0.00039999998989515007,
+          "instances": 1,
+          "elementName": "Interactive Music",
+          "percentInclusive": 0.0037499996833503246,
+          "percentExclusive": 0.0009374999208375812
+        },
+        {
+          "id": 52559880,
+          "type": "Global Extension",
+          "millisecondsExclusive": 0.0006000000284984708,
+          "millisecondsInclusive": 0.0006000000284984708,
+          "instances": 1,
+          "elementName": "MIDI Device Manager",
+          "percentInclusive": 0.005624999757856131,
+          "percentExclusive": 0.005624999757856131
+        },
+        {
+          "id": 2031748099,
+          "type": "Effect",
+          "millisecondsExclusive": 0.11559999734163284,
+          "millisecondsInclusive": 0.11559999734163284,
+          "instances": 1,
+          "elementName": "RealWorld Weather Acoustics Effect",
+          "percentInclusive": 1.0837498903274536,
+          "percentExclusive": 1.0837498903274536
+        }
+      ],
+      "effectCpuEvidence": [
+        {
+          "id": 2031748099,
+          "type": "Effect",
+          "millisecondsExclusive": 0.11559999734163284,
+          "millisecondsInclusive": 0.11559999734163284,
+          "instances": 1,
+          "elementName": "RealWorld Weather Acoustics Effect",
+          "percentInclusive": 1.0837498903274536,
+          "percentExclusive": 1.0837498903274536
+        }
+      ],
+      "effectPerformanceMonitor": [
+        {
+          "value": 0,
+          "id": "ActiveTransitions",
+          "name": "Number of Transitions/Interpolations"
+        },
+        {
+          "value": 0,
+          "id": "StateTransitions",
+          "name": "Number of State Transitions"
+        },
+        {
+          "value": 1,
+          "id": "RegisteredObjects",
+          "name": "Number of Registered Objects"
+        },
+        {
+          "value": 0,
+          "id": "CommandQueueSize",
+          "name": "Command Queue Size"
+        },
+        {
+          "value": 0.0,
+          "id": "CommandQueueUsed",
+          "name": "Command Queue Used"
+        },
+        {
+          "value": 0,
+          "id": "PreparedEvents",
+          "name": "Number of Prepared Events"
+        },
+        {
+          "value": 1,
+          "id": "ActiveEvents",
+          "name": "Number of Active Events"
+        },
+        {
+          "value": 0,
+          "id": "LoadedBanksMemory",
+          "name": "Loaded Banks (Memory)"
+        },
+        {
+          "value": 0,
+          "id": "PreparedEventsMemory",
+          "name": "Prepared Events (Memory)"
+        },
+        {
+          "value": 0,
+          "id": "SystemAudioObjects",
+          "name": "Number of Audio Objects Used (System)"
+        },
+        {
+          "value": 0,
+          "id": "TotalMediaMemory",
+          "name": "Total Media (Memory)"
+        },
+        {
+          "value": 239871,
+          "id": "ProfilerBandwidth",
+          "name": "Profiler Bandwidth"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioPrimaryRays",
+          "name": "Spatial Audio - Primary Rays"
+        },
+        {
+          "value": 0.0,
+          "id": "SpatialAudioCPU",
+          "name": "Spatial Audio - CPU"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioEmitters",
+          "name": "Spatial Audio - Emitters Processed"
+        },
+        {
+          "value": 0.0,
+          "id": "SpatialAudioRaytracingCPU",
+          "name": "Spatial Audio - Raytracing CPU"
+        },
+        {
+          "value": 0.0,
+          "id": "SpatialAudioPathValidationCPU",
+          "name": "Spatial Audio - Path Validation CPU"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioTriangles",
+          "name": "Spatial Audio - Triangles"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioDiffractionEdges",
+          "name": "Spatial Audio - Diffraction Edges"
+        },
+        {
+          "value": 0.0,
+          "id": "SpatialAudioPortalRaytracingCPU",
+          "name": "Spatial Audio - Portal Raytracing CPU"
+        },
+        {
+          "value": 0.0,
+          "id": "SpatialAudioPortalPathValidationCPU",
+          "name": "Spatial Audio - Portal Path Validation CPU"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioComputedEdges",
+          "name": "Spatial Audio - Computed Edges"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioTasksRemaining",
+          "name": "Spatial Audio - Tasks Remaining"
+        },
+        {
+          "value": 0,
+          "id": "SpatialAudioTasksExecuted",
+          "name": "Spatial Audio - Tasks Executed"
+        },
+        {
+          "value": 1.703437328338623,
+          "id": "CpuTotal",
+          "name": "CPU - Total"
+        },
+        {
+          "value": 1.0753123760223389,
+          "id": "CpuPluginTotal",
+          "name": "CPU - Plug-in Total"
+        },
+        {
+          "value": 42270720,
+          "id": "TotalReservedMemory",
+          "name": "Total Reserved Memory"
+        },
+        {
+          "value": 36863360,
+          "id": "TotalUsedMemory",
+          "name": "Total Used Memory"
+        },
+        {
+          "value": 8200,
+          "id": "JobMgrMemoryCurrent",
+          "name": "JobMgr Memory (Current)"
+        },
+        {
+          "value": 12208,
+          "id": "JobMgrMemoryPeak",
+          "name": "JobMgr Memory (Peak)"
+        },
+        {
+          "value": 2,
+          "id": "JobMgrMemorySlabsCurrent",
+          "name": "JobMgr Memory Slabs Reserved (Current)"
+        },
+        {
+          "value": 3,
+          "id": "JobMgrMemorySlabsPeak",
+          "name": "JobMgr Memory Slabs Reserved (Peak)"
+        },
+        {
+          "value": 312222,
+          "id": "TotalStreamingBandwidthLowLevel",
+          "name": "Total Streaming Bandwidth (Low-Level)"
+        },
+        {
+          "value": 312222,
+          "id": "TotalStreamingBandwidth",
+          "name": "Total Streaming Bandwidth"
+        },
+        {
+          "value": 1,
+          "id": "TotalStreams",
+          "name": "Number of Streams"
+        },
+        {
+          "value": 1,
+          "id": "ActiveStreams",
+          "name": "Number of Streams (Active)"
+        },
+        {
+          "value": 1,
+          "id": "VoicesTotal",
+          "name": "Number of Voices (Total)"
+        },
+        {
+          "value": 0,
+          "id": "VoicesVirtual",
+          "name": "Number of Voices (Virtual)"
+        },
+        {
+          "value": 1,
+          "id": "VoicesPhysical",
+          "name": "Number of Voices (Physical)"
+        },
+        {
+          "value": 1,
+          "id": "ActiveListeners",
+          "name": "Number of Active Listeners"
+        },
+        {
+          "value": -16.77216339111328,
+          "id": "OutputPeak",
+          "name": "Output Peak"
+        },
+        {
+          "value": 0,
+          "id": "ActiveSends",
+          "name": "Number of Active Sends"
+        },
+        {
+          "value": 0,
+          "id": "ApiCalls",
+          "name": "API calls"
+        }
+      ],
+      "effectVoicesTotal": 1,
+      "effectOutputPeakDb": -16.77216339111328,
+      "effectSilenceFloorDb": -90.0,
+      "captureStopTimeMs": 5205,
+      "captureFile": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T123034276Z.prof",
+      "captureFileBytes": 745058
+    }
+  },
+  "outputs": {
+    "profilerCapture": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T123034276Z.prof",
+    "clientStdout": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T123034276Z.stdout.log",
+    "clientStderr": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T123034276Z.stderr.log",
+    "wwiseStdout": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T123034276Z.wwise.stdout.log",
+    "wwiseStderr": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T123034276Z.wwise.stderr.log"
+  },
+  "projectIsolation": {
+    "fixtureProjectRoot": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke",
+    "fixtureProjectPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+    "fixtureBefore": {
+      "root": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke",
+      "fileCount": 35,
+      "totalBytes": 9265832,
+      "digestSha256": "d9adddd0a32fb4fbe7073d146438140449e09feed403a91ed431d6f9019d9bd6"
+    },
+    "fixtureAfter": {
+      "root": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke",
+      "fileCount": 35,
+      "totalBytes": 9265832,
+      "digestSha256": "d9adddd0a32fb4fbe7073d146438140449e09feed403a91ed431d6f9019d9bd6"
+    },
+    "fixtureUnchanged": true,
+    "disposableRunRoot": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z",
+    "disposableProjectRoot": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke",
+    "disposableProjectPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+    "disposableCopy": {
+      "root": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke",
+      "fileCount": 35,
+      "totalBytes": 9265832,
+      "digestSha256": "d9adddd0a32fb4fbe7073d146438140449e09feed403a91ed431d6f9019d9bd6"
+    },
+    "copyMatchesFixtureBytes": true
+  },
+  "nativeHostFixture": {
+    "root": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z",
+    "manifestPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_Fixture.json",
+    "linkage": {
+      "soundBankName": "RWWA_Effect_WetZero",
+      "eventName": "RWWA_Smoke_Effect_Bank_Event",
+      "inputWavName": "RWWA_Heavy_Rain_Puddles_30s.wav",
+      "wemRelativePaths": [
+        "Media/528110025.wem"
+      ],
+      "metadataRelativePaths": [
+        "Init.txt",
+        "PlatformInfo.xml",
+        "PluginInfo.xml",
+        "RWWA_Effect_WetZero.txt",
+        "SoundbanksInfo.xml"
+      ]
+    },
+    "files": [
+      {
+        "kind": "SoundBank",
+        "relativePath": "RWWA_Effect_Baseline.bnk",
+        "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_Baseline.bnk",
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_Baseline.bnk",
+        "sourceSizeBytes": 473,
+        "sourceSha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b",
+        "destinationSizeBytes": 473,
+        "destinationSha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b",
+        "copyMatchesSource": true,
+        "bytes": 473,
+        "sha256": "df9de561d67a34b1a6a059c22696688218088ce975982b7216baf98f7174455b"
+      },
+      {
+        "kind": "SoundBank",
+        "relativePath": "RWWA_Effect_InputRoleWetGeometry.bnk",
+        "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_InputRoleWetGeometry.bnk",
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_InputRoleWetGeometry.bnk",
+        "sourceSizeBytes": 473,
+        "sourceSha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da",
+        "destinationSizeBytes": 473,
+        "destinationSha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da",
+        "copyMatchesSource": true,
+        "bytes": 473,
+        "sha256": "76db7b6ffc71a177db782d82facbaa7517a3fedabcdba2b98bac8641df2900da"
+      },
+      {
+        "kind": "SoundBank",
+        "relativePath": "RWWA_Effect_WetZero.bnk",
+        "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_WetZero.bnk",
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_WetZero.bnk",
+        "sourceSizeBytes": 473,
+        "sourceSha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c",
+        "destinationSizeBytes": 473,
+        "destinationSha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c",
+        "copyMatchesSource": true,
+        "bytes": 473,
+        "sha256": "6e692329855772d1bf02cf507e7a69cde665eaba0521ce4d582f4c6d84b5ed9c"
+      },
+      {
+        "kind": "SoundBank",
+        "relativePath": "Init.bnk",
+        "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Init.bnk",
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\Init.bnk",
+        "sourceSizeBytes": 483,
+        "sourceSha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a",
+        "destinationSizeBytes": 483,
+        "destinationSha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a",
+        "copyMatchesSource": true,
+        "bytes": 483,
+        "sha256": "79bc99588974a3eaa47a028c2230c14b84c285cfeff2d709770ecd1d0d14588a"
+      },
+      {
+        "kind": "Metadata",
+        "relativePath": "Init.txt",
+        "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Init.txt",
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\Init.txt",
+        "sourceSizeBytes": 214,
+        "sourceSha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9",
+        "destinationSizeBytes": 214,
+        "destinationSha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9",
+        "copyMatchesSource": true,
+        "bytes": 214,
+        "sha256": "654a517ae02fe0764bb6c0f47e8672c9dcf38b0bb9cba3f789621932190d93a9"
+      },
+      {
+        "kind": "Wem",
+        "relativePath": "Media/528110025.wem",
+        "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\Media\\528110025.wem",
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\Media\\528110025.wem",
+        "sourceSizeBytes": 5760096,
+        "sourceSha256": "765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5",
+        "destinationSizeBytes": 5760096,
+        "destinationSha256": "765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5",
+        "copyMatchesSource": true,
+        "bytes": 5760096,
+        "sha256": "765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5"
+      },
+      {
+        "kind": "Metadata",
+        "relativePath": "PlatformInfo.xml",
+        "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\PlatformInfo.xml",
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\PlatformInfo.xml",
+        "sourceSizeBytes": 1480,
+        "sourceSha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de",
+        "destinationSizeBytes": 1480,
+        "destinationSha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de",
+        "copyMatchesSource": true,
+        "bytes": 1480,
+        "sha256": "9ed316d88efeee674d6cf2df797fe350ac4f6d3e88c0849288543d408df640de"
+      },
+      {
+        "kind": "Metadata",
+        "relativePath": "PluginInfo.xml",
+        "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\PluginInfo.xml",
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\PluginInfo.xml",
+        "sourceSizeBytes": 502,
+        "sourceSha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea",
+        "destinationSizeBytes": 502,
+        "destinationSha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea",
+        "copyMatchesSource": true,
+        "bytes": 502,
+        "sha256": "42becec0e8df360e16e1c9e6c8137dae697364e5824e645a735ffef615a81bea"
+      },
+      {
+        "kind": "Metadata",
+        "relativePath": "RWWA_Effect_WetZero.txt",
+        "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\RWWA_Effect_WetZero.txt",
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_WetZero.txt",
+        "sourceSizeBytes": 766,
+        "sourceSha256": "cd0c61ad25cb548b410ba62d5d96057ab5ca44fdff76730bc69130c7eeb267bc",
+        "destinationSizeBytes": 766,
+        "destinationSha256": "cd0c61ad25cb548b410ba62d5d96057ab5ca44fdff76730bc69130c7eeb267bc",
+        "copyMatchesSource": true,
+        "bytes": 766,
+        "sha256": "cd0c61ad25cb548b410ba62d5d96057ab5ca44fdff76730bc69130c7eeb267bc"
+      },
+      {
+        "kind": "Metadata",
+        "relativePath": "SoundbanksInfo.xml",
+        "sourcePath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T123034276Z\\RealWorldWeatherAcousticsSmoke\\GeneratedSoundBanks\\Windows\\SoundbanksInfo.xml",
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\SoundbanksInfo.xml",
+        "sourceSizeBytes": 1966,
+        "sourceSha256": "3f0f00dda841fab8c5399ba08796dd3f2cea6d930442b627b4b9a21bf4ec2d40",
+        "destinationSizeBytes": 1966,
+        "destinationSha256": "3f0f00dda841fab8c5399ba08796dd3f2cea6d930442b627b4b9a21bf4ec2d40",
+        "copyMatchesSource": true,
+        "bytes": 1966,
+        "sha256": "3f0f00dda841fab8c5399ba08796dd3f2cea6d930442b627b4b9a21bf4ec2d40"
+      },
+      {
+        "kind": "Metadata",
+        "relativePath": "RWWA_Effect_Fixture.json",
+        "sourcePath": null,
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T123034276Z\\RWWA_Effect_Fixture.json",
+        "sourceSizeBytes": null,
+        "sourceSha256": null,
+        "destinationSizeBytes": 15903,
+        "destinationSha256": "828bfd13028bf9c06ff42e0ffe77fbebb21e5c64928fc423b7b5ef58dca3f8e4",
+        "copyMatchesSource": null,
+        "bytes": 15903,
+        "sha256": "828bfd13028bf9c06ff42e0ffe77fbebb21e5c64928fc423b7b5ef58dca3f8e4"
+      }
+    ],
+    "assertions": {
+      "threeEffectSoundBanksRetained": true,
+      "initSoundBankPresent": true,
+      "wetZeroMetadataPresent": true,
+      "wetZeroSoundBankMetadataMatched": true,
+      "wetZeroStreamedWemLinked": true,
+      "wetZeroEventMediaReferencesMatch": true,
+      "allSelectedArtifactsCopied": true,
+      "fixtureManifestWritten": true
+    }
+  },
+  "cleanup": {
+    "disposableProjectRemoved": true,
+    "disposableProjectRetained": false,
+    "errors": []
+  },
+  "error": null
+}

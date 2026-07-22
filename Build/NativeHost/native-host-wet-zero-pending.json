@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "success": false,
+  "stage": "fixture-preflight",
+  "message": "Native Host SoundBank fixture is incomplete; the smoke was not run.",
+  "missingPaths": [
+    "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T082349857Z\\RWWA_Effect_WetZero.bnk"
+  ]
+}

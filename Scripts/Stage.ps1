@@ -18,7 +18,13 @@ $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
 if ($manifest.schemaVersion -ne 1) {
     throw "Unsupported staging manifest schemaVersion '$($manifest.schemaVersion)'."
 }
-$requiredIds = @('authoring-dll', 'authoring-xml', 'runtime-static-library', 'runtime-factory-header')
+$requiredIds = @(
+    'authoring-dll',
+    'authoring-xml',
+    'runtime-static-library',
+    'runtime-factory-header',
+    'runtime-scene-api-header'
+)
 if ($manifest.entries.Count -ne $requiredIds.Count) {
     throw "The v1 staging manifest must contain exactly $($requiredIds.Count) entries."
 }

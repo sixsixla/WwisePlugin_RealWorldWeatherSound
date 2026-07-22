@@ -88,15 +88,15 @@ events:
       - "CMakeLists.txt:3 (project)"
     message: |
       Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
-      Compiler:  
-      Build flags: 
-      Id flags:  
-      
+      Compiler:
+      Build flags:
+      Id flags:
+
       The output was:
       0
       閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.18+a338add32
       鐢熸垚鍚姩鏃堕棿涓?2026/7/21 18:21:32銆?
-      
+
       鑺傜偣 1 涓婄殑椤圭洰鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\4.1.0\\CompilerIdCXX\\CompilerIdCXX.vcxproj鈥?榛樿鐩爣)銆?
       PrepareForBuild:
         姝ｅ湪鍒涘缓鐩綍鈥淒ebug\\鈥濄€?
@@ -119,21 +119,21 @@ events:
         姝ｅ湪鍒犻櫎鏂囦欢鈥淒ebug\\CompilerIdCXX.tlog\\unsuccessfulbuild鈥濄€?
         姝ｅ湪瀵光€淒ebug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate鈥濇墽琛?Touch 浠诲姟銆?
       宸插畬鎴愮敓鎴愰」鐩€淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\4.1.0\\CompilerIdCXX\\CompilerIdCXX.vcxproj鈥?榛樿鐩爣)鐨勬搷浣溿€?
-      
+
       宸叉垚鍔熺敓鎴愩€?
           0 涓鍛?
           0 涓敊璇?
-      
+
       宸茬敤鏃堕棿 00:00:01.57
-      
-      
+
+
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
-      
+
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
-      
+
       The CXX compiler identification is MSVC, found in:
         D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/4.1.0/CompilerIdCXX/CompilerIdCXX.exe
-      
+
   -
     kind: "find-v1"
     backtrace:
@@ -1268,11 +1268,11 @@ events:
       cached: true
       stdout: |
         Change Dir: 'D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-pv94id'
-        
+
         Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_0d373.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.18+a338add32
         鐢熸垚鍚姩鏃堕棿涓?2026/7/21 18:21:42銆?
-        
+
         鑺傜偣 1 涓婄殑椤圭洰鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-pv94id\\cmTC_0d373.vcxproj鈥?榛樿鐩爣)銆?
         PrepareForBuild:
           姝ｅ湪鍒涘缓鐩綍鈥渃mTC_0d373.dir\\Debug\\鈥濄€?
@@ -1295,13 +1295,13 @@ events:
           姝ｅ湪鍒犻櫎鏂囦欢鈥渃mTC_0d373.dir\\Debug\\cmTC_0d373.tlog\\unsuccessfulbuild鈥濄€?
           姝ｅ湪瀵光€渃mTC_0d373.dir\\Debug\\cmTC_0d373.tlog\\cmTC_0d373.lastbuildstate鈥濇墽琛?Touch 浠诲姟銆?
         宸插畬鎴愮敓鎴愰」鐩€淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-pv94id\\cmTC_0d373.vcxproj鈥?榛樿鐩爣)鐨勬搷浣溿€?
-        
+
         宸叉垚鍔熺敓鎴愩€?
             0 涓鍛?
             0 涓敊璇?
-        
+
         宸茬敤鏃堕棿 00:00:00.34
-        
+
       exitCode: 0
   -
     kind: "message-v1"
@@ -1318,8 +1318,8 @@ events:
         implicit objs: []
         implicit dirs: []
         implicit fwks: []
-      
-      
+
+
   -
     kind: "message-v1"
     backtrace:
@@ -2911,4 +2911,181 @@ events:
         - "C:/Program Files (x86)"
         - "C:/Program Files/CMake"
         - "C:/Program Files/RealWorldWeatherAcousticsCore"
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/FindThreads.cmake:99 (check_cxx_source_compiles)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "CMakeLists.txt:60 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-g2j9x5"
+      binary: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-g2j9x5"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-g2j9x5'
+
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_b7977.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.18+a338add32
+        鐢熸垚鍚姩鏃堕棿涓?2026/7/22 16:16:19銆?
+
+        鑺傜偣 1 涓婄殑椤圭洰鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-g2j9x5\\cmTC_b7977.vcxproj鈥?榛樿鐩爣)銆?
+        PrepareForBuild:
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_b7977.dir\\Debug\\鈥濄€?
+          宸插惎鐢ㄧ粨鏋勫寲杈撳嚭銆傜紪璇戝櫒璇婃柇鐨勬牸寮忚缃皢鍙嶆槧閿欒灞傛缁撴瀯銆傛湁鍏宠缁嗕俊鎭紝璇峰弬闃?https://aka.ms/cpp/structured-output銆?
+          姝ｅ湪鍒涘缓鐩綍鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-g2j9x5\\Debug\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_b7977.dir\\Debug\\cmTC_b7977.tlog\\鈥濄€?
+        InitializeBuildStatus:
+          姝ｅ湪鍒涘缓鈥渃mTC_b7977.dir\\Debug\\cmTC_b7977.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
+          姝ｅ湪瀵光€渃mTC_b7977.dir\\Debug\\cmTC_b7977.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Fo"cmTC_b7977.dir\\Debug\\\\" /Fd"cmTC_b7977.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-g2j9x5\\src.cxx"
+          鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.44.35214 鐗?
+          鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Fo"cmTC_b7977.dir\\Debug\\\\" /Fd"cmTC_b7977.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-g2j9x5\\src.cxx"
+          src.cxx
+        D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-g2j9x5\\src.cxx(1,10): error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥減thread.h鈥? No such file or directory [D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-g2j9x5\\cmTC_b7977.vcxproj]
+        宸插畬鎴愮敓鎴愰」鐩€淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-g2j9x5\\cmTC_b7977.vcxproj鈥?榛樿鐩爣)鐨勬搷浣?- 澶辫触銆?
+
+        鐢熸垚澶辫触銆?
+
+        鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-g2j9x5\\cmTC_b7977.vcxproj鈥?榛樿鐩爣) (1) ->
+        (ClCompile 鐩爣) ->
+          D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-g2j9x5\\src.cxx(1,10): error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥減thread.h鈥? No such file or directory [D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-g2j9x5\\cmTC_b7977.vcxproj]
+
+            0 涓鍛?
+            1 涓敊璇?
+
+        宸茬敤鏃堕棿 00:00:00.20
+
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/FindThreads.cmake:112 (check_library_exists)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/FindThreads.cmake:175 (_threads_check_lib)"
+      - "CMakeLists.txt:60 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-t5hqm6"
+      binary: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-t5hqm6"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-t5hqm6'
+
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_96316.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.18+a338add32
+        鐢熸垚鍚姩鏃堕棿涓?2026/7/22 16:16:19銆?
+
+        鑺傜偣 1 涓婄殑椤圭洰鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-t5hqm6\\cmTC_96316.vcxproj鈥?榛樿鐩爣)銆?
+        PrepareForBuild:
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_96316.dir\\Debug\\鈥濄€?
+          宸插惎鐢ㄧ粨鏋勫寲杈撳嚭銆傜紪璇戝櫒璇婃柇鐨勬牸寮忚缃皢鍙嶆槧閿欒灞傛缁撴瀯銆傛湁鍏宠缁嗕俊鎭紝璇峰弬闃?https://aka.ms/cpp/structured-output銆?
+          姝ｅ湪鍒涘缓鐩綍鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-t5hqm6\\Debug\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_96316.dir\\Debug\\cmTC_96316.tlog\\鈥濄€?
+        InitializeBuildStatus:
+          姝ｅ湪鍒涘缓鈥渃mTC_96316.dir\\Debug\\cmTC_96316.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
+          姝ｅ湪瀵光€渃mTC_96316.dir\\Debug\\cmTC_96316.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Fo"cmTC_96316.dir\\Debug\\\\" /Fd"cmTC_96316.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-t5hqm6\\CheckFunctionExists.cxx"
+          鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.44.35214 鐗?
+          鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Fo"cmTC_96316.dir\\Debug\\\\" /Fd"cmTC_96316.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-t5hqm6\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-t5hqm6\\Debug\\cmTC_96316.exe" /INCREMENTAL /ILK:"cmTC_96316.dir\\Debug\\cmTC_96316.ilk" /NOLOGO pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-t5hqm6/Debug/cmTC_96316.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-t5hqm6/Debug/cmTC_96316.lib" /MACHINE:X64  /machine:x64 cmTC_96316.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: 鏃犳硶鎵撳紑鏂囦欢鈥減threads.lib鈥?[D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-t5hqm6\\cmTC_96316.vcxproj]
+        宸插畬鎴愮敓鎴愰」鐩€淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-t5hqm6\\cmTC_96316.vcxproj鈥?榛樿鐩爣)鐨勬搷浣?- 澶辫触銆?
+
+        鐢熸垚澶辫触銆?
+
+        鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-t5hqm6\\cmTC_96316.vcxproj鈥?榛樿鐩爣) (1) ->
+        (Link 鐩爣) ->
+          LINK : fatal error LNK1104: 鏃犳硶鎵撳紑鏂囦欢鈥減threads.lib鈥?[D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-t5hqm6\\cmTC_96316.vcxproj]
+
+            0 涓鍛?
+            1 涓敊璇?
+
+        宸茬敤鏃堕棿 00:00:00.24
+
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/FindThreads.cmake:112 (check_library_exists)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/FindThreads.cmake:176 (_threads_check_lib)"
+      - "CMakeLists.txt:60 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-bqkq06"
+      binary: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-bqkq06"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-bqkq06'
+
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_bb4e3.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.18+a338add32
+        鐢熸垚鍚姩鏃堕棿涓?2026/7/22 16:16:20銆?
+
+        鑺傜偣 1 涓婄殑椤圭洰鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-bqkq06\\cmTC_bb4e3.vcxproj鈥?榛樿鐩爣)銆?
+        PrepareForBuild:
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_bb4e3.dir\\Debug\\鈥濄€?
+          宸插惎鐢ㄧ粨鏋勫寲杈撳嚭銆傜紪璇戝櫒璇婃柇鐨勬牸寮忚缃皢鍙嶆槧閿欒灞傛缁撴瀯銆傛湁鍏宠缁嗕俊鎭紝璇峰弬闃?https://aka.ms/cpp/structured-output銆?
+          姝ｅ湪鍒涘缓鐩綍鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-bqkq06\\Debug\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_bb4e3.dir\\Debug\\cmTC_bb4e3.tlog\\鈥濄€?
+        InitializeBuildStatus:
+          姝ｅ湪鍒涘缓鈥渃mTC_bb4e3.dir\\Debug\\cmTC_bb4e3.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
+          姝ｅ湪瀵光€渃mTC_bb4e3.dir\\Debug\\cmTC_bb4e3.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Fo"cmTC_bb4e3.dir\\Debug\\\\" /Fd"cmTC_bb4e3.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-bqkq06\\CheckFunctionExists.cxx"
+          鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.44.35214 鐗?
+          鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Fo"cmTC_bb4e3.dir\\Debug\\\\" /Fd"cmTC_bb4e3.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-bqkq06\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-bqkq06\\Debug\\cmTC_bb4e3.exe" /INCREMENTAL /ILK:"cmTC_bb4e3.dir\\Debug\\cmTC_bb4e3.ilk" /NOLOGO pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-bqkq06/Debug/cmTC_bb4e3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/CMakeFiles/CMakeScratch/TryCompile-bqkq06/Debug/cmTC_bb4e3.lib" /MACHINE:X64  /machine:x64 cmTC_bb4e3.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: 鏃犳硶鎵撳紑鏂囦欢鈥減thread.lib鈥?[D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-bqkq06\\cmTC_bb4e3.vcxproj]
+        宸插畬鎴愮敓鎴愰」鐩€淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-bqkq06\\cmTC_bb4e3.vcxproj鈥?榛樿鐩爣)鐨勬搷浣?- 澶辫触銆?
+
+        鐢熸垚澶辫触銆?
+
+        鈥淒:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-bqkq06\\cmTC_bb4e3.vcxproj鈥?榛樿鐩爣) (1) ->
+        (Link 鐩爣) ->
+          LINK : fatal error LNK1104: 鏃犳硶鎵撳紑鏂囦欢鈥減thread.lib鈥?[D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\Core\\CMakeFiles\\CMakeScratch\\TryCompile-bqkq06\\cmTC_bb4e3.vcxproj]
+
+            0 涓鍛?
+            1 涓敊璇?
+
+        宸茬敤鏃堕棿 00:00:00.24
+
+      exitCode: 1
 ...

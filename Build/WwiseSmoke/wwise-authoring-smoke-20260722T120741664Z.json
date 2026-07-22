@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "tool": "RealWorldWeatherAcoustics.WwiseAuthoringSmokeWrapper",
+  "startedAtUtc": "2026-07-22T12:07:41.6662825Z",
+  "finishedAtUtc": "2026-07-22T12:07:44.2103063Z",
+  "success": false,
+  "reportPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T120741664Z.json",
+  "preflight": {
+    "productRoot": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound",
+    "existingWwisePids": [],
+    "pluginArtifacts": [
+      {
+        "id": "authoring-dll",
+        "installedPath": "E:\\WwiseSoft2023\\Wwise_2023.1.19.8928\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.dll",
+        "installedSha256": "d87395eef53dff0ccbf1c3d8d287961dcd87da9edddb39de2ef03ab7f968349d",
+        "stagedPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Artifacts\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.dll",
+        "stagedExists": true,
+        "stagedSha256": "d87395eef53dff0ccbf1c3d8d287961dcd87da9edddb39de2ef03ab7f968349d",
+        "hashMatchesStage": true,
+        "stageRecordSha256": "d87395eef53dff0ccbf1c3d8d287961dcd87da9edddb39de2ef03ab7f968349d",
+        "hashMatchesStageRecord": true
+      },
+      {
+        "id": "authoring-xml",
+        "installedPath": "E:\\WwiseSoft2023\\Wwise_2023.1.19.8928\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.xml",
+        "installedSha256": "275921b2ae9cd5fddddb219275a171afd8bb03d16d6793489fda9c383b412d96",
+        "stagedPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Artifacts\\Authoring\\x64\\Release\\bin\\Plugins\\RealWorldWeatherAcoustics.xml",
+        "stagedExists": true,
+        "stagedSha256": "275921b2ae9cd5fddddb219275a171afd8bb03d16d6793489fda9c383b412d96",
+        "hashMatchesStage": true,
+        "stageRecordSha256": "275921b2ae9cd5fddddb219275a171afd8bb03d16d6793489fda9c383b412d96",
+        "hashMatchesStageRecord": true
+      }
+    ],
+    "python": {
+      "Path": "D:\\Tool\\Wwise_mcp\\.venv\\Scripts\\python.exe",
+      "PrefixArguments": [],
+      "Source": "Parameter:-PythonWithWaapi",
+      "DevelopmentFallback": false,
+      "Executable": "D:\\Tool\\Wwise_mcp\\.venv\\Scripts\\python.exe",
+      "Version": "3.13.5",
+      "WaapiModule": "D:\\Tool\\Wwise_mcp\\.venv\\Lib\\site-packages\\waapi\\__init__.py"
+    },
+    "effectClassId": 2031748099,
+    "effectInputWav": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Originals\\SFX\\RWWA_Heavy_Rain_Puddles_30s.wav",
+    "retainedRainDemo": {
+      "actorWorkUnit": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Actor-Mixer Hierarchy\\Default Work Unit.wwu",
+      "eventWorkUnit": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Events\\Default Work Unit.wwu",
+      "assertions": {
+        "soundPersisted": true,
+        "audioFileSourcePersisted": true,
+        "audioFileMatchesInput": true,
+        "effectPersisted": true,
+        "eventPersisted": true,
+        "eventTargetsSound": true
+      }
+    }
+  },
+  "launch": {
+    "pid": 22716,
+    "keepWwiseOpen": false,
+    "waapiReady": true,
+    "stoppedByWrapper": true,
+    "exitedNaturally": false
+  },
+  "client": {
+    "schemaVersion": 1,
+    "tool": "RealWorldWeatherAcoustics.WwiseAuthoringSmokeClient",
+    "startedAtUtc": "2026-07-22T12:07:43.51713Z",
+    "finishedAtUtc": "2026-07-22T12:07:44.056917Z",
+    "success": false,
+    "inputs": {
+      "projectPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T120741664Z\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+      "waapiUrl": "ws://127.0.0.1:8080/waapi",
+      "sourceClassId": 2031682562,
+      "effectClassId": 2031748099,
+      "effectInputWav": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Originals\\SFX\\RWWA_Heavy_Rain_Puddles_30s.wav",
+      "nativeHostFixtureDir": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\NativeHost\\Fixture\\20260722T120741664Z",
+      "playbackSeconds": 1.5,
+      "silenceFloorDb": -90.0,
+      "wwiseProcessId": 22716,
+      "guiTimeoutSeconds": 20.0,
+      "effectInputWavFormat": {
+        "path": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\Originals\\SFX\\RWWA_Heavy_Rain_Puddles_30s.wav",
+        "fileName": "RWWA_Heavy_Rain_Puddles_30s.wav",
+        "bytes": 8640102,
+        "sha256": "1fa150708de00627796a4e3963a9becd97595e01e5e769e6a3b0a5d1cf076adc",
+        "channels": 2,
+        "sampleRate": 48000,
+        "bitsPerSample": 24,
+        "frameCount": 1440000,
+        "durationSeconds": 30.0,
+        "isRetainedRainAsset": true,
+        "requiredAssertions": {
+          "isPcm": true,
+          "hasSupportedChannelCount": true,
+          "hasSupportedSampleRate": true,
+          "hasSupportedBitDepth": true,
+          "hasPositiveDuration": true,
+          "isNonEmpty": true,
+          "isStereo": true,
+          "is48Khz": true,
+          "is24Bit": true,
+          "isExactlyThirtySeconds": true
+        },
+        "retainedRainProfile": {
+          "isStereo": true,
+          "is48Khz": true,
+          "is24Bit": true,
+          "isExactlyThirtySeconds": true
+        }
+      }
+    },
+    "waapiCompatibility": {
+      "wwiseVersion": "2023.1.19.8928",
+      "projectInfoUri": "ak.wwise.core.getProjectInfo",
+      "undoUri": "ak.wwise.core.undo.undo",
+      "note": "Wwise 2023.1 exposes ak.wwise.core.getProjectInfo; ak.wwise.core.project.getInfo is not present in its installed schema."
+    },
+    "steps": [
+      {
+        "name": "connectWaapi",
+        "status": "passed",
+        "atUtc": "2026-07-22T12:07:43.532051Z",
+        "detail": {
+          "attempts": 1
+        }
+      },
+      {
+        "name": "smoke",
+        "status": "failed",
+        "atUtc": "2026-07-22T12:07:44.056906Z",
+        "detail": "ApplicationError(error=<ak.wwise.locked>, args=[], kwargs={'details': {'reasons': ['Loading project in progress'], 'procedureUri': 'ak.wwise.core.getProjectInfo'}, 'message': 'Cannot execute call because Wwise has an exclusive lock. Please try again later.'}, enc_algo=None, callee=None, callee_authid=None, callee_authrole=None, forward_for=None)"
+      }
+    ],
+    "assertions": {
+      "profilerCaptureSaved": false
+    },
+    "assertionGroups": {
+      "source": {},
+      "effect": {},
+      "shared": {
+        "profilerCaptureSaved": false
+      }
+    },
+    "cleanup": {
+      "mandatoryErrors": [],
+      "warnings": []
+    },
+    "error": {
+      "type": "WaapiRequestFailed",
+      "message": "ApplicationError(error=<ak.wwise.locked>, args=[], kwargs={'details': {'reasons': ['Loading project in progress'], 'procedureUri': 'ak.wwise.core.getProjectInfo'}, 'message': 'Cannot execute call because Wwise has an exclusive lock. Please try again later.'}, enc_algo=None, callee=None, callee_authid=None, callee_authrole=None, forward_for=None)",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Tools\\WwiseSmoke\\wwise_authoring_smoke.py\", line 3422, in main\n    run_smoke(args, report)\n    ~~~~~~~~~^^^^^^^^^^^^^^\n  File \"D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Tools\\WwiseSmoke\\wwise_authoring_smoke.py\", line 2939, in run_smoke\n    project_info = call(client, report, PROJECT_INFO_URI)\n  File \"D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Tools\\WwiseSmoke\\wwise_authoring_smoke.py\", line 607, in call\n    result = client.call(uri, call_args)\n  File \"D:\\Tool\\Wwise_mcp\\.venv\\Lib\\site-packages\\waapi\\client\\client.py\", line 173, in call\n    return self.__do_request(WampRequestType.CALL, _uri, **kwargs)\n           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Tool\\Wwise_mcp\\.venv\\Lib\\site-packages\\waapi\\client\\client.py\", line 291, in __do_request\n    concurrent_future.result()\n    ~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\concurrent\\futures\\_base.py\", line 456, in result\n    return self.__get_result()\n           ~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\concurrent\\futures\\_base.py\", line 401, in __get_result\n    raise self._exception\n  File \"D:\\Tool\\Wwise_mcp\\.venv\\Lib\\site-packages\\waapi\\client\\client.py\", line 286, in _async_request\n    await future  # The client worker is responsible for completing the future\n    ^^^^^^^^^^^^\nwaapi.wamp.interface.WaapiRequestFailed: ApplicationError(error=<ak.wwise.locked>, args=[], kwargs={'details': {'reasons': ['Loading project in progress'], 'procedureUri': 'ak.wwise.core.getProjectInfo'}, 'message': 'Cannot execute call because Wwise has an exclusive lock. Please try again later.'}, enc_algo=None, callee=None, callee_authid=None, callee_authrole=None, forward_for=None)\n"
+    },
+    "connection": {
+      "attempts": 1,
+      "connectedAtUtc": "2026-07-22T12:07:43.532042Z",
+      "url": "ws://127.0.0.1:8080/waapi"
+    }
+  },
+  "outputs": {
+    "profilerCapture": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T120741664Z.prof",
+    "clientStdout": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T120741664Z.stdout.log",
+    "clientStderr": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T120741664Z.stderr.log",
+    "wwiseStdout": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T120741664Z.wwise.stdout.log",
+    "wwiseStderr": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\wwise-authoring-smoke-20260722T120741664Z.wwise.stderr.log"
+  },
+  "projectIsolation": {
+    "fixtureProjectRoot": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke",
+    "fixtureProjectPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+    "fixtureBefore": {
+      "root": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke",
+      "fileCount": 35,
+      "totalBytes": 9265832,
+      "digestSha256": "2ae009c2bcb4e445c36f6b00360322ea226f377f104e382e88266f26f10532ae"
+    },
+    "fixtureAfter": {
+      "root": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\WwiseSmoke\\RealWorldWeatherAcousticsSmoke",
+      "fileCount": 35,
+      "totalBytes": 9265832,
+      "digestSha256": "2ae009c2bcb4e445c36f6b00360322ea226f377f104e382e88266f26f10532ae"
+    },
+    "fixtureUnchanged": true,
+    "disposableRunRoot": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T120741664Z",
+    "disposableProjectRoot": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T120741664Z\\RealWorldWeatherAcousticsSmoke",
+    "disposableProjectPath": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T120741664Z\\RealWorldWeatherAcousticsSmoke\\RealWorldWeatherAcousticsSmoke.wproj",
+    "disposableCopy": {
+      "root": "D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Build\\WwiseSmoke\\Projects\\20260722T120741664Z\\RealWorldWeatherAcousticsSmoke",
+      "fileCount": 35,
+      "totalBytes": 9265832,
+      "digestSha256": "2ae009c2bcb4e445c36f6b00360322ea226f377f104e382e88266f26f10532ae"
+    },
+    "copyMatchesFixtureBytes": true
+  },
+  "nativeHostFixture": {
+    "root": null,
+    "files": [],
+    "assertions": {}
+  },
+  "cleanup": {
+    "disposableProjectRemoved": true,
+    "disposableProjectRetained": false,
+    "errors": []
+  },
+  "error": {
+    "type": "System.Management.Automation.RuntimeException",
+    "message": "WAAPI smoke client failed with exit code 1: ApplicationError(error=<ak.wwise.locked>, args=[], kwargs={'details': {'reasons': ['Loading project in progress'], 'procedureUri': 'ak.wwise.core.getProjectInfo'}, 'message': 'Cannot execute call because Wwise has an exclusive lock. Please try again later.'}, enc_algo=None, callee=None, callee_authid=None, callee_authrole=None, forward_for=None)",
+    "scriptLine": 589,
+    "position": "At D:\\Tool\\WwisePlugin_RealWorldWeatherSound\\Scripts\\Smoke-WwiseAuthoring.ps1:589 char:9\r\n+         throw \"WAAPI smoke client failed with exit code ${clientExitC …\r\n+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+  }
+}

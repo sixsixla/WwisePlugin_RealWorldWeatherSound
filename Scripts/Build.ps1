@@ -20,7 +20,6 @@ if (-not $SkipCore) {
     $resolveArguments.RequireCMake = $true
 }
 if (-not $SkipWwise) {
-    $resolveArguments.RequirePython = $true
     $resolveArguments.RequireMSBuild = $true
 }
 $environment = Resolve-WeatherEnvironment @resolveArguments
@@ -52,36 +51,54 @@ if (-not $SkipCore) {
 
 if (-not $SkipWwise) {
     Assert-WwiseProjectIsolation -PluginRoot $environment.PluginRoot
-    # Wwise's wp.py decodes vswhere output with Python's locale default. On a
-    # GBK host that can fail intermittently when Visual Studio emits Unicode.
-    # Keep UTF-8 mode scoped to the vendor build calls and restore the caller.
-    $previousPythonUtf8 = [System.Environment]::GetEnvironmentVariable('PYTHONUTF8', 'Process')
-    $env:PYTHONUTF8 = '1'
-    try {
-        Push-Location $environment.PluginRoot
-        try {
-            Invoke-Wp -Environment $environment -ArgumentList @(
-                'build', 'Windows_vc170', '-c', 'Release(StaticCRT)', '-x', 'x64', '-t', $Toolset
-            ) -Description 'Build Wwise Runtime static-CRT dependency (Windows x64 Release)'
-            Invoke-Wp -Environment $environment -ArgumentList @(
-                'build', 'Windows_vc170', '-c', $Configuration, '-x', 'x64', '-t', $Toolset
-            ) -Description 'Build Wwise Runtime plug-in (Windows x64 Release)'
-            Invoke-Wp -Environment $environment -ArgumentList @(
-                'build', 'Authoring_Windows', '-c', $Configuration, '-x', 'x64', '-t', $Toolset
-            ) -Description 'Build Wwise Authoring plug-in (Windows x64 Release)'
-        }
-        finally {
-            Pop-Location
-        }
+    $projects = Get-WwiseGeneratedProjects -PluginRoot $environment.PluginRoot
+    $runtimeStaticProject = $projects[0]
+    $runtimeSharedProject = $projects[1]
+    $authoringProject = $projects[2]
+
+    function Invoke-WwiseMsBuild {
+        param(
+            [Parameter(Mandatory = $true)][string]$Project,
+            [Parameter(Mandatory = $true)][string]$BuildConfiguration,
+            [Parameter(Mandatory = $true)][string]$Description
+        )
+
+        Invoke-CheckedCommand -FilePath $environment.MSBuildPath -ArgumentList @(
+            $Project,
+            '/nologo',
+            '/m',
+            '/t:Build',
+            "/p:Configuration=$BuildConfiguration",
+            '/p:Platform=x64',
+            '/verbosity:minimal'
+        ) -Description $Description
     }
-    finally {
-        if ($null -eq $previousPythonUtf8) {
-            Remove-Item Env:PYTHONUTF8 -ErrorAction SilentlyContinue
-        }
-        else {
-            $env:PYTHONUTF8 = $previousPythonUtf8
-        }
-    }
+
+    # wp.py remains the canonical project generator (Scripts\Configure.ps1),
+    # but its build subcommand decodes vswhere output through Python's locale.
+    # That is unreliable on Chinese Windows when vswhere emits GBK. Calling the
+    # generated vc170 projects with the already-resolved VS2022 MSBuild avoids
+    # the locale boundary and builds every dependency explicitly.
+    Invoke-WwiseMsBuild `
+        -Project $runtimeStaticProject `
+        -BuildConfiguration 'Release(StaticCRT)' `
+        -Description 'Build Wwise Runtime static-CRT dependency (Windows x64 Release)'
+    Invoke-WwiseMsBuild `
+        -Project $runtimeStaticProject `
+        -BuildConfiguration 'Profile' `
+        -Description 'Build Wwise Runtime Profile dependency for Authoring (Windows x64)'
+    Invoke-WwiseMsBuild `
+        -Project $runtimeStaticProject `
+        -BuildConfiguration $Configuration `
+        -Description 'Build Wwise Runtime static plug-in (Windows x64 Release)'
+    Invoke-WwiseMsBuild `
+        -Project $runtimeSharedProject `
+        -BuildConfiguration $Configuration `
+        -Description 'Build Wwise Runtime shared plug-in (Windows x64 Release)'
+    Invoke-WwiseMsBuild `
+        -Project $authoringProject `
+        -BuildConfiguration $Configuration `
+        -Description 'Build Wwise Authoring plug-in (Windows x64 Release)'
 
     Assert-ExpectedBuildOutputs -ProductRoot $environment.ProductRoot -Configuration $Configuration
 }

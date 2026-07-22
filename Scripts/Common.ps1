@@ -253,9 +253,11 @@ function Assert-ExpectedBuildOutputs {
 
     $expected = @(
         Join-Path $ProductRoot "Build\Wwise\Runtime\x64_vc170\$Configuration\lib\RealWorldWeatherAcousticsSource.lib"
+        Join-Path $ProductRoot "Build\Wwise\Runtime\x64_vc170\$Configuration\bin\RealWorldWeatherAcoustics.dll"
         Join-Path $ProductRoot "Build\Wwise\Authoring\x64\$Configuration\bin\Plugins\RealWorldWeatherAcoustics.dll"
         Join-Path $ProductRoot "Build\Wwise\Authoring\x64\$Configuration\bin\Plugins\RealWorldWeatherAcoustics.xml"
         Join-Path $ProductRoot 'Artifacts\Runtime\include\AK\Plugin\RealWorldWeatherAcousticsSourceFactory.h'
+        Join-Path $ProductRoot 'Artifacts\Runtime\include\AK\Plugin\RealWorldWeatherAcousticsRuntimeAPI.h'
     )
 
     foreach ($path in $expected) {

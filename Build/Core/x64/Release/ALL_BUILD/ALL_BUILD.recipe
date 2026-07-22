@@ -8,7 +8,16 @@
       <FullPath>D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\Core\bin\Release\rwwa_core_tests.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\Core\bin\Release\rwwa_effect_params_bank_tests.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\Core\bin\Release\rwwa_geometry_interaction_tests.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\Core\bin\Release\rwwa_offline_renderer.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\Core\bin\Release\rwwa_runtime_scene_api_tests.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\Core\bin\Release\rwwa_source_params_bank_tests.exe</FullPath>

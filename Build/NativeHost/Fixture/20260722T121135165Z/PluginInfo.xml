@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PluginInfo Platform="Windows" BasePlatform="Windows">
+	<PluginLibs>
+		<PluginLib LibName="System" LibId="11403271" Type="AudioDevice"/>
+		<PluginLib LibName="No Output" LibId="11862023" Type="AudioDevice"/>
+		<PluginLib LibName="RealWorld Weather Acoustics Effect" LibId="2031748099" Type="Effect" DLL="RealWorldWeatherAcoustics" StaticLib="RealWorldWeatherAcousticsFX"/>
+	</PluginLibs>
+	<FileHash>{1FBD6E44-6601-4F2B-B227-BBEBC45C4C9E}</FileHash>
+</PluginInfo>

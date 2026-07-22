@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
+	<RootPaths>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Windows</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{FA211C55-7099-0153-6FC2-7686247F33CB}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+			</Busses>
+		</SoundBank>
+		<SoundBank Id="3483101035" Type="User" Language="SFX" Hash="{47FB4711-5FF5-C848-1F3F-7E8DC36BF353}">
+			<ShortName>RWWA_Effect_WetZero</ShortName>
+			<Path>RWWA_Effect_WetZero.bnk</Path>
+			<Media>
+				<File Id="599577674" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>hybrid_input.wav</ShortName>
+					<Path>Media/599577674.wem</Path>
+					<CachePath>SFX/hybrid_input_FBC78EF0.wem</CachePath>
+				</File>
+			</Media>
+			<Plugins>
+				<Custom>
+					<Plugin Id="891665504" Name="RWWA_Smoke_Geometry_Effect" LibName="RealWorld Weather Acoustics Effect" LibId="2031748099"/>
+				</Custom>
+			</Plugins>
+			<Events>
+				<Event Id="2058037174" Name="RWWA_Smoke_Effect_Bank_Event">
+					<MediaRefs>
+						<MediaRef Id="599577674"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="891665504"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+			</Events>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{53756FF9-4F15-CD93-07EC-11EE37451A40}</FileHash>
+</SoundBanksInfo>

@@ -1,60 +1,106 @@
-Start testing: Jul 22 12:04 中国标准时间
+Start testing: Jul 22 20:28 中国标准时间
 ----------------------------------------------------------
-1/5 Testing: rwwa_core_tests
-1/5 Test: rwwa_core_tests
+1/8 Testing: rwwa_core_tests
+1/8 Test: rwwa_core_tests
 Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_core_tests.exe"
 Directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core
-"rwwa_core_tests" start time: Jul 22 12:04 中国标准时间
+"rwwa_core_tests" start time: Jul 22 20:28 中国标准时间
 Output:
 ----------------------------------------------------------
 rain metrics: rms=0.0180092 crest=4.89426 envCV=0.0854967 corr=0.886945 diffRatio=0.674991
 wind metrics: rms=0.0101745 crest=4.76381 envCV=0.112924 corr=0.649385 diffRatio=0.520282
 gust metrics: rms=0.0102438 crest=7.68621 envCV=0.49458 corr=0.646068 diffRatio=0.519609
 <end of output>
-Test time =   0.53 sec
+Test time =   0.55 sec
 ----------------------------------------------------------
 Test Passed.
-"rwwa_core_tests" end time: Jul 22 12:04 中国标准时间
+"rwwa_core_tests" end time: Jul 22 20:28 中国标准时间
 "rwwa_core_tests" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/5 Testing: rwwa_source_params_bank_tests
-2/5 Test: rwwa_source_params_bank_tests
-Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_source_params_bank_tests.exe"
+2/8 Testing: rwwa_geometry_interaction_tests
+2/8 Test: rwwa_geometry_interaction_tests
+Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_geometry_interaction_tests.exe"
 Directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core
-"rwwa_source_params_bank_tests" start time: Jul 22 12:04 中国标准时间
+"rwwa_geometry_interaction_tests" start time: Jul 22 20:28 中国标准时间
 Output:
 ----------------------------------------------------------
-SourceParams bank ABI contract passed: 261-byte legacy and 273-byte current blocks.
-<end of output>
-Test time =   0.00 sec
-----------------------------------------------------------
-Test Passed.
-"rwwa_source_params_bank_tests" end time: Jul 22 12:04 中国标准时间
-"rwwa_source_params_bank_tests" time elapsed: 00:00:00
-----------------------------------------------------------
-
-3/5 Testing: rwwa_offline_renderer_weather_ring
-3/5 Test: rwwa_offline_renderer_weather_ring
-Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_offline_renderer.exe" "--preset" "weather-ring" "--output" "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/weather_ring.wav"
-Directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core
-"rwwa_offline_renderer_weather_ring" start time: Jul 22 12:04 中国标准时间
-Output:
-----------------------------------------------------------
-Wrote deterministic weather-ring stereo fixture: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/weather_ring.wav
 <end of output>
 Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"rwwa_offline_renderer_weather_ring" end time: Jul 22 12:04 中国标准时间
+"rwwa_geometry_interaction_tests" end time: Jul 22 20:28 中国标准时间
+"rwwa_geometry_interaction_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/8 Testing: rwwa_runtime_scene_api_tests
+3/8 Test: rwwa_runtime_scene_api_tests
+Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_runtime_scene_api_tests.exe"
+Directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core
+"rwwa_runtime_scene_api_tests" start time: Jul 22 20:28 中国标准时间
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"rwwa_runtime_scene_api_tests" end time: Jul 22 20:28 中国标准时间
+"rwwa_runtime_scene_api_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/8 Testing: rwwa_source_params_bank_tests
+4/8 Test: rwwa_source_params_bank_tests
+Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_source_params_bank_tests.exe"
+Directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core
+"rwwa_source_params_bank_tests" start time: Jul 22 20:28 中国标准时间
+Output:
+----------------------------------------------------------
+SourceParams bank ABI contract passed: 261-byte legacy and 273-byte current blocks.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"rwwa_source_params_bank_tests" end time: Jul 22 20:28 中国标准时间
+"rwwa_source_params_bank_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/8 Testing: rwwa_effect_params_bank_tests
+5/8 Test: rwwa_effect_params_bank_tests
+Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_effect_params_bank_tests.exe"
+Directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core
+"rwwa_effect_params_bank_tests" start time: Jul 22 20:28 中国标准时间
+Output:
+----------------------------------------------------------
+EffectParams bank ABI contract passed: 281-byte block, defaults, mapping, rejects, and clamps.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"rwwa_effect_params_bank_tests" end time: Jul 22 20:28 中国标准时间
+"rwwa_effect_params_bank_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/8 Testing: rwwa_offline_renderer_weather_ring
+6/8 Test: rwwa_offline_renderer_weather_ring
+Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_offline_renderer.exe" "--preset" "weather-ring" "--output" "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/weather_ring.wav"
+Directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core
+"rwwa_offline_renderer_weather_ring" start time: Jul 22 20:28 中国标准时间
+Output:
+----------------------------------------------------------
+Wrote deterministic weather-ring stereo fixture: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/weather_ring.wav
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"rwwa_offline_renderer_weather_ring" end time: Jul 22 20:28 中国标准时间
 "rwwa_offline_renderer_weather_ring" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/5 Testing: rwwa_offline_renderer_open_wind
-4/5 Test: rwwa_offline_renderer_open_wind
+7/8 Testing: rwwa_offline_renderer_open_wind
+7/8 Test: rwwa_offline_renderer_open_wind
 Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_offline_renderer.exe" "--preset" "open-wind" "--output" "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/open_wind.wav"
 Directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core
-"rwwa_offline_renderer_open_wind" start time: Jul 22 12:04 中国标准时间
+"rwwa_offline_renderer_open_wind" start time: Jul 22 20:28 中国标准时间
 Output:
 ----------------------------------------------------------
 Wrote deterministic open-wind stereo fixture: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/open_wind.wav
@@ -62,15 +108,15 @@ Wrote deterministic open-wind stereo fixture: D:/Tool/WwisePlugin_RealWorldWeath
 Test time =   0.07 sec
 ----------------------------------------------------------
 Test Passed.
-"rwwa_offline_renderer_open_wind" end time: Jul 22 12:04 中国标准时间
+"rwwa_offline_renderer_open_wind" end time: Jul 22 20:28 中国标准时间
 "rwwa_offline_renderer_open_wind" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-5/5 Testing: rwwa_offline_renderer_rain_metal
-5/5 Test: rwwa_offline_renderer_rain_metal
+8/8 Testing: rwwa_offline_renderer_rain_metal
+8/8 Test: rwwa_offline_renderer_rain_metal
 Command: "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/bin/Release/rwwa_offline_renderer.exe" "--preset" "rain-metal" "--output" "D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/rain_metal.wav"
 Directory: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core
-"rwwa_offline_renderer_rain_metal" start time: Jul 22 12:04 中国标准时间
+"rwwa_offline_renderer_rain_metal" start time: Jul 22 20:28 中国标准时间
 Output:
 ----------------------------------------------------------
 Wrote deterministic rain-metal stereo fixture: D:/Tool/WwisePlugin_RealWorldWeatherSound/Build/Core/Fixtures/rain_metal.wav
@@ -78,8 +124,8 @@ Wrote deterministic rain-metal stereo fixture: D:/Tool/WwisePlugin_RealWorldWeat
 Test time =   0.07 sec
 ----------------------------------------------------------
 Test Passed.
-"rwwa_offline_renderer_rain_metal" end time: Jul 22 12:04 中国标准时间
+"rwwa_offline_renderer_rain_metal" end time: Jul 22 20:28 中国标准时间
 "rwwa_offline_renderer_rain_metal" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Jul 22 12:04 中国标准时间
+End testing: Jul 22 20:28 中国标准时间

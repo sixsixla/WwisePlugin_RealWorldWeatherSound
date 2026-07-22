@@ -28,6 +28,12 @@
       "source": "RealWorldWeatherAcoustics/SoundEnginePlugin/RealWorldWeatherAcousticsSourceFactory.h",
       "stage": "Artifacts/Runtime/include/AK/Plugin/RealWorldWeatherAcousticsSourceFactory.h",
       "install": null
+    },
+    {
+      "id": "runtime-scene-api-header",
+      "source": "RealWorldWeatherAcoustics/SoundEnginePlugin/RealWorldWeatherAcousticsRuntimeAPI.h",
+      "stage": "Artifacts/Runtime/include/AK/Plugin/RealWorldWeatherAcousticsRuntimeAPI.h",
+      "install": null
     }
   ]
 }
