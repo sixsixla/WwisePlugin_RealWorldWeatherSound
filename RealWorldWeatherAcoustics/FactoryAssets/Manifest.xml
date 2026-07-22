@@ -31,5 +31,6 @@ for more information on factory assets
 <Manifest Name="RealWorld Weather Acoustics" Type="Presets">
   <Dependencies>
     <Plugin PluginName="RealWorld Weather Acoustics" CompanyID="64" PluginID="31001" PluginType="2"/>
+    <Plugin PluginName="RealWorld Weather Acoustics Effect" CompanyID="64" PluginID="31002" PluginType="3"/>
   </Dependencies>
 </Manifest>

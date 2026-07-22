@@ -45,7 +45,7 @@ the specific language governing permissions and limitations under the License.
 
 #include "../RealWorldWeatherAcousticsPlugin.h"
 
-class RealWorldWeatherAcousticsPluginGUI final
+class RealWorldWeatherAcousticsPluginGUI
 #if RWWA_HAS_MFC
 	: public AK::Wwise::Plugin::PluginMFCWindows<>
 	, public AK::Wwise::Plugin::GUIWindows
@@ -76,6 +76,15 @@ public:
 		AK::Wwise::Plugin::eDialog in_eDialog,
 		const char* in_szLanguageCode) const override;
 
+protected:
+	enum class PluginMode
+	{
+		Source,
+		Effect,
+	};
+
+	explicit RealWorldWeatherAcousticsPluginGUI(PluginMode in_mode);
+
 private:
 	struct CanvasTransform
 	{
@@ -101,6 +110,11 @@ private:
 	void LayoutControls();
 	void UpdateControls();
 	void CommitControl(UINT in_controlId);
+	void CommitSlider(UINT in_sliderId, UINT in_scrollCode);
+	void EndSliderUndoGroup();
+	void RandomizeSeed();
+	bool IsSourceMode() const;
+	bool IsEffectMode() const;
 	void SelectFeature(int in_featureIndex);
 	void AddFeature();
 	void DeleteSelectedFeature();
@@ -125,6 +139,7 @@ private:
 
 	HWND m_hwndDialog = nullptr;
 	HWND m_hwndCanvas = nullptr;
+	HWND m_hwndHelpText = nullptr;
 	HFONT m_hGuiFont = nullptr;
 	bool m_updatingControls = false;
 	int m_selectedFeature = 0;
@@ -135,6 +150,16 @@ private:
 	float m_dragPointerOffsetZ = 0.0f;
 	bool m_dragChanged = false;
 	ak_wwise_plugin_undo_group_id m_dragUndoGroup = 0;
+	ak_wwise_plugin_undo_group_id m_sliderUndoGroup = 0;
+	UINT m_sliderUndoControlId = 0;
+	PluginMode m_mode = PluginMode::Source;
+};
+
+class RealWorldWeatherAcousticsEffectPluginGUI final
+	: public RealWorldWeatherAcousticsPluginGUI
+{
+public:
+	RealWorldWeatherAcousticsEffectPluginGUI();
 };
 
 #undef RWWA_HAS_MFC

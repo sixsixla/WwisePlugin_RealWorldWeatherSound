@@ -42,6 +42,17 @@ local function UseCpp17()
     cppdialect "C++17"
 end
 
+local function ConfigureStaticRuntime()
+    UseCpp17()
+    filter "system:windows"
+        postbuildcommands
+        {
+            'if not exist "$(MSBuildThisFileDirectory)..\\..\\Artifacts\\Runtime\\include\\AK\\Plugin" mkdir "$(MSBuildThisFileDirectory)..\\..\\Artifacts\\Runtime\\include\\AK\\Plugin"',
+            'copy /y "$(MSBuildThisFileDirectory)RealWorldWeatherAcousticsRuntimeAPI.h" "$(MSBuildThisFileDirectory)..\\..\\Artifacts\\Runtime\\include\\AK\\Plugin\\RealWorldWeatherAcousticsRuntimeAPI.h"',
+        }
+    filter {}
+end
+
 -- SDK STATIC PLUGIN SECTION
 Plugin.sdk.static.includedirs = -- https://github.com/premake/premake-core/wiki/includedirs
 {
@@ -49,6 +60,8 @@ Plugin.sdk.static.includedirs = -- https://github.com/premake/premake-core/wiki/
 }
 Plugin.sdk.static.files = -- https://github.com/premake/premake-core/wiki/files
 {
+    -- The hybrid runtime library contains both the 31001 Source factory and
+    -- the 31002 companion Effect factory.
     "**.cpp",
     "**.h",
     "**.hpp",
@@ -69,8 +82,11 @@ Plugin.sdk.static.libdirs = -- https://github.com/premake/premake-core/wiki/libd
 }
 Plugin.sdk.static.defines = -- https://github.com/premake/premake-core/wiki/defines
 {
+    -- The implementation lives in the static archive linked into the shared
+    -- plug-in. dllexport on that object keeps the C ABI visible to GetProcAddress.
+    "RWWA_RUNTIME_API_EXPORTS",
 }
-Plugin.sdk.static.custom = UseCpp17
+Plugin.sdk.static.custom = ConfigureStaticRuntime
 
 -- SDK SHARED PLUGIN SECTION
 Plugin.sdk.shared.includedirs =
@@ -81,6 +97,9 @@ Plugin.sdk.shared.files =
 {
     "RealWorldWeatherAcousticsSourceShared.cpp",
     "RealWorldWeatherAcousticsSourceFactory.h",
+    "RealWorldWeatherAcousticsEffect.h",
+    "RealWorldWeatherAcousticsEffectParams.h",
+    "RealWorldWeatherAcousticsRuntimeAPI.h",
 }
 Plugin.sdk.shared.excludes =
 {

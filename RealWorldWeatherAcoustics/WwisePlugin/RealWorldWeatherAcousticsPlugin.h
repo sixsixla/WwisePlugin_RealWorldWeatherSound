@@ -54,4 +54,13 @@ public:
 
 };
 
+class RealWorldWeatherAcousticsEffectPlugin final
+    : public AK::Wwise::Plugin::AudioPlugin
+{
+public:
+    bool GetBankParameters(
+        const GUID& in_guidPlatform,
+        AK::Wwise::Plugin::DataWriter& in_dataWriter) const override;
+};
+
 AK_DECLARE_PLUGIN_CONTAINER(RealWorldWeatherAcoustics);	// Exposes our PluginContainer structure that contains the info for our plugin

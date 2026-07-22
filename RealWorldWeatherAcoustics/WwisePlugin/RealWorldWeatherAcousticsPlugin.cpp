@@ -111,12 +111,65 @@ bool RealWorldWeatherAcousticsPlugin::GetSourceDuration(double& out_minDuration,
     return true;
 }
 
+bool RealWorldWeatherAcousticsEffectPlugin::GetBankParameters(
+    const GUID& in_guidPlatform,
+    AK::Wwise::Plugin::DataWriter& in_dataWriter) const
+{
+    bool success = true;
+    success &= in_dataWriter.WriteInt32(m_propertySet.GetInt32(in_guidPlatform, "InputRole"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "WetMix"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "ResponseGainDb"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "TransientSensitivity"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "RainIntensity"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "WindSpeed"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "WindDirectionDegrees"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "WindGustiness"));
+    success &= in_dataWriter.WriteInt32(m_propertySet.GetInt32(in_guidPlatform, "Seed"));
+
+    bool geometryEnabled = true;
+    (void)m_propertySet.GetValueBool(
+        in_guidPlatform,
+        "GeometryEnabled",
+        geometryEnabled);
+    success &= in_dataWriter.WriteBool(geometryEnabled);
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "ListenerX"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "ListenerY"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "ListenerZ"));
+    success &= in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "ListenerYawDegrees"));
+    success &= in_dataWriter.WriteInt32(m_propertySet.GetInt32(in_guidPlatform, "FeatureCount"));
+
+    for (AkUInt32 slot = 0; slot < 8; ++slot)
+    {
+        success &= in_dataWriter.WriteReal32(
+            m_propertySet.GetReal32(in_guidPlatform, kFeatureProperties[slot][0]));
+        success &= in_dataWriter.WriteReal32(
+            m_propertySet.GetReal32(in_guidPlatform, kFeatureProperties[slot][1]));
+        success &= in_dataWriter.WriteReal32(
+            m_propertySet.GetReal32(in_guidPlatform, kFeatureProperties[slot][2]));
+        success &= in_dataWriter.WriteReal32(
+            m_propertySet.GetReal32(in_guidPlatform, kFeatureProperties[slot][3]));
+        success &= in_dataWriter.WriteInt32(
+            m_propertySet.GetInt32(in_guidPlatform, kFeatureProperties[slot][4]));
+        success &= in_dataWriter.WriteInt32(
+            m_propertySet.GetInt32(in_guidPlatform, kFeatureProperties[slot][5]));
+        success &= in_dataWriter.WriteInt32(
+            m_propertySet.GetInt32(in_guidPlatform, kFeatureProperties[slot][6]));
+    }
+
+    return success;
+}
+
 AK_DEFINE_PLUGIN_CONTAINER(RealWorldWeatherAcoustics);											// Create a PluginContainer structure that contains the info for our plugin
 AK_EXPORT_PLUGIN_CONTAINER(RealWorldWeatherAcoustics);											// This is a DLL, we want to have a standardized name
 AK_ADD_PLUGIN_CLASS_TO_CONTAINER(                                             // Add our CLI class to the PluginContainer
     RealWorldWeatherAcoustics,        // Name of the plug-in container for this shared library
     RealWorldWeatherAcousticsPlugin,  // Authoring plug-in class to add to the plug-in container
     RealWorldWeatherAcousticsSource   // Corresponding Sound Engine plug-in class
+);
+AK_ADD_PLUGIN_CLASS_TO_CONTAINER(
+    RealWorldWeatherAcoustics,
+    RealWorldWeatherAcousticsEffectPlugin,
+    RealWorldWeatherAcousticsEffect
 );
 DEFINE_PLUGIN_REGISTER_HOOK
 

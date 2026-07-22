@@ -11,7 +11,7 @@
     "tag": "RealWorldWeatherAcoustics",
 
     // Description displayed in the Wwise Launcher for this bundle
-    "description": "Geometry-conditioned procedural weather acoustics source plug-in.",
+    "description": "Hybrid geometry-conditioned weather acoustics bundle with a procedural Source and companion in-place Effect.",
 
     // Vendor name displayed in the Wwise Launcher for this bundle
     "vendor": "RWWA Development",
