@@ -710,4 +710,331 @@ std::uint32_t WeatherSynth::SampleRate() const noexcept
 {
     return m_sampleRate;
 }
+
+GeometryInteractionProcessor::GeometryInteractionProcessor(std::uint32_t sampleRate) noexcept
+    : m_sampleRate(std::clamp(sampleRate, 8000u, 192000u))
+{
+    PrepareCoefficients();
+    Reset();
+}
+
+void GeometryInteractionProcessor::Reset() noexcept
+{
+    m_inputLow = 0.0f;
+    m_inputMid = 0.0f;
+    m_envelopeFast = 0.0f;
+    m_envelopeSlow = 0.0f;
+    m_wetMix = 0.0f;
+    m_responseGain = 0.0f;
+    m_transientSensitivity = 0.0f;
+    m_roleTransient = 0.0f;
+    m_roleHigh = 0.0f;
+    m_roleLow = 0.0f;
+    m_roleMid = 0.0f;
+    m_rainMaskWeight = 0.0f;
+    m_windMaskWeight = 0.0f;
+    m_voices = {};
+}
+
+float GeometryInteractionProcessor::ProcessMode(
+    ModeState& state,
+    const ModeCoefficients& coefficients,
+    float excitation) noexcept
+{
+    float value = excitation + coefficients.feedback1 * state.delay1 -
+        coefficients.feedback2 * state.delay2;
+    if (!std::isfinite(value) || std::abs(value) > 10000.0f)
+    {
+        state = {};
+        return 0.0f;
+    }
+
+    state.delay2 = FlushDenormal(state.delay1);
+    state.delay1 = FlushDenormal(value);
+    return FlushDenormal(value * coefficients.outputScale);
+}
+
+void GeometryInteractionProcessor::PrepareCoefficients() noexcept
+{
+    const float sampleRate = static_cast<float>(m_sampleRate);
+    m_parameterSmoothing = 1.0f - std::exp(-1.0f / (0.020f * sampleRate));
+    m_voiceSmoothing = 1.0f - std::exp(-1.0f / (0.015f * sampleRate));
+    m_lowCoefficient = OnePoleCoefficient(180.0f, sampleRate);
+    m_midCoefficient = OnePoleCoefficient(1800.0f, sampleRate);
+    m_fastEnvelopeCoefficient = OnePoleCoefficient(70.0f, sampleRate);
+    m_slowEnvelopeCoefficient = OnePoleCoefficient(8.0f, sampleRate);
+
+    for (std::size_t index = 0u; index < kProfileTuning.size(); ++index)
+    {
+        const ProfileTuning& tuning = kProfileTuning[index];
+        ProfileCoefficients& coefficients = m_profileCoefficients[index];
+        const auto prepareMode = [sampleRate](float frequency, float radius, float gain) noexcept
+        {
+            ModeCoefficients mode{};
+            frequency = std::min(frequency, sampleRate * 0.44f);
+            mode.feedback1 = 2.0f * radius * std::cos(2.0f * kPi * frequency / sampleRate);
+            mode.feedback2 = radius * radius;
+            mode.outputScale = (1.0f - radius) * gain;
+            return mode;
+        };
+        coefficients.modeA = prepareMode(
+            tuning.modeAFrequencyHz, tuning.modeAPoleRadius, tuning.modeAGain);
+        coefficients.modeB = prepareMode(
+            tuning.modeBFrequencyHz, tuning.modeBPoleRadius, tuning.modeBGain);
+        coefficients.flowCoefficient = OnePoleCoefficient(tuning.windCutoffHz, sampleRate);
+        coefficients.modalGain = 0.32f + 0.28f * tuning.impactGain;
+        coefficients.flowGain = 0.18f * tuning.windGain;
+    }
+}
+
+void GeometryInteractionProcessor::PrepareVoices(const SceneSnapshot& snapshot) noexcept
+{
+    const auto previousVoices = m_voices;
+    const std::size_t count = std::min<std::size_t>(
+        snapshot.contributionCount,
+        snapshot.contributions.size());
+
+    for (std::size_t index = 0u; index < m_voices.size(); ++index)
+    {
+        VoiceState next{};
+        if (index < count)
+        {
+            const Contribution& contribution = snapshot.contributions[index];
+            const std::uint32_t profileId = SanitizeProfileId(contribution.profileId);
+            const std::uint32_t responseMask = SanitizeResponseMask(contribution.responseMask);
+            for (const VoiceState& previous : previousVoices)
+            {
+                if (previous.occupied && previous.featureId == contribution.featureId)
+                {
+                    if (previous.profileId == profileId &&
+                        previous.responseMask == responseMask)
+                    {
+                        next = previous;
+                    }
+                    else
+                    {
+                        next.gain = previous.gain;
+                        next.pan = previous.pan;
+                    }
+                    break;
+                }
+            }
+
+            next.occupied = true;
+            next.featureId = contribution.featureId;
+            next.profileId = profileId;
+            next.responseMask = responseMask;
+            if (next.gain == 0.0f)
+            {
+                next.pan = ClampFinite(contribution.pan, -1.0f, 1.0f, 0.0f);
+            }
+        }
+        m_voices[index] = next;
+    }
+}
+
+void GeometryInteractionProcessor::Process(
+    const SceneSnapshot& snapshot,
+    const InteractionSettings& settings,
+    float* const* channelBuffers,
+    std::size_t channelCount,
+    std::size_t frameCount) noexcept
+{
+    if (channelBuffers == nullptr || channelCount == 0u || frameCount == 0u)
+    {
+        return;
+    }
+
+    PrepareVoices(snapshot);
+
+    const float targetWetMix = ClampFinite(settings.wetMix, 0.0f, 1.0f, 0.0f);
+    const float targetResponseGain = ClampFinite(
+        settings.responseGainLinear, 0.0f, 4.0f, 0.0f);
+    const float targetTransientSensitivity = ClampFinite(
+        settings.transientSensitivity, 0.0f, 1.0f, 0.5f);
+
+    float targetRoleTransient = 0.42f;
+    float targetRoleHigh = 0.30f;
+    float targetRoleLow = 0.48f;
+    float targetRoleMid = 0.55f;
+    float targetRainMaskWeight = 0.72f;
+    float targetWindMaskWeight = 0.72f;
+    switch (settings.inputRole)
+    {
+    case InputRole::RainBed:
+        targetRoleTransient = 1.00f;
+        targetRoleHigh = 0.65f;
+        targetRoleLow = 0.08f;
+        targetRoleMid = 0.18f;
+        targetRainMaskWeight = 1.00f;
+        targetWindMaskWeight = 0.08f;
+        break;
+    case InputRole::WindBed:
+        targetRoleTransient = 0.06f;
+        targetRoleHigh = 0.08f;
+        targetRoleLow = 1.00f;
+        targetRoleMid = 0.72f;
+        targetRainMaskWeight = 0.08f;
+        targetWindMaskWeight = 1.00f;
+        break;
+    case InputRole::Generic:
+    default:
+        break;
+    }
+
+    const std::size_t contributionCount = std::min<std::size_t>(
+        snapshot.contributionCount,
+        snapshot.contributions.size());
+    const bool writeWetResponse = targetWetMix > 0.0f &&
+        snapshot.weather.geometryEnabled && contributionCount > 0u;
+    const float wetMixRampTarget = writeWetResponse ? targetWetMix : 0.0f;
+
+    // These are hard bypass contracts. Keep analysis/modal history warm so
+    // re-enabling the effect does not manufacture an onset transient, while
+    // forcing the wet ramp origin to zero and never touching the dry samples.
+    if (!writeWetResponse)
+    {
+        m_wetMix = 0.0f;
+    }
+
+    for (std::size_t frame = 0u; frame < frameCount; ++frame)
+    {
+        float inputSum = 0.0f;
+        std::size_t validChannelCount = 0u;
+        for (std::size_t channel = 0u; channel < channelCount; ++channel)
+        {
+            if (channelBuffers[channel] == nullptr)
+            {
+                continue;
+            }
+            const float sample = channelBuffers[channel][frame];
+            if (std::isfinite(sample))
+            {
+                inputSum += std::clamp(sample, -4.0f, 4.0f);
+                ++validChannelCount;
+            }
+        }
+        const float input = validChannelCount > 0u
+            ? inputSum / static_cast<float>(validChannelCount)
+            : 0.0f;
+
+        m_inputLow = FlushDenormal(
+            m_inputLow + (input - m_inputLow) * m_lowCoefficient);
+        m_inputMid = FlushDenormal(
+            m_inputMid + (input - m_inputMid) * m_midCoefficient);
+        const float low = m_inputLow;
+        const float mid = m_inputMid - m_inputLow;
+        const float high = input - m_inputMid;
+
+        const float absoluteInput = std::abs(input);
+        m_envelopeFast = FlushDenormal(
+            m_envelopeFast + (absoluteInput - m_envelopeFast) * m_fastEnvelopeCoefficient);
+        m_envelopeSlow = FlushDenormal(
+            m_envelopeSlow + (absoluteInput - m_envelopeSlow) * m_slowEnvelopeCoefficient);
+        const float transientEnvelope = std::max(0.0f, m_envelopeFast - m_envelopeSlow);
+        const float transientPolarity = high < 0.0f ? -1.0f : 1.0f;
+
+        m_wetMix = MoveTowardSmoothed(m_wetMix, wetMixRampTarget, m_parameterSmoothing);
+        m_responseGain = MoveTowardSmoothed(
+            m_responseGain, targetResponseGain, m_parameterSmoothing);
+        m_transientSensitivity = MoveTowardSmoothed(
+            m_transientSensitivity, targetTransientSensitivity, m_parameterSmoothing);
+        m_roleTransient = MoveTowardSmoothed(
+            m_roleTransient, targetRoleTransient, m_parameterSmoothing);
+        m_roleHigh = MoveTowardSmoothed(m_roleHigh, targetRoleHigh, m_parameterSmoothing);
+        m_roleLow = MoveTowardSmoothed(m_roleLow, targetRoleLow, m_parameterSmoothing);
+        m_roleMid = MoveTowardSmoothed(m_roleMid, targetRoleMid, m_parameterSmoothing);
+        m_rainMaskWeight = MoveTowardSmoothed(
+            m_rainMaskWeight, targetRainMaskWeight, m_parameterSmoothing);
+        m_windMaskWeight = MoveTowardSmoothed(
+            m_windMaskWeight, targetWindMaskWeight, m_parameterSmoothing);
+
+        const float transientDrive = transientPolarity * transientEnvelope *
+            (0.25f + 1.75f * m_transientSensitivity);
+        const float modalExcitation =
+            m_roleHigh * high + m_roleTransient * transientDrive + 0.20f * m_roleMid * mid;
+        const float flowExcitation = m_roleLow * low + m_roleMid * mid;
+
+        float wetLeft = 0.0f;
+        float wetRight = 0.0f;
+        for (std::size_t index = 0u; index < m_voices.size(); ++index)
+        {
+            VoiceState& voice = m_voices[index];
+            const Contribution* contribution = index < contributionCount
+                ? &snapshot.contributions[index]
+                : nullptr;
+            const float targetGain = contribution != nullptr
+                ? ClampFinite(contribution->gain, 0.0f, 1.0f, 0.0f)
+                : 0.0f;
+            const float targetPan = contribution != nullptr
+                ? ClampFinite(contribution->pan, -1.0f, 1.0f, 0.0f)
+                : voice.pan;
+            voice.gain = MoveTowardSmoothed(voice.gain, targetGain, m_voiceSmoothing);
+            voice.pan = MoveTowardSmoothed(voice.pan, targetPan, m_voiceSmoothing);
+
+            const float rainWeight = (voice.responseMask & kResponseMaskRain) != 0u
+                ? m_rainMaskWeight
+                : 0.0f;
+            const float windWeight = (voice.responseMask & kResponseMaskWind) != 0u
+                ? m_windMaskWeight
+                : 0.0f;
+            const float responseWeight = std::max(rainWeight, windWeight);
+            const ProfileCoefficients& profile = m_profileCoefficients[voice.profileId];
+            const float modalInput = modalExcitation * responseWeight * profile.modalGain;
+            const float modalResponse =
+                ProcessMode(voice.modeA, profile.modeA, modalInput) +
+                ProcessMode(voice.modeB, profile.modeB, modalInput * 0.72f);
+            voice.flow = FlushDenormal(
+                voice.flow + (flowExcitation * responseWeight - voice.flow) *
+                    profile.flowCoefficient);
+            const float surfaceResponse = FlushDenormal(
+                (modalResponse + voice.flow * profile.flowGain) * voice.gain);
+
+            const float safePan = std::clamp(voice.pan, -1.0f, 1.0f);
+            const float leftPan = std::sqrt(0.5f * (1.0f - safePan));
+            const float rightPan = std::sqrt(0.5f * (1.0f + safePan));
+            wetLeft += surfaceResponse * leftPan;
+            wetRight += surfaceResponse * rightPan;
+        }
+
+        if (!writeWetResponse)
+        {
+            continue;
+        }
+
+        const float wetScale = m_wetMix * m_responseGain;
+        wetLeft = ClampFinite(wetLeft * wetScale, -4.0f, 4.0f, 0.0f);
+        wetRight = ClampFinite(wetRight * wetScale, -4.0f, 4.0f, 0.0f);
+        if (channelCount == 1u)
+        {
+            if (channelBuffers[0] != nullptr)
+            {
+                const float dry = channelBuffers[0][frame];
+                const float monoWet = (wetLeft + wetRight) * 0.70710678f;
+                channelBuffers[0][frame] = ClampAudio(
+                    (std::isfinite(dry) ? dry : 0.0f) + monoWet);
+            }
+        }
+        else
+        {
+            if (channelBuffers[0] != nullptr)
+            {
+                const float dry = channelBuffers[0][frame];
+                channelBuffers[0][frame] = ClampAudio(
+                    (std::isfinite(dry) ? dry : 0.0f) + wetLeft);
+            }
+            if (channelBuffers[1] != nullptr)
+            {
+                const float dry = channelBuffers[1][frame];
+                channelBuffers[1][frame] = ClampAudio(
+                    (std::isfinite(dry) ? dry : 0.0f) + wetRight);
+            }
+        }
+    }
+}
+
+std::uint32_t GeometryInteractionProcessor::SampleRate() const noexcept
+{
+    return m_sampleRate;
+}
 } // namespace rwwa

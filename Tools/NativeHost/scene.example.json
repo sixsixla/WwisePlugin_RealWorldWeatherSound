@@ -1,0 +1,37 @@
+{
+  "revision": 2,
+  "valid": true,
+  "geometryEnabled": true,
+  "listenerX": 0.0,
+  "listenerY": 0.0,
+  "listenerZ": 0.0,
+  "listenerYawRadians": 0.0,
+  "rainIntensity": 0.75,
+  "windSpeedMetersPerSecond": 20.0,
+  "windDirectionRadians": 0.0,
+  "windGustiness": 0.35,
+  "weatherSeed": 24681357,
+  "weatherMasterGainLinear": 1.0,
+  "features": [
+    {
+      "id": 1001,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 6.0,
+      "radius": 3.0,
+      "profile": 0,
+      "mask": 3,
+      "priority": 100
+    },
+    {
+      "id": 1002,
+      "x": -4.0,
+      "y": 0.0,
+      "z": 4.0,
+      "radius": 2.0,
+      "profile": 1,
+      "mask": 1,
+      "priority": 50
+    }
+  ]
+}

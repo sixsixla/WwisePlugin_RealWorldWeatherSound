@@ -35,6 +35,7 @@ namespace RealWorldWeatherAcousticsConfig
 {
     static const unsigned short CompanyID = 64;
     static const unsigned short PluginID = 31001;
+    static const unsigned short EffectPluginID = 31002;
 }
 
 #endif // RealWorldWeatherAcousticsConfig_H

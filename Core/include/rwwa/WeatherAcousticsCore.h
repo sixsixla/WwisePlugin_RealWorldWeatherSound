@@ -203,6 +203,114 @@ private:
     std::array<VoiceState, kActiveContributionCount> m_voices{};
 };
 
+enum class InputRole : std::uint32_t
+{
+    RainBed = 0,
+    WindBed = 1,
+    Generic = 2,
+};
+
+struct InteractionSettings
+{
+    InputRole inputRole = InputRole::Generic;
+    float wetMix = 0.0f;
+    float responseGainLinear = 1.0f;
+    float transientSensitivity = 0.5f;
+};
+
+class GeometryInteractionProcessor
+{
+public:
+    explicit GeometryInteractionProcessor(std::uint32_t sampleRate = 48000u) noexcept;
+
+    void Reset() noexcept;
+
+    // Processes planar channel buffers in place without allocation. Mono folds
+    // the spatial response to one channel. For two or more channels, the wet
+    // response is panned to channels 0/1 while all other dry channels remain
+    // untouched. The analysis input is the finite average of every valid
+    // channel. wetMix=0, disabled geometry, or an empty contribution set never
+    // modifies the input samples.
+    void Process(
+        const SceneSnapshot& snapshot,
+        const InteractionSettings& settings,
+        float* const* channelBuffers,
+        std::size_t channelCount,
+        std::size_t frameCount) noexcept;
+
+    std::uint32_t SampleRate() const noexcept;
+
+private:
+    struct ModeState
+    {
+        float delay1 = 0.0f;
+        float delay2 = 0.0f;
+    };
+
+    struct VoiceState
+    {
+        bool occupied = false;
+        std::uint64_t featureId = 0u;
+        std::uint32_t profileId = 0u;
+        std::uint32_t responseMask = 0u;
+        float gain = 0.0f;
+        float pan = 0.0f;
+        float flow = 0.0f;
+        ModeState modeA{};
+        ModeState modeB{};
+    };
+
+    struct ModeCoefficients
+    {
+        float feedback1 = 0.0f;
+        float feedback2 = 0.0f;
+        float outputScale = 0.0f;
+    };
+
+    struct ProfileCoefficients
+    {
+        ModeCoefficients modeA{};
+        ModeCoefficients modeB{};
+        float flowCoefficient = 0.0f;
+        float modalGain = 0.0f;
+        float flowGain = 0.0f;
+    };
+
+    static float ProcessMode(
+        ModeState& state,
+        const ModeCoefficients& coefficients,
+        float excitation) noexcept;
+    void PrepareCoefficients() noexcept;
+    void PrepareVoices(const SceneSnapshot& snapshot) noexcept;
+
+    std::uint32_t m_sampleRate = 48000u;
+
+    float m_inputLow = 0.0f;
+    float m_inputMid = 0.0f;
+    float m_envelopeFast = 0.0f;
+    float m_envelopeSlow = 0.0f;
+
+    float m_wetMix = 0.0f;
+    float m_responseGain = 0.0f;
+    float m_transientSensitivity = 0.0f;
+    float m_roleTransient = 0.0f;
+    float m_roleHigh = 0.0f;
+    float m_roleLow = 0.0f;
+    float m_roleMid = 0.0f;
+    float m_rainMaskWeight = 0.0f;
+    float m_windMaskWeight = 0.0f;
+
+    float m_parameterSmoothing = 0.0f;
+    float m_voiceSmoothing = 0.0f;
+    float m_lowCoefficient = 0.0f;
+    float m_midCoefficient = 0.0f;
+    float m_fastEnvelopeCoefficient = 0.0f;
+    float m_slowEnvelopeCoefficient = 0.0f;
+
+    std::array<ProfileCoefficients, 4> m_profileCoefficients{};
+    std::array<VoiceState, kActiveContributionCount> m_voices{};
+};
+
 // Source compatibility for integrations built against the v0.1 class name.
 using RainSynth = WeatherSynth;
 } // namespace rwwa

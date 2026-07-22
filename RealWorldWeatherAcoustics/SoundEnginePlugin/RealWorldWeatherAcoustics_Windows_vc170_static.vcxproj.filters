@@ -18,6 +18,9 @@
     <ClInclude Include="..\..\Core\include\rwwa\WeatherAcousticsCore.h">
       <Filter>Core\include\rwwa</Filter>
     </ClInclude>
+    <ClInclude Include="RealWorldWeatherAcousticsEffect.h" />
+    <ClInclude Include="RealWorldWeatherAcousticsEffectParams.h" />
+    <ClInclude Include="RealWorldWeatherAcousticsRuntimeAPI.h" />
     <ClInclude Include="RealWorldWeatherAcousticsSource.h" />
     <ClInclude Include="RealWorldWeatherAcousticsSourceFactory.h" />
     <ClInclude Include="RealWorldWeatherAcousticsSourceParams.h" />
@@ -26,6 +29,9 @@
     <ClCompile Include="..\..\Core\src\WeatherAcousticsCore.cpp">
       <Filter>Core\src</Filter>
     </ClCompile>
+    <ClCompile Include="RealWorldWeatherAcousticsEffect.cpp" />
+    <ClCompile Include="RealWorldWeatherAcousticsEffectParams.cpp" />
+    <ClCompile Include="RealWorldWeatherAcousticsRuntimeAPI.cpp" />
     <ClCompile Include="RealWorldWeatherAcousticsSource.cpp" />
     <ClCompile Include="RealWorldWeatherAcousticsSourceParams.cpp" />
   </ItemGroup>

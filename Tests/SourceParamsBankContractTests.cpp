@@ -26,6 +26,7 @@ namespace
 constexpr std::size_t kLegacyBankSize = 261;
 constexpr std::size_t kCurrentBankSize = 273;
 constexpr std::size_t kGeometryEnabledOffset = 16;
+constexpr std::size_t kFirstFeatureRadiusOffset = 49;
 
 int g_failureCount = 0;
 
@@ -160,6 +161,29 @@ void TestGeometryDisabledBank()
     Expect(result == AK_Success, "273-byte geometry-disabled bank must load successfully");
     Expect(!params.Values.bGeometryEnabled, "geometry-disabled bank byte must remain false");
 }
+
+void TestRadiusMinimumContract()
+{
+    std::vector<AkUInt8> block = MakeCurrentBank();
+    const AkReal32 belowMinimum = 0.01f;
+    std::memcpy(
+        block.data() + kFirstFeatureRadiusOffset,
+        &belowMinimum,
+        sizeof(belowMinimum));
+
+    RealWorldWeatherAcousticsSourceParams bankParams;
+    Expect(
+        bankParams.SetParamsBlock(block.data(), static_cast<AkUInt32>(block.size())) == AK_Success,
+        "bank with legacy sub-minimum radius must still load");
+    ExpectNear(bankParams.Values.Features[0].fRadius, 0.2f, "bank radius minimum clamp");
+
+    RealWorldWeatherAcousticsSourceParams automatedParams;
+    const AkPluginParamID radiusId = FeatureParameterId(0u, PARAM_FEATURE_RADIUS_OFFSET);
+    Expect(
+        automatedParams.SetParam(radiusId, &belowMinimum, sizeof(belowMinimum)) == AK_Success,
+        "SetParam radius below minimum must be accepted and clamped");
+    ExpectNear(automatedParams.Values.Features[0].fRadius, 0.2f, "SetParam radius minimum clamp");
+}
 }
 
 int main()
@@ -168,6 +192,7 @@ int main()
     TestLegacyBank();
     TestCurrentBank();
     TestGeometryDisabledBank();
+    TestRadiusMinimumContract();
 
     if (g_failureCount != 0)
     {

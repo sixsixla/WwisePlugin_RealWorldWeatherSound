@@ -50,6 +50,31 @@ if(RWWA_BUILD_TESTS)
 
     add_test(NAME rwwa_core_tests COMMAND rwwa_core_tests)
 
+    add_executable(rwwa_geometry_interaction_tests
+        Tests/GeometryInteractionProcessorTests.cpp)
+    target_link_libraries(rwwa_geometry_interaction_tests PRIVATE rwwa::core)
+    target_compile_features(rwwa_geometry_interaction_tests PRIVATE cxx_std_17)
+
+    add_test(NAME rwwa_geometry_interaction_tests COMMAND rwwa_geometry_interaction_tests)
+
+    find_package(Threads REQUIRED)
+    add_executable(rwwa_runtime_scene_api_tests
+        Tests/RuntimeSceneApiTests.cpp
+        RealWorldWeatherAcoustics/SoundEnginePlugin/RealWorldWeatherAcousticsRuntimeAPI.cpp)
+    target_include_directories(rwwa_runtime_scene_api_tests
+        PRIVATE
+            "${CMAKE_CURRENT_SOURCE_DIR}/RealWorldWeatherAcoustics/SoundEnginePlugin")
+    target_link_libraries(rwwa_runtime_scene_api_tests PRIVATE rwwa::core Threads::Threads)
+    target_compile_features(rwwa_runtime_scene_api_tests PRIVATE cxx_std_17)
+    target_compile_definitions(rwwa_runtime_scene_api_tests PRIVATE RWWA_RUNTIME_TESTING)
+    if(MSVC)
+        target_compile_options(rwwa_runtime_scene_api_tests PRIVATE /W4 /permissive-)
+    else()
+        target_compile_options(rwwa_runtime_scene_api_tests PRIVATE -Wall -Wextra -Wpedantic)
+    endif()
+
+    add_test(NAME rwwa_runtime_scene_api_tests COMMAND rwwa_runtime_scene_api_tests)
+
     if(RWWA_BUILD_WWISE_BANK_TESTS)
         if(NOT MSVC)
             message(FATAL_ERROR "RWWA_BUILD_WWISE_BANK_TESTS currently supports the Windows/MSVC Wwise 2023 target only")
@@ -74,6 +99,19 @@ if(RWWA_BUILD_TESTS)
         target_compile_definitions(rwwa_source_params_bank_tests PRIVATE WIN64 WIN32_LEAN_AND_MEAN)
 
         add_test(NAME rwwa_source_params_bank_tests COMMAND rwwa_source_params_bank_tests)
+
+        add_executable(rwwa_effect_params_bank_tests
+            Tests/EffectParamsBankContractTests.cpp
+            RealWorldWeatherAcoustics/SoundEnginePlugin/RealWorldWeatherAcousticsEffectParams.cpp)
+        target_include_directories(rwwa_effect_params_bank_tests
+            PRIVATE
+                "${rwwa_wwise_sdk_include}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/RealWorldWeatherAcoustics/SoundEnginePlugin")
+        target_compile_features(rwwa_effect_params_bank_tests PRIVATE cxx_std_17)
+        target_compile_options(rwwa_effect_params_bank_tests PRIVATE /W4 /permissive-)
+        target_compile_definitions(rwwa_effect_params_bank_tests PRIVATE WIN64 WIN32_LEAN_AND_MEAN)
+
+        add_test(NAME rwwa_effect_params_bank_tests COMMAND rwwa_effect_params_bank_tests)
     endif()
 
     if(RWWA_BUILD_OFFLINE_RENDERER)

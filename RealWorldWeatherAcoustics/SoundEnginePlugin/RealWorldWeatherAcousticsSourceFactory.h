@@ -27,6 +27,9 @@ the specific language governing permissions and limitations under the License.
 #ifndef RealWorldWeatherAcousticsSourceFactory_H
 #define RealWorldWeatherAcousticsSourceFactory_H
 
+#include "RealWorldWeatherAcousticsRuntimeAPI.h"
+
 AK_STATIC_LINK_PLUGIN(RealWorldWeatherAcousticsSource)
+AK_STATIC_LINK_PLUGIN(RealWorldWeatherAcousticsEffect)
 
 #endif // RealWorldWeatherAcousticsSourceFactory_H

@@ -638,6 +638,9 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="RealWorldWeatherAcousticsEffect.h" />
+    <ClInclude Include="RealWorldWeatherAcousticsEffectParams.h" />
+    <ClInclude Include="RealWorldWeatherAcousticsRuntimeAPI.h" />
     <ClInclude Include="RealWorldWeatherAcousticsSourceFactory.h" />
   </ItemGroup>
   <ItemGroup>
