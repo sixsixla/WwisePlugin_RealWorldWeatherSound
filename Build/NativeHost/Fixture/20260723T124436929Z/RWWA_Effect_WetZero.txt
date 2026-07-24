@@ -1,0 +1,9 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2058037174	RWWA_Smoke_Effect_Bank_Event			\Default Work Unit\RWWA_Smoke_Effect_Bank_Event	
+
+Effect plug-ins	ID	Name	Type				Notes
+	570213753	RWWA_Demo_Weather_Geometry_Effect	RealWorld Weather Acoustics Effect			
+
+Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
+	528110025	RWWA_Demo_Heavy_Rain_Puddles	D:\Tool\WwisePlugin_RealWorldWeatherSound\Build\WwiseSmoke\Projects\20260723T124436929Z\RealWorldWeatherAcousticsSmoke\.cache\Windows\SFX\RWWA_Heavy_Rain_Puddles_30s_FBC78EF0.wem	528110025.wem	\Actor-Mixer Hierarchy\Default Work Unit\RWWA_Demo_Heavy_Rain_Puddles	Persistent human-listening demo: 30-second heavy-rain Audio File Source processed by RealWorld Weather Acoustics Effect.
+
