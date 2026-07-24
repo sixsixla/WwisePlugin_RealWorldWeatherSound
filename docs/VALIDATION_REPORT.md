@@ -4,6 +4,8 @@
 
 The v0.3 hybrid vertical slice passes its current automated acceptance boundary on Wwise `2023.1.19.8928`, Windows x64, Visual Studio 2022/vc170, Release.
 
+Latest source changes after the original v0.3 evidence refine the Effect Authoring rain audition path: the main panel now exposes only audible rain/material controls, appends `Plastic=4`, and makes `RainIntensity` / `Rain Amount` drive impact density and energy. Fresh Core build/CTest, Wwise Authoring smoke, and NativeHost automated QA for that change have passed. Manual subjective listening remains a separate pending gate.
+
 This verdict covers:
 
 - v0.2 Source `PluginID=31001` compatibility regression: 69 parameters, 261-byte legacy block, 273-byte current block.
@@ -27,7 +29,7 @@ It does not claim subjective listening approval, Unity/Unreal integration, comme
 ### Effect 31002 v0.3 boundary
 
 - Effect attaches to Wwise Audio File Source/streamed loop paths on Sound, Actor-Mixer, or Bus.
-- Input material provides the high-quality rain/wind/ambience bed; the plug-in adds geometry/material interaction only.
+- Input material provides the high-quality rain/wind/ambience bed; the plug-in adds geometry/material interaction only. The rain path uses the input rain bed as the body sound and adds surface impact/resonance instead of synthesizing the whole rain sound from scratch.
 - Actual current parameters:
 
 | Parameter | Range | Default |
@@ -45,11 +47,30 @@ It does not claim subjective listening approval, Unity/Unreal integration, comme
 | `ListenerX/Y/Z` | finite float | `0` |
 | `ListenerYawDegrees` | degrees | `0` |
 | `FeatureCount` | `0..8` | `4` |
-| `Feature1..8 X/Y/Z/Radius/Profile/Mask/Priority` | fixed 8 slots | fixed ring defaults; Radius min clamp is 0.2 |
+| `Feature1..8 X/Y/Z/Radius/Profile/Mask/Priority` | fixed 8 slots; Profile `0..4` | fixed ring defaults; Radius min clamp is 0.2 |
 
-`Priority` is a numeric `0..1000` weight. It is not a four-level enum.
+Profile values are `0 Metal`, `1 Wood`, `2 Glass`, `3 Tile`, and appended `4 Plastic`; the legacy `0..3` meanings do not change. `Priority` is a numeric `0..1000` weight. It is not a four-level enum.
+
+Runtime scene profile IDs use the same values. `RealWorldWeatherAcousticsRuntimeAPI.h` exposes `RWWA_RUNTIME_PROFILE_METAL=0`, `WOOD=1`, `GLASS=2`, `TILE=3`, `PLASTIC=4`, and `RWWA_RUNTIME_PROFILE_MAX=RWWA_RUNTIME_PROFILE_PLASTIC`. The previous runtime-side clamp-to-3 defect is fixed; game-side `RWWA_RuntimeScene_SetV1` payloads can now submit Plastic surfaces.
+
+Effect Authoring rain audition UI intentionally hides `Seed`, `ListenerY`, `Priority`, and wind parameters from the main rain test path while keeping them in ABI/Bank/runtime. The visible controls are `Input Audio`, `Rain Amount`, `Surface Mix`, `Impact Gain dB`, `Impact Sharpness`, `Geometry Response`, and per-Surface `X/Z/Radius/Material/Weather Response`.
 
 Not implemented in v0.3: `EnvelopeSensitivity`, band weights, smoothing, distance scale, priority bias, Unity Adapter, Unreal Adapter, advanced geometry types, Capture/Replay, Monitor UI, Ambisonics, and manual subjective listening acceptance.
+
+### Latest authoring-audibility validation status
+
+The latest rain/material UI and DSP tuning pass has completed automated Core, Wwise Authoring, and NativeHost coverage. Human listening remains a separate pending gate.
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| Build and CTest after latest source changes | PASS | Fresh `Build/Core/Testing/Temporary/LastTest.log`, 8/8 tests, started at 2026-07-22 21:30 local time. |
+| Effect ABI remains compatible | PASS | `rwwa_effect_params_bank_tests`: `281-byte block, defaults, mapping, rejects, and clamps`; Source tests still report 261/273-byte contracts. |
+| Plastic appended safely | PASS | Runtime API exposes `RWWA_RUNTIME_PROFILE_PLASTIC=4` and `RWWA_RUNTIME_PROFILE_MAX=PLASTIC`; profile `0..3` meanings remain unchanged. |
+| Rain Amount / material response automated delta | PASS | `Build/NativeHost/native-host-rain-material-changed-20260723T124436929Z.json`: max wet difference `0.0905741826`. |
+| Material position scene | PASS | `Tools/NativeHost/scene.rain-material-lab.example.json`: revision 4, 4 Surface circles, Listener at lower Metal, right Surface `profile=4` Plastic. |
+| WetMix0 / GeometryOff A/B | PASS | `native-host-rain-material-wet-bypass-20260723T124436929Z.json` and `native-host-rain-material-geometry-disabled-20260723T124436929Z.json` both report max wet difference `0`. |
+| Authoring UI smoke | PASS | `Build/WwiseSmoke/wwise-authoring-smoke-20260723T124436929Z.json`: wrapper/client `success = true`, Wwise `2023.1.19.8928`, Profiler `988049` bytes, fixture unchanged. |
+| Manual acceptance | PENDING | During playback, drag Listener into the lower/material Surface and hear corresponding rain-hit response; `Surface Mix=0` and `Geometry Response=false` remove the response for A/B. |
 
 ### Retained rain demo boundary
 
@@ -99,22 +120,24 @@ Build/Core/Testing/Temporary/LastTest.log
 | `rwwa_offline_renderer_open_wind` | PASS | wrote `Build/Core/Fixtures/open_wind.wav` |
 | `rwwa_offline_renderer_rain_metal` | PASS | wrote `Build/Core/Fixtures/rain_metal.wav` |
 
+Latest run note: this `LastTest.log` was refreshed at 2026-07-22 21:30 local time after the Plastic/runtime-profile and rain-material tuning changes.
+
 ### Staging and install
 
-`Artifacts/stage-record.json` records `stagedAtUtc = 2026-07-22T09:46:33.2694904Z` and exactly 5 staged files:
+`Artifacts/stage-record.json` records `stagedAtUtc = 2026-07-22T13:37:03.4692394Z` and exactly 5 staged files:
 
 | Artifact | Size | SHA-256 |
 | --- | ---: | --- |
-| Authoring `RealWorldWeatherAcoustics.dll` | 128000 | `d87395eef53dff0ccbf1c3d8d287961dcd87da9edddb39de2ef03ab7f968349d` |
-| Authoring `RealWorldWeatherAcoustics.xml` | 55101 | `275921b2ae9cd5fddddb219275a171afd8bb03d16d6793489fda9c383b412d96` |
-| Runtime `RealWorldWeatherAcousticsSource.lib` | 577940 | `8c55f0175cc9d5e9b96cecd7b6327c0616697f386faeb524e7b3ed0c7a6296ac` |
+| Authoring `RealWorldWeatherAcoustics.dll` | 129024 | `bee0f3170a5eaad9c647ad1904cad1469482ca4d3183072cc8b048ed99deaf5b` |
+| Authoring `RealWorldWeatherAcoustics.xml` | 55757 | `abf38ea5f1e45345b83036fc9571dbfe1e8ba266c6f7d2b6c076dadd468cc672` |
+| Runtime `RealWorldWeatherAcousticsSource.lib` | 578412 | `5eaca01efa3548078469c183d2d0f6507394dac0662fa9d868a34c04c0c39f89` |
 | Runtime `RealWorldWeatherAcousticsSourceFactory.h` | 1614 | `04417df0762ae809a6d2848cc535fc3b042307c079d7fbe4cc148bd88e35a389` |
-| Runtime `RealWorldWeatherAcousticsRuntimeAPI.h` | 5545 | `81de6f82591ce468325f0569d226a45627e5bdcd2b9b9df614bb65993bb8c2d6` |
+| Runtime `RealWorldWeatherAcousticsRuntimeAPI.h` | 5798 | `3463dcc92c2c6e4470fe07bd50c6abf82aab22ad99cc69ad9883999e344a1db9` |
 
 Wwise Authoring installation copies only the DLL/XML. Latest backup:
 
 ```text
-Artifacts/InstallBackup/20260722T094813054Z
+Artifacts/InstallBackup/20260723T123841958Z
 ```
 
 ### Wwise Authoring smoke
@@ -122,21 +145,22 @@ Artifacts/InstallBackup/20260722T094813054Z
 Primary final smoke evidence:
 
 ```text
-Build/WwiseSmoke/wwise-authoring-smoke-20260722T123034276Z.json
-Build/WwiseSmoke/wwise-authoring-smoke-20260722T123034276Z.prof
+Build/WwiseSmoke/wwise-authoring-smoke-20260723T124436929Z.json
+Build/WwiseSmoke/wwise-authoring-smoke-20260723T124436929Z.prof
 ```
 
-The final smoke started at `2026-07-22T12:17:07.4721631Z` and finished at `2026-07-22T12:17:14.3505421Z`.
+The final smoke started at `2026-07-23T12:44:36.9315904Z` and finished at `2026-07-23T12:44:45.1534028Z`.
 
 | Claim | Result | Evidence |
 | --- | --- | --- |
 | Wwise Authoring smoke completed | PASS | wrapper `success = true`; client `success = true`; `error = null` |
 | Installed Authoring files match staging | PASS | DLL/XML hashes match `Artifacts/stage-record.json` |
+| Wwise version | PASS | `client.waapiCompatibility.wwiseVersion = 2023.1.19.8928` |
 | Retained rain demo required | PASS | `requireRetainedRainDemo = true` |
 | Retained rain demo template valid | PASS | Sound, AudioFileSource, Effect, Event, and Event target assertions are true |
 | Effect smoke uses retained template | PASS | `effectObjectSet.mode = existing-template`; Sound `RWWA_Demo_Heavy_Rain_Puddles`; Effect `RWWA_Demo_Weather_Geometry_Effect` |
 | Retained input WAV valid | PASS | `RWWA_Heavy_Rain_Puddles_30s.wav`; 48 kHz stereo PCM24; 30.0 s; `8640102` bytes; SHA-256 `1fa150708de00627796a4e3963a9becd97595e01e5e769e6a3b0a5d1cf076adc` |
-| Fixture smoke project unchanged | PASS | `fixtureUnchanged = true`; 35 files, `9265832` bytes, digest `d9adddd0a32fb4fbe7073d146438140449e09feed403a91ed431d6f9019d9bd6` |
+| Fixture smoke project unchanged | PASS | `fixtureUnchanged = true`; 35 files, `9491498` bytes, digest `40a178df4a421cb5a68631bf54a763d39fd0e92516b6e0280449999460d66c20` |
 | Disposable copy isolated | PASS | `copyMatchesFixtureBytes = true`; `disposableProjectRemoved = true` |
 | Source discovered and instantiated | PASS | Source class ID `2031682562` |
 | Effect discovered and instantiated | PASS | Effect class ID `2031748099`, `PluginID=31002` |
@@ -145,26 +169,26 @@ The final smoke started at `2026-07-22T12:17:07.4721631Z` and finished at `2026-
 | Source Bank serialization remains valid | PASS | 69 parameters, 273-byte current block, 261-byte legacy regression retained |
 | Effect Bank serialization works | PASS | 71 properties, 281-byte block, `InputRole`/`WetMix`/`GeometryEnabled` variant bytes match |
 | Three Effect bank variants retained | PASS | Baseline, InputRoleWetGeometry, WetZero; each 473 bytes with a 281-byte Effect block |
-| Fixture manifest written | PASS | `Build/NativeHost/Fixture/20260722T123034276Z/RWWA_Effect_Fixture.json`; 10/10 selected artifacts match source/destination size and SHA-256 |
+| Fixture manifest written | PASS | `Build/NativeHost/Fixture/20260723T124436929Z/RWWA_Effect_Fixture.json`; 10/10 selected artifacts match source/destination size and SHA-256 |
 | Assertion groups | PASS | Source 6/6, Effect 7/7, Shared 1/1 |
-| Source executes | PASS | 1 physical voice; CPU `0.1414999962 ms`; peak `-26.45691872 dB` |
-| Effect executes | PASS | 1 voice; CPU `0.1155999973 ms`; peak `-16.77216339 dB` |
-| Profiler capture saved | PASS | `.prof` size `745058` bytes |
+| Source executes | PASS | 1 physical voice; CPU `0.1395999938 ms`; peak `-28.79373550 dB` |
+| Effect executes | PASS | 1 voice; CPU `0.1159999967 ms`; peak `-15.69230461 dB` |
+| Profiler capture saved | PASS | `.prof` size `988049` bytes |
 
 The retained fixture has 10 copied artifacts plus its manifest, 11 files total:
 
 ```text
-Build/NativeHost/Fixture/20260722T123034276Z/RWWA_Effect_Fixture.json
-Build/NativeHost/Fixture/20260722T123034276Z/RWWA_Effect_Baseline.bnk
-Build/NativeHost/Fixture/20260722T123034276Z/RWWA_Effect_InputRoleWetGeometry.bnk
-Build/NativeHost/Fixture/20260722T123034276Z/RWWA_Effect_WetZero.bnk
-Build/NativeHost/Fixture/20260722T123034276Z/Init.bnk
-Build/NativeHost/Fixture/20260722T123034276Z/Init.txt
-Build/NativeHost/Fixture/20260722T123034276Z/PlatformInfo.xml
-Build/NativeHost/Fixture/20260722T123034276Z/PluginInfo.xml
-Build/NativeHost/Fixture/20260722T123034276Z/RWWA_Effect_WetZero.txt
-Build/NativeHost/Fixture/20260722T123034276Z/SoundbanksInfo.xml
-Build/NativeHost/Fixture/20260722T123034276Z/Media/528110025.wem
+Build/NativeHost/Fixture/20260723T124436929Z/RWWA_Effect_Fixture.json
+Build/NativeHost/Fixture/20260723T124436929Z/RWWA_Effect_Baseline.bnk
+Build/NativeHost/Fixture/20260723T124436929Z/RWWA_Effect_InputRoleWetGeometry.bnk
+Build/NativeHost/Fixture/20260723T124436929Z/RWWA_Effect_WetZero.bnk
+Build/NativeHost/Fixture/20260723T124436929Z/Init.bnk
+Build/NativeHost/Fixture/20260723T124436929Z/Init.txt
+Build/NativeHost/Fixture/20260723T124436929Z/PlatformInfo.xml
+Build/NativeHost/Fixture/20260723T124436929Z/PluginInfo.xml
+Build/NativeHost/Fixture/20260723T124436929Z/RWWA_Effect_WetZero.txt
+Build/NativeHost/Fixture/20260723T124436929Z/SoundbanksInfo.xml
+Build/NativeHost/Fixture/20260723T124436929Z/Media/528110025.wem
 ```
 
 ### Native Host audio-contract matrix
@@ -177,11 +201,13 @@ Diagnostics Get returns only a coherent snapshot. The five fields `lastRuntimeSc
 
 | Report | Isolated condition | Diagnostics result |
 | --- | --- | --- |
-| `Build/NativeHost/native-host-rain-changed-20260722T123034276Z.json` | Baseline + enabled revision-2 runtime scene; `changed` | 110 executes / 56320 frames / runtime 110 / fallback 0 / wet 0 / geometry 0; max input `0.230743408`, output `0.227470636`, wet difference `0.0136105493` |
-| `Build/NativeHost/native-host-rain-wet-bypass-20260722T123034276Z.json` | WetZero + enabled revision-2 runtime scene; `wet-bypass` | 112 executes / 57344 frames / runtime 112 / fallback 0 / wet 112 / geometry 0; input=output `0.230743408`, wet difference 0 |
-| `Build/NativeHost/native-host-rain-geometry-disabled-20260722T123034276Z.json` | **Baseline** + disabled revision-3 runtime scene; `geometry-disabled` | 110 executes / 56320 frames / runtime 110 / fallback 0 / wet 0 / geometry 110; input=output `0.230743408`, wet difference 0 |
+| `Build/NativeHost/native-host-rain-material-changed-20260723T124436929Z.json` | Baseline + `scene.rain-material-lab.example.json`; `changed` | revision 4 / 4 features / 110 executes / 56320 frames / runtime 110 / fallback 0 / wet 0 / geometry 0 / non-finite 0; max input `0.230743408`, output `0.270008653`, wet difference `0.0905741826` |
+| `Build/NativeHost/native-host-rain-material-wet-bypass-20260723T124436929Z.json` | WetZero + `scene.rain-material-lab.example.json`; `wet-bypass` | revision 4 / 4 features / 113 executes / 57856 frames / runtime 113 / fallback 0 / wet 113 / geometry 0 / non-finite 0; input=output `0.230743408`, wet difference 0 |
+| `Build/NativeHost/native-host-rain-material-geometry-disabled-20260723T124436929Z.json` | **Baseline** + disabled revision-3 runtime scene; `geometry-disabled` | 112 executes / 57344 frames / runtime 112 / fallback 0 / wet 0 / geometry 112 / non-finite 0; input=output `0.230743408`, wet difference 0 |
 
 All three reports show Source 31001 and Effect 31002 registered, 89-field scene `Set/Get/Clear` full-payload match with mismatch count 0, Diagnostics `Reset/Get`, non-finite count 0, `Init.bnk` and requested-bank load/unload, successful PostEvent, render 0 failures, clean termination, and `exitStatus.success = true`. GeometryOff uses the Baseline bank rather than the InputRoleWetGeometry bank, so the disabled runtime scene is the only geometry-off variable.
+
+The 20260722 fixture and reports remain useful as historical evidence, but current summaries and recommended commands use `Build/NativeHost/Fixture/20260723T124436929Z` and the timestamped Rain Material Lab reports above. The Rain Material Lab changed/wet-bypass reports exercise the four-circle material layout and runtime-submitted Plastic profile.
 
 The final CLI contract uses `-Expectation changed|wet-bypass|geometry-disabled`. `transparent` remains accepted only as a legacy mode; final acceptance uses reason-aware modes that gate both wet-difference magnitude and the relevant reason counter.
 
@@ -218,9 +244,9 @@ Native Host baseline:
 ```powershell
 & .\Scripts\Smoke-WwiseNativeHost.ps1 `
     -WwiseRoot $wwise `
-    -FixtureRoot 'Build\NativeHost\Fixture\20260722T123034276Z' `
+    -FixtureRoot 'Build\NativeHost\Fixture\20260723T124436929Z' `
     -Bank 'RWWA_Effect_Baseline.bnk' `
-    -SceneJson 'Tools\NativeHost\scene.example.json' `
+    -SceneJson 'Tools\NativeHost\scene.rain-material-lab.example.json' `
     -Expectation changed `
     -DurationMs 1200 `
     -SkipBuild
@@ -231,9 +257,9 @@ Native Host WetZero bypass:
 ```powershell
 & .\Scripts\Smoke-WwiseNativeHost.ps1 `
     -WwiseRoot $wwise `
-    -FixtureRoot 'Build\NativeHost\Fixture\20260722T123034276Z' `
+    -FixtureRoot 'Build\NativeHost\Fixture\20260723T124436929Z' `
     -Bank 'RWWA_Effect_WetZero.bnk' `
-    -SceneJson 'Tools\NativeHost\scene.example.json' `
+    -SceneJson 'Tools\NativeHost\scene.rain-material-lab.example.json' `
     -Expectation wet-bypass `
     -DurationMs 1200 `
     -SkipBuild
@@ -244,7 +270,7 @@ Native Host runtime GeometryOff:
 ```powershell
 & .\Scripts\Smoke-WwiseNativeHost.ps1 `
     -WwiseRoot $wwise `
-    -FixtureRoot 'Build\NativeHost\Fixture\20260722T123034276Z' `
+    -FixtureRoot 'Build\NativeHost\Fixture\20260723T124436929Z' `
     -Bank 'RWWA_Effect_Baseline.bnk' `
     -SceneJson 'Tools\NativeHost\scene.disabled.example.json' `
     -Expectation geometry-disabled `

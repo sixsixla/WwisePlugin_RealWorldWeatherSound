@@ -166,13 +166,13 @@ This proves the Authoring binary can be discovered, instantiated, edited through
 The final v0.3 evidence file is:
 
 ```text
-Build\WwiseSmoke\wwise-authoring-smoke-20260722T123034276Z.json
-Build\WwiseSmoke\wwise-authoring-smoke-20260722T123034276Z.prof
+Build\WwiseSmoke\wwise-authoring-smoke-20260723T124436929Z.json
+Build\WwiseSmoke\wwise-authoring-smoke-20260723T124436929Z.prof
 ```
 
-That run recorded wrapper/client `success = true`, `requireRetainedRainDemo = true`, retained rain demo assertions passing, `effectObjectSet.mode = existing-template`, GUI `36/36`, Source/Effect/Shared assertion groups `6/6`, `7/7`, and `1/1`, fixture unchanged, disposable copy matching the fixture, disposable project removed, Feature move/resize through window-message with converged results, Effect Priority `10 -> 107 -> Undo 10`, and actual Wwise SoundBank generation. Source recorded 1 physical voice, CPU `0.1414999962 ms`, and peak `-26.45691872 dB`; Effect recorded 1 voice, CPU `0.1155999973 ms`, and peak `-16.77216339 dB`. The `.prof` is `745058` bytes.
+That run recorded wrapper/client `success = true`, `requireRetainedRainDemo = true`, retained rain demo assertions passing, `effectObjectSet.mode = existing-template`, GUI `36/36`, Source/Effect/Shared assertion groups `6/6`, `7/7`, and `1/1`, fixture unchanged, disposable copy matching the fixture, disposable project removed, Feature move/resize through window-message with converged results, Priority `10 -> 107 -> Undo 10`, and actual Wwise SoundBank generation. Source recorded 1 physical voice, CPU `0.1395999938 ms`, and peak `-28.79373550 dB`; Effect recorded 1 voice, CPU `0.1159999967 ms`, and peak `-15.69230461 dB`. The `.prof` is `988049` bytes.
 
-The Source SoundBank serialization gate keeps the 69-parameter, 273-byte current block and 261-byte legacy ABI regression. The Effect gate generated three retained variants: `RWWA_Effect_Baseline.bnk`, `RWWA_Effect_InputRoleWetGeometry.bnk`, and `RWWA_Effect_WetZero.bnk`. Each bank is 473 bytes and contains one 281-byte block for 71 Effect properties. The fixture manifest is `Build\NativeHost\Fixture\20260722T123034276Z\RWWA_Effect_Fixture.json`; all 10 selected artifacts match source/destination size and SHA-256, including `Media\528110025.wem` (`5760096` bytes, SHA-256 `765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5`). Counting the manifest, the retained fixture contains 11 files.
+The Source SoundBank serialization gate keeps the 69-parameter, 273-byte current block and 261-byte legacy ABI regression. The Effect gate generated three retained variants: `RWWA_Effect_Baseline.bnk`, `RWWA_Effect_InputRoleWetGeometry.bnk`, and `RWWA_Effect_WetZero.bnk`. Each bank is 473 bytes and contains one 281-byte block for 71 Effect properties. The fixture manifest is `Build\NativeHost\Fixture\20260723T124436929Z\RWWA_Effect_Fixture.json`; all 10 selected artifacts match source/destination size and SHA-256, including `Media\528110025.wem` (`5760096` bytes, SHA-256 `765be0d731a6d25811deb475f74a4019acaf998a93b0c0197e72759e92df1ec5`). Counting the manifest, the retained fixture contains 11 files.
 
 ## Offline renderer presets
 
@@ -198,7 +198,7 @@ These WAVs are regression artifacts. They do not prove Wwise Authoring discovery
 
 v0.3 is implemented as a Hybrid Audio File Source + Geometry Effect slice, not as a replacement for the Source build. The Source plug-in keeps development `PluginID=31001`, 69 parameters, and its 261/273-byte Bank ABI regression coverage. The Effect uses development `PluginID=31002`, 71 parameters, and a 281-byte parameter block.
 
-Current Effect parameters are `InputRole`, `WetMix`, `ResponseGainDb`, `TransientSensitivity`, weather/listener fields, `FeatureCount`, and 8 fixed feature slots of `X/Y/Z/Radius/Profile/Mask/Priority`. `InputRole` values are `Rain=0`, `Wind=1`, `Generic=2` with default `Generic`; `WetMix` is `0..1` default `0`; `ResponseGainDb` is `-24..12`; `TransientSensitivity` is `0..1`; `Priority` is a `0..1000` numeric weight. `EnvelopeSensitivity`, band weights, smoothing, distance scale, and priority bias are future-only parameters.
+Current Effect bank/runtime parameters are `InputRole`, `WetMix`, `ResponseGainDb`, `TransientSensitivity`, weather/listener fields, `FeatureCount`, and 8 fixed feature slots of `X/Y/Z/Radius/Profile/Mask/Priority`. The main Rain Material Lab Authoring panel intentionally exposes only Input Audio, Rain Amount, Surface Mix, Impact Gain, Impact Sharpness, Geometry Response, the listener/canvas controls, and per-surface geometry/material fields. The audible Effect defaults are `Rain`, WetMix `1`, ResponseGain `+10 dB`, TransientSensitivity `0.85`, Rain Amount `0.9`, with Tile/Plastic/Metal/Wood arranged around the listener. `EnvelopeSensitivity`, band weights, smoothing, distance scale, and priority bias remain future-only parameters.
 
 Native Host smoke entry:
 
@@ -207,25 +207,25 @@ Native Host smoke entry:
 
 & .\Scripts\Smoke-WwiseNativeHost.ps1 `
     -WwiseRoot $wwise `
-    -FixtureRoot 'Build\NativeHost\Fixture\20260722T123034276Z' `
+    -FixtureRoot 'Build\NativeHost\Fixture\20260723T124436929Z' `
     -Bank 'RWWA_Effect_Baseline.bnk' `
-    -SceneJson 'Tools\NativeHost\scene.example.json' `
+    -SceneJson 'Tools\NativeHost\scene.rain-material-lab.example.json' `
     -Expectation changed `
     -DurationMs 1200 `
     -SkipBuild
 
 & .\Scripts\Smoke-WwiseNativeHost.ps1 `
     -WwiseRoot $wwise `
-    -FixtureRoot 'Build\NativeHost\Fixture\20260722T123034276Z' `
+    -FixtureRoot 'Build\NativeHost\Fixture\20260723T124436929Z' `
     -Bank 'RWWA_Effect_WetZero.bnk' `
-    -SceneJson 'Tools\NativeHost\scene.example.json' `
+    -SceneJson 'Tools\NativeHost\scene.rain-material-lab.example.json' `
     -Expectation wet-bypass `
     -DurationMs 1200 `
     -SkipBuild
 
 & .\Scripts\Smoke-WwiseNativeHost.ps1 `
     -WwiseRoot $wwise `
-    -FixtureRoot 'Build\NativeHost\Fixture\20260722T123034276Z' `
+    -FixtureRoot 'Build\NativeHost\Fixture\20260723T124436929Z' `
     -Bank 'RWWA_Effect_Baseline.bnk' `
     -SceneJson 'Tools\NativeHost\scene.disabled.example.json' `
     -Expectation geometry-disabled `
@@ -243,9 +243,9 @@ Final Native Host evidence:
 
 | Report | Bank / scene / expectation | Result |
 | --- | --- | --- |
-| `Build\NativeHost\native-host-rain-changed-20260722T123034276Z.json` | Baseline / `scene.example.json` / `changed` | 110 executes, 56320 frames, runtime 110, fallback 0, revision 2; max input `0.230743408`, output `0.227470636`, wet difference `0.0136105493` |
-| `Build\NativeHost\native-host-rain-wet-bypass-20260722T123034276Z.json` | WetZero / `scene.example.json` / `wet-bypass` | 112 executes, 57344 frames, runtime 112, fallback 0, wet-bypass 112; input=output `0.230743408`, wet difference 0 |
-| `Build\NativeHost\native-host-rain-geometry-disabled-20260722T123034276Z.json` | **Baseline** / `scene.disabled.example.json` / `geometry-disabled` | 110 executes, 56320 frames, runtime 110, fallback 0, geometry-disabled 110, revision 3; input=output `0.230743408`, wet difference 0 |
+| `Build\NativeHost\native-host-rain-material-changed-20260723T124436929Z.json` | Baseline / `scene.rain-material-lab.example.json` / `changed` | 110 executes, 56320 frames, runtime 110, fallback 0, revision 4, 4 features; max input `0.230743408`, output `0.270008653`, wet difference `0.0905741826` |
+| `Build\NativeHost\native-host-rain-material-wet-bypass-20260723T124436929Z.json` | WetZero / `scene.rain-material-lab.example.json` / `wet-bypass` | 113 executes, 57856 frames, runtime 113, fallback 0, wet-bypass 113; input=output `0.230743408`, wet difference 0 |
+| `Build\NativeHost\native-host-rain-material-geometry-disabled-20260723T124436929Z.json` | **Baseline** / `scene.disabled.example.json` / `geometry-disabled` | 112 executes, 57344 frames, runtime 112, fallback 0, geometry-disabled 112, revision 3; input=output `0.230743408`, wet difference 0 |
 
 All three runs registered 31001/31002, verified the 89-field scene `Set/Get/Clear` payload with mismatch count 0, captured non-finite count 0, loaded `Init.bnk` and the requested bank, posted the event, rendered with 0 failures, and terminated cleanly. The GeometryOff case deliberately uses the Baseline bank plus a disabled runtime scene so only the runtime override closes the geometry path.
 

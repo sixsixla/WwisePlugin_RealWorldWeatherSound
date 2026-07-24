@@ -6,10 +6,10 @@
 
 - Wwise `2023.1.19.8928`
 - Windows x64 / Release / Visual Studio 2022 vc170
-- 物理启发的程序化风声与改进雨声
-- Metal、Wood、Glass、Tile 四种表面响应
+- 物理启发的程序化风声与基于输入音频的雨声表面响应
+- Metal、Wood、Glass、Tile、Plastic 五种表面响应；旧编号 `0..3` 不变，`Plastic=4` 追加
 - 最多 8 个圆形 `SphereProxy` Feature，其中最多 4 个进入当前 DSP Active Set
-- 单个 Listener 点和 Yaw 箭头
+- 单个 Listener 点和 Yaw 箭头；雨声试听时重点拖动 Listener 点进入不同 Surface 圆
 - 立体声输出
 - Wwise Authoring 内嵌 2D Preview
 - 新增 Effect `PluginID=31002`，可挂在 Sound、Actor-Mixer 或 Bus 上
@@ -17,7 +17,7 @@
 
 它还不包含 Unity/Unreal Adapter、完整 Deflector/Aperture 风场、雷暴、Listener Path、Capture/Replay、Monitor、Ambisonics、高级 DSP 参数或人工主观听感验收。当前听感目标是“物理启发、可调、可回归”，不是实时全物理仿真；自动生成的 WAV、频谱、Profiler 或 smoke 指标也不等同于真人主观听感批准。
 
-v0.3 的主路径是混合音频：保留 Source `PluginID=31001` 和旧 Bank ABI，新增 Effect `PluginID=31002`。请在 Wwise 中导入高质量 rain/wind/ambience 素材并设置循环 Audio File Source，再在 Sound、Actor-Mixer 或 Bus 上添加 `RealWorld Weather Acoustics Effect`。Effect 输入素材负责声音主体，插件只根据 `InputRole`、`WetMix`、listener/weather 和显式 Feature 添加几何材质交互。详情见 `docs/V0_3_HYBRID_AUDIO_PLAN.md`。
+v0.3 的主路径是混合音频：保留 Source `PluginID=31001` 和旧 Bank ABI，新增 Effect `PluginID=31002`。请在 Wwise 中导入高质量 rain/wind/ambience 素材并设置循环 Audio File Source，再在 Sound、Actor-Mixer 或 Bus 上添加 `RealWorld Weather Acoustics Effect`。Effect 输入素材负责声音主体；插件不再尝试从零合成“完整雨声”，而是根据 `InputRole`、`Rain Amount`、`Surface Mix`、listener/weather 和显式 Surface 添加雨滴撞击、材质共振和几何交互。详情见 `docs/V0_3_HYBRID_AUDIO_PLAN.md`。
 
 下文路径使用已经验证过的开发机位置。若仓库或 Wwise 安装在其他目录，只需替换产品根目录和 `$wwise`。
 
@@ -57,7 +57,7 @@ Authoring\x64\Release\bin\Plugins\RealWorldWeatherAcoustics.dll
 Authoring\x64\Release\bin\Plugins\RealWorldWeatherAcoustics.xml
 ```
 
-安装脚本会校验 staging hash；如果目标位置已有同名文件，会先备份到 `Artifacts\InstallBackup`。最新已验证备份目录是 `Artifacts\InstallBackup\20260722T094813054Z`。
+安装脚本会校验 staging hash；如果目标位置已有同名文件，会先备份到 `Artifacts\InstallBackup`。最新已验证备份目录是 `Artifacts\InstallBackup\20260723T123841958Z`。
 
 ### 2. 打开现成的试听工程
 
@@ -115,26 +115,27 @@ WwiseSmoke\RealWorldWeatherAcousticsSmoke\Originals\SFX\RWWA_Heavy_Rain_Puddles_
 
 建议保持 Transport 播放，依次点击插件界面上方的三个按钮：
 
-1. `Open Wind`：关闭 Geometry Response，只听没有 Feature 的基础风场。
-2. `Rain on Metal`：在 Listener 前方放置一个 Metal 圆形表面，只让它参与雨声响应。
-3. `Wind + Rain Ring`：在 Listener 周围放置 Metal、Wood、Glass、Tile 四个 Feature，Mask 为 `Rain + Wind`。
+1. `Open Wind`：关闭 Geometry Response，只听没有 Surface 的基础风场/回归路径。
+2. `Rain on Metal`：在 Listener 前方放置一个 Metal 圆形 Surface，只让它参与雨声响应。
+3. `Rain Material Lab`：在 Listener 周围放置 Metal、Wood、Glass、Tile 四个 Surface，主用于雨声材质 A/B；`Plastic=4` 可在右侧 Material 下拉框中选择。
 
 Preset 会写入和 SoundBank/runtime 相同的生产 PropertySet，不是 Preview-only 数据。
 
 快速 A/B 建议：
 
-- 在 `Open Wind` 中调整 `Wind Speed`、`Wind Direction`、`Wind Gustiness`。
-- 在 `Rain on Metal` 中拖动 Listener 或 Feature，比较近距离雨打金属变化。
-- 在 `Wind + Rain Ring` 中把某个 Feature 的 Mask 在 `Rain`、`Wind`、`Rain + Wind` 之间切换。
+- 播放 `RWWA_Demo_Heavy_Rain_Puddles` 时优先使用 `Rain Material Lab`，把 Listener 红点拖进下方或任意材质圆内，听雨点撞击和共振变化。
+- 把 `Rain Amount` 从 0.1 拉到 1.0，听雨滴撞击密度和能量增加。
+- 把 `Surface Mix` 设为 0 做干声 A/B，再拉到 0.7–1.0 听 Surface 响应。
+- 切换 Selected Surface 的 `Material`：Metal 明亮长尾、Wood 低中频短促、Glass 高频脆响、Tile 硬质干脆、Plastic 中高频空腔感。
 
 ## 2D Preview 怎么操作
 
-Canvas 是 runtime `SphereProxy` 的俯视图，不是另外一套声音模拟。它编辑的就是 Source DSP 和 SoundBank writer 使用的参数。
+Canvas 是 runtime `SphereProxy` 的俯视图，不是另外一套声音模拟。它编辑的就是 Source/Effect DSP 和 SoundBank writer 使用的参数。Effect 雨声模式下界面把对象称为 `Surface`，底层 ABI 仍使用固定 `Feature1..8` 槽位。
 
 ```text
 Z (+forward)
     ↑
-    │     圆形 = Feature/SphereProxy
+    │     圆形 = Surface/SphereProxy
     │     红点 = Listener
     │     箭头 = Listener Yaw
     └────────────→ X (+right)
@@ -144,46 +145,42 @@ Z (+forward)
 
 - 拖动红色 Listener 点：修改 `Listener X/Z`。
 - 拖动箭头末端的小圆点：修改 `Listener Yaw`。
-- 点击一个 Feature 圆：选中它。
-- 拖动选中的 Feature 圆心：修改该 Feature 的 `X/Z`。
+- 点击一个 Surface 圆：选中它。
+- 拖动选中的 Surface 圆心：修改该 Surface 的 `X/Z`。
 - 拖动选中圆右侧的黄色半径手柄：修改 `Radius`。
-- 点击 `Add Feature`：追加一个圆形 Feature，最多 8 个。
-- 点击 `Delete Feature` 或按 Delete：删除当前选中 Feature；后续槽位会左移。
-- 右侧 `Selected feature` 区域可精确编辑 `X/Y/Z/Radius/Profile/Mask/Priority`。
+- 点击 `Add`：追加一个圆形 Surface，最多 8 个。
+- 点击 `Delete` 或按 Delete：删除当前选中 Surface；后续槽位会左移。
+- Effect 雨声主界面的 `Selected Surface` 区域保留 `X/Z/Radius/Material/Weather Response`。`Y`、`Priority` 被隐藏，仍保留在 ABI/Bank/runtime 中。
 - 文本框在失去焦点时提交；输入后按 Tab 或点击别处。
 - `Geometry enabled` 使用 Wwise 官方 populate table 绑定，由 Wwise Host 同步 checkbox 和原生 Undo；其他数值控件由插件 GUI 解析、规范化并写入同一套 PropertySet。
 
-Yaw 0° 指向 `+Z`；正角度朝 `+X` 方向旋转。`Y` 不显示成 2D 位移，但仍会参与三维距离计算。
+Yaw 0° 指向 `+Z`；正角度朝 `+X` 方向旋转。雨声主试听只需要移动 Listener 点；Listener Path 不在首版 Authoring Preview 内。`Y` 不显示成 2D 位移，但仍保留在参数合同中，用于后续 runtime 或外部工具。
 
-## 参数说明
+## Effect 雨声试听主面板参数
 
-### Runtime、Weather 和 Listener
+Effect `PluginID=31002` 在 Authoring 主试听界面只保留能在播放中直接听出变化的参数。它们都写入正式 Wwise PropertySet，不是临时 Preview 数据。
 
 | 参数 | 含义 | 常用值 |
 | --- | --- | --- |
-| Duration | Source 的播放时长，单位秒 | 60 |
-| Master gain (dB) | 插件总输出增益 | -18 到 -6 |
-| Rain intensity | 降雨强度，范围 0–1 | 0.25、0.75、0.8 |
-| Wind speed | 风速，单位 m/s，范围 0–40 | 10、12、14 |
-| Wind direction | 顶视图风向角，范围 0–360°；0° 表示朝 +Z 流动，正角朝 +X | 0、45 |
-| Wind gustiness | 阵风/湍流强度，范围 0–1 | 0.45、0.65 |
-| Seed | 确定性随机种子；相同输入便于 A/B | 1337 |
-| Geometry enabled | 是否计算已配置 Feature 的表面/风响应 | 开启 |
-| Listener X/Y/Z | 虚拟 Listener 世界坐标 | 从 0 开始 |
-| Listener yaw | Listener 朝向角 | 0° |
-| Feature count | 启用前多少个固定槽位，范围 0–8 | 0、1、4 |
+| Input Audio | 输入素材类型；下拉值为 `Rain`、`Wind`、`Generic` | 雨声 demo 用 `Rain` |
+| Rain Amount | 降雨强度，范围 `0..1`；连续控制雨滴撞击密度和能量，不再只是开/关 | 0.2、0.7、1.0 |
+| Surface Mix | 几何/材质响应混合量，范围 `0..1`；`0` 为只听原始素材干声，`1` 为完整 Surface 响应 | 0、0.7、1 |
+| Impact Gain dB | 表面撞击/共振后级增益，范围 `-24..12 dB` | 0、6、12 |
+| Impact Sharpness | 瞬态敏感度，范围 `0..1`；越高越强调雨点击打的瞬态 | 0.4、0.8、1 |
+| Geometry Response | 是否启用 Surface 几何响应；关闭时作为干声/无几何 A/B | 开启 |
 
-### Selected feature
+以下参数仍在 Effect ABI、SoundBank 和 runtime scene 中保留，但从雨声主试听界面隐藏：`Seed`、`ListenerY`、`Priority`、`WindSpeed`、`WindDirectionDegrees`、`WindGustiness`。原因是它们不适合作为首屏雨声材质 A/B 控件：`Seed` 主要用于确定性随机，`ListenerY` 不属于 2D 平面操作，`Priority` 只有超过 4 个候选 Surface 时才影响 Active Set，风参数属于风声/混合天气高级路径。
+
+### Selected Surface
 
 | 参数 | 含义 |
 | --- | --- |
-| X/Y/Z | Feature 中心位置 |
-| Radius | 圆形/SphereProxy 半径，runtime 最小 clamp 为 0.2 |
-| Profile | 材质响应编号，见下表 |
-| Mask | 是否参与雨/风模块 |
-| Priority | 候选重要性，范围 0–1000 |
+| X / Z | Surface 中心在 2D 平面上的位置；也可直接拖圆心 |
+| Radius | 圆形/SphereProxy 半径，runtime 最小 clamp 为 0.2；也可拖黄色 handle |
+| Material | 材质响应，下拉选择 Metal/Wood/Glass/Tile/Plastic |
+| Weather Response | 是否参与雨/风模块；雨声 demo 应使用 `Rain` 或 `Rain + Wind` |
 
-Profile 数字映射：
+底层 Profile 数字映射：
 
 | 值 | Profile |
 | ---: | --- |
@@ -191,6 +188,30 @@ Profile 数字映射：
 | 1 | Wood |
 | 2 | Glass |
 | 3 | Tile |
+| 4 | Plastic |
+
+游戏侧通过 Runtime C ABI 提交 scene 时应使用同一套编号。`RealWorldWeatherAcousticsRuntimeAPI.h` 公开了：
+
+```c
+#define RWWA_RUNTIME_PROFILE_METAL   0u
+#define RWWA_RUNTIME_PROFILE_WOOD    1u
+#define RWWA_RUNTIME_PROFILE_GLASS   2u
+#define RWWA_RUNTIME_PROFILE_TILE    3u
+#define RWWA_RUNTIME_PROFILE_PLASTIC 4u
+#define RWWA_RUNTIME_PROFILE_MAX RWWA_RUNTIME_PROFILE_PLASTIC
+```
+
+之前 runtime API 曾把 profile clamp 到 3；当前已修复为允许 `Plastic=4` 从游戏侧 scene 正常提交。
+
+听感预期：
+
+| Material | 雨点响应重点 |
+| --- | --- |
+| Metal | 明亮、高频、较长 ringing |
+| Wood | 低中频、短促、偏闷的 thud |
+| Glass | 高频、脆、带 ping |
+| Tile | 硬质、干脆、短尾 tick |
+| Plastic | 中高频、空腔感、短 knock |
 
 Mask 数字映射：
 
@@ -201,7 +222,7 @@ Mask 数字映射：
 | 2 | Wind，只参与风声响应 |
 | 3 | Rain + Wind，同时参与雨声和风声 |
 
-当有效 Feature 多于 4 个时，Core 根据 Priority、Radius 和 Listener 到表面的距离计算 selection score，只让最高的 4 个进入当前 DSP Active Set。因此调高 Priority 会增强被选中的机会，但距离和半径仍会共同参与。
+当有效 Surface 多于 4 个时，Core 根据 Priority、Radius 和 Listener 到表面的距离计算 selection score，只让最高的 4 个进入当前 DSP Active Set。因此 Priority 仍是有效 runtime 参数，但首版 Authoring 雨声试听不把它放在主面板上。
 
 ## 离线 DSP 试听
 
@@ -224,11 +245,11 @@ Set-Location 'D:\Tool\WwisePlugin_RealWorldWeatherSound'
 1. 导入一段高质量 rain、wind 或天气 ambience WAV/WEM。
 2. 在 Sound SFX 中使用 Wwise 标准 Audio File Source 播放该素材，并设置循环或 streamed loop。
 3. 在该 Sound、上层 Actor-Mixer 或目标 Bus 的 Effects 链上添加 `RealWorld Weather Acoustics Effect`。
-4. 设置 `InputRole`：`Rain=0`、`Wind=1`、`Generic=2`；不确定素材类型时使用默认 `Generic`。
-5. 设置 `WetMix`：`0` 为透明干声，逐步提高到需要的几何响应量。
+4. 设置 `Input Audio`：`Rain=0`、`Wind=1`、`Generic=2`；雨声素材使用 `Rain`。
+5. 设置 `Surface Mix`：`0` 为透明干声，逐步提高到需要的几何响应量。
 6. 使用 2D canvas 拖动 Listener 点和 yaw 手柄。
-7. 点击 `Add` / `Delete` 管理圆形 Feature；拖圆心调 `X/Z`，拖黄色 handle 调 `Radius`。
-8. 在右侧逐项编辑 `Profile`、`Mask`、`Priority` 和 `Y`。
+7. 点击 `Add` / `Delete` 管理圆形 Surface；拖圆心调 `X/Z`，拖黄色 handle 调 `Radius`。
+8. 在右侧编辑 `Material` 和 `Weather Response`。高级 runtime 可继续通过完整参数/外部 scene 使用 `Y`、`Priority` 和风参数。
 
 Effect 当前实际参数是：
 
@@ -238,9 +259,11 @@ Effect 当前实际参数是：
 | WetMix | 0..1 | 0 |
 | ResponseGainDb | -24..12 dB | 0 |
 | TransientSensitivity | 0..1 | 0.5 |
-| Feature slots | 8 组 X/Y/Z/Radius/Profile/Mask/Priority | 固定默认环形 |
+| RainIntensity | 0..1 | 0.25 |
+| Weather/listener | Seed、Wind、ListenerX/Y/Z/Yaw、GeometryEnabled、FeatureCount | ABI 兼容默认 |
+| Feature slots | 8 组 X/Y/Z/Radius/Profile/Mask/Priority；Profile `0..4` | 固定默认环形 |
 
-`Priority` 是 `0..1000` 的数值权重，不是四档枚举。当前没有 `EnvelopeSensitivity`、频带权重或 smoothing 控件；这些属于后续高级 DSP 参数。
+`Priority` 是 `0..1000` 的数值权重，不是四档枚举。当前没有 `EnvelopeSensitivity`、频带权重或 smoothing 控件；这些属于后续高级 DSP 参数。Authoring 主雨声界面隐藏了一部分仍然有效但不适合作为首屏试听的参数，防止测试时误调到“不明显”的组合。
 
 如果游戏或 Host 没有通过 Runtime C ABI 提交外部 scene，Effect 会回退到 Bank/Authoring 中保存的 listener、weather 和 Feature 槽。
 
@@ -252,7 +275,7 @@ Effect 当前实际参数是：
 2. 给该 Sound 添加或替换 Source Plug-in。
 3. 在 Source Plug-ins 列表中选择 `RealWorld Weather Acoustics`。
 4. 双击 Source 打开插件设置页。
-5. 先点击 `Wind + Rain Ring`，使用 Transport 播放。
+5. 先点击 `Rain Material Lab`，使用 Transport 播放；如果是在 Source 回归入口，使用 Source 模式保留的多材质 preset。
 6. 确认能听到声音后，再按场景修改 Weather、Listener 与 Feature 参数。
 7. 保存 Wwise 工程。
 
@@ -267,27 +290,30 @@ Effect 当前实际参数是：
 3. 改变 `Wind Direction`，检查左右声像方向是否连续变化。
 4. 把 `Wind Gustiness` 从 0 改到 1，检查包络起伏是否增强。
 
-### 材质差异
+### 雨量强度与材质差异
 
-1. 选择 `Rain on Metal`。
-2. 保持 Listener 与 Feature 位置不变。
-3. 依次把 Profile 改为 0、1、2、3。
-4. 每次修改后把焦点移出文本框，听撞击瞬态和共振尾音差异。
+1. 播放 `RWWA_Demo_Heavy_Rain_Puddles` 或事件 `Play_RWWA_Demo_Heavy_Rain_Puddles`。
+2. 打开 `RWWA_Demo_Weather_Geometry_Effect`，点击 `Rain Material Lab`。
+3. 保持 `Surface Mix >= 0.7`、`Geometry Response` 开启。
+4. 把 `Rain Amount` 从 0.1 改到 1.0，预期雨滴撞击密度和能量明显增加。
+5. 把 Listener 红点拖进下方 Surface 圆；再拖进其他材质圆。
+6. 依次把 Selected Surface 的 `Material` 改为 Metal、Wood、Glass、Tile、Plastic，预期撞击瞬态和共振尾音有可辨识差异。
 
-### Feature 编辑
+### Surface 编辑
 
-1. 选择 `Wind + Rain Ring`。
-2. 点击一个圆形 Feature。
+1. 选择 `Rain Material Lab`。
+2. 点击一个圆形 Surface。
 3. 拖动圆心，确认声像和主导材质随位置变化。
 4. 拖动黄色半径手柄，确认贡献范围变化。
-5. 点击 `Add Feature` 添加第 5 个圆，再点击 `Delete Feature` 删除它。
+5. 点击 `Add` 添加第 5 个圆，再点击 `Delete` 删除它。
 
-### Mask A/B
+### Surface Mix / Geometry A/B
 
-1. 选择 `Wind + Rain Ring`。
-2. 选中一个 Feature。
-3. 把 Mask 依次设为 1、2、3。
-4. 预期结果是 Rain-only、Wind-only、Rain+Wind 有可辨识差异，且无爆音或静音异常。
+1. 选择 `Rain Material Lab`，保持播放。
+2. 把 `Surface Mix` 设为 0，确认只听到原始高质量雨声素材。
+3. 把 `Surface Mix` 拉到 0.7–1.0，确认材质撞击/共振响应回到输出。
+4. 关闭 `Geometry Response`，确认几何响应消失；重新开启后恢复。
+5. 选中一个 Surface，把 `Weather Response` 在 `Disabled`、`Rain`、`Rain + Wind` 之间切换；雨声 demo 中 `Rain` 与 `Rain + Wind` 应保留雨响应，`Disabled` 应移除该 Surface 贡献。
 
 ### 稳定复现
 
@@ -316,8 +342,8 @@ Build\WwiseSmoke
 最终 v0.3 证据文件是：
 
 ```text
-Build\WwiseSmoke\wwise-authoring-smoke-20260722T123034276Z.json
-Build\WwiseSmoke\wwise-authoring-smoke-20260722T123034276Z.prof
+Build\WwiseSmoke\wwise-authoring-smoke-20260723T124436929Z.json
+Build\WwiseSmoke\wwise-authoring-smoke-20260723T124436929Z.prof
 ```
 
 成功报告至少应满足：
@@ -332,16 +358,16 @@ Build\WwiseSmoke\wwise-authoring-smoke-20260722T123034276Z.prof
 - GUI smoke 找到 Wwise-populated `GeometryEnabled` checkbox、Add/Delete 按钮和 Canvas
 - Source `inspectorTextMatchesStablePreset = true`，13 个可见 Inspector 文本匹配 stable preset：`60/0.75/24681357/20/4 / 8/14/35/0.65/Feature1 0,6,2.5,3,10`
 - Add 完整默认值断言为 true
-- Effect Priority `10 -> 107 -> Undo 10`
+- Effect Priority `10 -> 107 -> Undo 10`（旧自动化覆盖；新主雨声界面已隐藏 Priority）
 - Geometry `true -> false` 后 Undo 恢复
 - Add、Feature 圆心拖动、半径拖动、Delete button、Delete key 均有 Undo 还原证据；Feature move/resize 均使用 window-message 路径并 converged；最终 smoke 合计覆盖 Add/drag/radius/Delete 和 6 个 Undo gate
 - Source SoundBank 生成与 Authoring 参数序列化通过：69 参数、`273`-byte 参数块，保留 261-byte legacy ABI 回归
-- Effect SoundBank 生成与 Authoring 参数序列化通过：71 参数、`281`-byte 参数块，Baseline/InputRoleWetGeometry/WetZero 三种 bank variant，fixture manifest 写入 `Build\NativeHost\Fixture\20260722T123034276Z\RWWA_Effect_Fixture.json`
+- Effect SoundBank 生成与 Authoring 参数序列化通过：71 参数、`281`-byte 参数块，Baseline/InputRoleWetGeometry/WetZero 三种 bank variant，fixture manifest 写入 `Build\NativeHost\Fixture\20260723T124436929Z\RWWA_Effect_Fixture.json`
 - `transportState = playing`
 - Source 与 Effect 各存在 1 个启动且非虚拟的 Voice、各 1 条 CPU row
-- Source CPU `0.1414999962 ms`、峰值 `-26.45691872 dB`；Effect CPU `0.1155999973 ms`、峰值 `-16.77216339 dB`
+- Source CPU `0.1395999938 ms`、峰值 `-28.79373550 dB`；Effect CPU `0.1159999967 ms`、峰值 `-15.69230461 dB`
 - assertion groups 为 Source `6/6`、Effect `7/7`、Shared `1/1`；GUI `36/36`
-- `profilerCaptureSaved = true`；最终 `.prof` 为 `745058` bytes
+- `profilerCaptureSaved = true`；最终 `.prof` 为 `988049` bytes
 
 ## Native Host Smoke
 
@@ -354,12 +380,12 @@ $wwise = 'E:\WwiseSoft2023\Wwise_2023.1.19.8928'
 & .\Scripts\Build-NativeHost.ps1 -WwiseRoot $wwise
 ```
 
-使用 Authoring smoke 生成并保留的 fixture 后，三态 Host matrix 均已通过：
+使用 Authoring smoke 生成并保留的 fixture 后，三态 Host matrix 均已通过。最新雨声材质回归还新增了 `Tools\NativeHost\scene.rain-material-lab.example.json`：4 个圆形 Surface，revision 4，Listener 位于下方 Metal 圆内，用于验证游戏侧 runtime scene 可以提交 Plastic 与多材质雨声布局。
 
 ```text
-Build\NativeHost\native-host-rain-changed-20260722T123034276Z.json
-Build\NativeHost\native-host-rain-wet-bypass-20260722T123034276Z.json
-Build\NativeHost\native-host-rain-geometry-disabled-20260722T123034276Z.json
+Build\NativeHost\native-host-rain-material-changed-20260723T124436929Z.json
+Build\NativeHost\native-host-rain-material-wet-bypass-20260723T124436929Z.json
+Build\NativeHost\native-host-rain-material-geometry-disabled-20260723T124436929Z.json
 ```
 
 | 场景 | Bank / runtime scene | `-Expectation` | 最终诊断 |
@@ -367,8 +393,13 @@ Build\NativeHost\native-host-rain-geometry-disabled-20260722T123034276Z.json
 | Wet response changed | Baseline + `scene.example.json` | `changed` | 110 blocks / 56320 frames；runtime 110，fallback 0；max input `0.230743408`，max output `0.227470636`，max wet diff `0.0136105493` |
 | WetMix=0 transparent | WetZero + `scene.example.json` | `wet-bypass` | 112 blocks / 57344 frames；112/112 wet-bypass；input=output `0.230743408`，max wet diff `0` |
 | Runtime GeometryOff transparent | **Baseline** + `scene.disabled.example.json` | `geometry-disabled` | 110 blocks / 56320 frames；110/110 geometry-disabled；input=output `0.230743408`，max wet diff `0` |
+| Rain Material Lab changed | Baseline + `scene.rain-material-lab.example.json` | `changed` | revision 4；4 features；110 blocks / 56320 frames；runtime 110，fallback 0；wet 0；geometry 0；non-finite 0；max input `0.230743408`，max output `0.270008653`，max wet diff `0.0905741826` |
+| Rain Material Lab WetMix0 | WetZero + `scene.rain-material-lab.example.json` | `wet-bypass` | revision 4；4 features；113 blocks / 57856 frames；runtime 113，fallback 0；113/113 wet-bypass；input=output `0.230743408`，max wet diff `0` |
+| Runtime GeometryOff transparent | **Baseline** + `scene.disabled.example.json` | `geometry-disabled` | revision 3；112 blocks / 57344 frames；runtime 112，fallback 0；112/112 geometry-disabled；input=output `0.230743408`，max wet diff `0` |
 
 GeometryOff 特意使用 Baseline bank，只通过 disabled runtime scene 关闭几何，避免 bank 与 runtime 双重关闭。三份报告都使用 runtime scene、authored fallback 为 0，完成 scene `Set/Get/Clear` 的 89-field full-payload roundtrip（mismatch 0）、31001/31002 注册、bank load、PostEvent、render 0 failures、non-finite 0 和 clean term。
+
+最新 Rain Material Lab 三份 NativeHost 报告同样完成 scene `Set/Get/Clear` full-payload roundtrip、31001/31002 注册、bank load、PostEvent、render 0 failures 和 clean term。结合 `Build\WwiseSmoke\wwise-authoring-smoke-20260723T124436929Z.json`，当前自动化层面的 build/Authoring/native QA 已完成；人工主观听感仍需要单独验收。
 
 Runtime Diagnostics V1 是 96-byte 结构，通过 `RWWA_RuntimeDiagnostics_ResetV1` / `GetV1` 读取 execute/frame、runtime/fallback、wet-bypass、geometry-disabled、revision、input/output/wet-difference peaks 和 non-finite sample count。Get 只返回 coherent snapshot；publish/reset handshake 使用 sequential consistency，Get 最后观测 generation。五个 `last*` 字段通过 no-wait try-commit 一次提交完整 per-block tuple；争用时 tuple 可落后于累计 counters/max/generation，但绝不会混合不同 block，未提交 tuple 的 block 仍继续累加这些累计量。与 publish/reset 重叠时 Get/Reset 返回 `BUSY`，控制线程应重试；确定性 race、forced-contention 与 multi-writer encoding 测试覆盖这些合同。Bank/Authoring 参数只在 Runtime API 返回 `UNCLAIMED` 且该实例此前从未 claim runtime scene 时回退；first claim `BUSY` 不回退，已有 runtime snapshot 时继续使用保留值。正式 `-Expectation` 模式为 `changed`、`wet-bypass`、`geometry-disabled`；`transparent` 仅保留 legacy 兼容。
 
@@ -387,16 +418,16 @@ Runtime Diagnostics V1 是 96-byte 结构，通过 `RWWA_RuntimeDiagnostics_Rese
 
 - 确认 `Master gain` 没有设得过低。
 - 如果在 `Open Wind` 中测试，确认 `Wind speed > 0`。
-- 如果在雨声场景中测试，确认 `Rain intensity > 0`。
+- 如果在雨声场景中测试，确认 `Rain Amount > 0`。
 - 确认 Duration 尚未结束，然后重新触发 Transport。
-- 如果只有 Feature 响应缺失，确认 `Geometry enabled`、`Feature count` 和 Mask 不是 0。
+- 如果只有 Surface 响应缺失，确认 `Geometry Response`、`Surface Mix`、Surface 数量和 `Weather Response` 不是 0/Disabled。
 
-### Feature 拖动后听感没有明显变化
+### Surface 拖动后听感没有明显变化
 
-- 使用 `Rain on Metal` 或 `Wind + Rain Ring`，不要使用 `Open Wind`。
-- 确认选中的是 Feature 圆心，不是 Listener 点或 Yaw 手柄。
-- 检查 Radius、Priority 与 Mask。
-- 若 Feature 多于 4 个，只有 Active Set 中最高分的 4 个进入 DSP。
+- 首选 `Rain Material Lab` + `RWWA_Demo_Heavy_Rain_Puddles`；如果使用旧 Source 回归 preset，则不要使用 `Open Wind`。
+- 确认拖动的是 Listener 红点进入 Surface 圆，或选中 Surface 圆心本身；不要误拖 Yaw 手柄。
+- 检查 Radius、Weather Response、`Surface Mix` 和 `Geometry Response`。
+- 若 Surface 多于 4 个，只有 Active Set 中最高分的 4 个进入 DSP。
 
 ### Smoke 提示 Wwise 已经运行
 

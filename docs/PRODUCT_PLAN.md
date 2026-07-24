@@ -31,8 +31,8 @@
 ### v1.0（当前已实现基线）
 
 - 完成独立产品工程、共享 C++ DSP Core、单元/离线 WAV 测试、Wwise 2023.1 Source Plug-in、参数后端、Win32 Authoring 2D Preview、隔离构建、最小 staging/install 与 WAAPI/Profiler smoke。
-- 当前可执行切片承诺物理启发的程序化风声与改进雨声：一个 Listener、最多 8 个 `SphereProxy` 固定槽位、`ActiveK=4`、Metal/Wood/Glass/Tile 四个 Profile、立体声输出。
-- Authoring Preview 已冻结为三个 Preset + 圆形列表/2D Canvas + 单个可拖动 Listener 点 + Yaw 箭头 + Feature 添加/删除/圆心拖动/半径手柄；没有 Listener Path，也没有 Preview-only 声学数据模型。
+- 当前可执行切片承诺物理启发的程序化风声与基于输入音频的雨声表面响应：一个 Listener、最多 8 个 `SphereProxy` 固定槽位、`ActiveK=4`、Metal/Wood/Glass/Tile/Plastic 五个 Profile、立体声输出；`Plastic=4` 为追加值，旧 `0..3` 编号不变。
+- Authoring Preview 已冻结为三个 Preset + 圆形列表/2D Canvas + 单个可拖动 Listener 点 + Yaw 箭头 + Feature/Surface 添加/删除/圆心拖动/半径手柄；没有 Listener Path，也没有 Preview-only 声学数据模型。Effect 雨声主面板只显示可直接试听的 `Rain Amount`、`Surface Mix`、`Impact Gain dB`、`Impact Sharpness`、`Geometry Response` 和 Surface 材质/响应控件；`Seed`、`ListenerY`、`Priority` 与风参数仍保留在 ABI/Bank/runtime 中。
 - 固定 8 槽 PropertySet 是 Wwise 2023.1 首轮验证用兼容层：`FeatureId` 当前由 `slot + 1` 派生，只是编辑器固定槽位的局部身份；Delete 左移会改变后续对象的 ID，不能作为外部稳定 ID。产品级游戏传输、可变长 Registry/Snapshot、Custom Game Data、Inner Objects、Capture/Replay 与 Monitor 仍属下一里程碑。
 - Wwise Authoring 安装目录只复制同名 DLL/XML；Runtime `.lib` 与 Factory Header 仅留在产品 `Artifacts`，由未来引擎集成包消费。
 - 实机 smoke 已证明：Wwise 能发现并创建自定义 Source、Transport 进入 playing、产生 1 个非虚拟物理 Voice、Profiler 记录插件 CPU、输出非静音并保存 `.prof`。详细证据见 `docs/VALIDATION_REPORT.md`。
@@ -289,7 +289,7 @@ v0.2 已内置三个由相同圆形 Proxy 构成的确定性 Fixture：
 
 - Open Wind：没有 Feature 的基础风场。
 - Rain on Metal：单个圆形 Metal Feature 的雨击与结构共振。
-- Wind + Rain Ring：多个不同 Profile 的圆环绕 Listener，验证风、雨、方向、距离和贡献排序。
+- Rain Material Lab：多个不同 Profile 的圆环绕 Listener，验证雨量、材质、距离和贡献排序；风/雨混合排序仍由 Source/高级回归覆盖。
 
 后续仍建议补充 Same Shape / Wood 与 Active-Set Stress，用于更细的材质 A/B 与 ActiveK 裁剪回归。
 
@@ -300,7 +300,7 @@ v0.2 已内置三个由相同圆形 Proxy 构成的确定性 Fixture：
 #### 3. Authoring 数据模型
 
 - 标准、可自动化的标量参数使用 Plug-in XML + `PropertySet`，例如 Rain Intensity、Wind Speed、Wind Direction、Wind Gustiness、Listener XYZ、Seed、Geometry Bypass。Listener X/Z 由 Canvas 拖动实时修改；Y 在 Inspector 中使用数值字段，默认 0。
-- v0.2 的 Preview Feature 列表和 `SphereProxy` 先使用固定 8 槽 `PropertySet` 保存，`GetBankParameters` 已实现对应参数块写出，261/273 字节读取合同已有可执行回归；canonical smoke 已验证 Wwise 实际 SoundBank 生成与 Authoring 参数序列化。v0.3 Effect 已补齐独立 Native SoundEngine Host 加载/执行证据；Authoring 不保存 Listener Path。
+- v0.2 的 Preview Feature 列表和 `SphereProxy` 先使用固定 8 槽 `PropertySet` 保存，`GetBankParameters` 已实现对应参数块写出，261/273 字节读取合同已有可执行回归；canonical smoke 已验证 Wwise 实际 SoundBank 生成与 Authoring 参数序列化。v0.3 Effect 已补齐独立 Native SoundEngine Host 加载/执行证据；Authoring 不保存 Listener Path。最新雨声可听性调参需要追加 fresh build、smoke 和人工试听证据。
 - 可变长场景、Inner Objects/ObjectStore 与 CustomData 仍属于 P0-B 方案选择，不是 v0.2 已落地能力。
 - 数据改变后由 Backend 通知 Wwise 内部数据已变化；完整刷新使用 `ALL_PLUGIN_DATA_ID`。SoundEngine 参数节点通过 `SetParam` 接收结构化数据。
 - Inner Objects 应使用稳定的 Type/List/Property 名称。Audiokinetic 文档明确说明其模型通知也可能由 WAAPI 调用触发，因此 P0 应验证 `object.get`、`object.set`、`setProperty` 对自定义 Surface 列表的支持情况。
@@ -576,7 +576,7 @@ Wwise SDK 不复制进产品仓库，只通过 `WWISE_ROOT`/CMake Cache 指向�
 ### 第一轮可执行功能
 
 1. Shared Core 接收一个 Listener、Weather State 和最多 8 个 Sphere Feature，选择固定 `ActiveK=4`，并输出每个贡献的距离、相对方位、权重和 Profile。
-2. Weather Source DSP 使用固定 Seed 的多尺度风噪/阵风、改进底雨、多材质稀疏撞击与简化共振，至少提供 Metal/Wood/Glass/Tile 四个 Profile；同输入必须可重复。
+2. Weather Source DSP 使用固定 Seed 的多尺度风噪/阵风、改进底雨、多材质稀疏撞击与简化共振，至少提供 Metal/Wood/Glass/Tile/Plastic 五个 Profile；同输入必须可重复。
 3. Wwise Authoring Property 页面提供所有当前 runtime 标量；自定义 2D Canvas 提供圆形 Feature、可拖动 Listener 点、Yaw 箭头、Feature 添加/删除、圆心拖动和半径手柄，不提供 Path。
 4. 圆形对象 Inspector 编辑真实 `Transform/Radius/ProfileId/ResponseMask/Priority`；当前 `FeatureId=slot+1` 只是不可调的固定槽位身份，Delete 左移后可能变化。Listener/Weather/Feature 修改直接写入 Source 使用的同一 PropertySet。
 5. Offline Renderer 与 Wwise Source 使用同一 Core/DSP，不允许复制算法。
@@ -593,7 +593,7 @@ Wwise SDK 不复制进产品仓库，只通过 `WWISE_ROOT`/CMake Cache 指向�
 
 - 共享 DSP Core、固定 Seed 离线 Renderer、数值/确定性/异常输入/长尾测试已建立。
 - Wwise Weather Source 可直接在 Authoring Transport 中播放，不依赖 Unity/Unreal 或外部 Sandbox。
-- Authoring 提供 `Open Wind`、`Rain on Metal`、`Wind + Rain Ring` 三个 Preset、最多 8 个圆形 Proxy、单个可拖动 Listener、Yaw 箭头、Weather/Geometry/Feature 编辑、Feature 添加/删除、圆心拖动和半径手柄；不实现 Listener Path。
+- Authoring 提供 `Open Wind`、`Rain on Metal`、`Rain Material Lab` 三个 Preset、最多 8 个圆形 Proxy、单个可拖动 Listener、Yaw 箭头、Weather/Geometry/Feature 编辑、Feature 添加/删除、圆心拖动和半径手柄；不实现 Listener Path。
 - Canvas/Inspector 与 Source 使用同一组 69 个 Wwise Property、同一 Core 入口与同一 DSP；没有第二套 Preview 算法。
 - Wwise 2023.1.19 自动化 smoke 已验证 Source 创建、属性保存、GUI 编辑/Undo、Wwise 实际 SoundBank 生成与 Authoring 参数序列化、Transport、Profiler Voice/CPU、非静音输出和 `.prof` 保存。
 - 构建输出与完整工程保持在产品根目录；Wwise 安装只接收 Authoring DLL/XML。
@@ -1049,16 +1049,16 @@ Wwise Audio File Source / Streamed Loop
 - Weather Only + 最多 8 个手工 `SphereProxy` Semantic Surfaces。
 - 立体声 Field 输出；本轮不声明 Ambisonics。
 - 物理启发的程序化风声与改进雨声；三个风参数为 `WindSpeed`、`WindDirectionDegrees`、`WindGustiness`。
-- Metal/Wood/Glass/Tile 四种 Response Profile；每个 Feature 单 Profile、无正背面切换。
+- Metal/Wood/Glass/Tile/Plastic 五种 Response Profile；每个 Feature 单 Profile、无正背面切换。`Plastic=4` 追加，不改变 Metal/Wood/Glass/Tile 的既有编号。
 - `ResponseMask` 值域为 0 Disabled、1 Rain、2 Wind、3 Rain + Wind。
-- 三个 Authoring Preset：Open Wind、Rain on Metal、Wind + Rain Ring。
+- 三个 Authoring Preset：Open Wind、Rain on Metal、Rain Material Lab。
 - 圆形 2D Canvas、单 Listener 点、Yaw 箭头、属性 Inspector、Feature 添加/删除、圆心拖动和半径手柄；没有 Listener Path。
 - Windows x64 / Wwise 2023.1.19.8928 / vc170 / Release 的 Authoring 与 Runtime 产物。
 - 自动化离线测试、Wwise 发现/创建/播放/Profiler smoke、Wwise 实际 SoundBank 生成与 Authoring 参数序列化，以及最小 DLL/XML 安装。
 - Effect `PluginID=31002`，可挂到 Audio File Source loop 所在 Sound、Actor-Mixer 或 Bus。
 - Effect 以输入素材为声音主体，只添加几何与材质交互；当前不替代素材质量、loop、streaming、State/RTPC 或 Wwise Spatial Audio 传播。
-- Effect 实际参数为 `InputRole`、`WetMix`、`ResponseGainDb`、`TransientSensitivity`、weather/listener、`FeatureCount` 和 8 组 `X/Y/Z/Radius/Profile/Mask/Priority`。
-- Effect 参数 ABI：71 参数、281-byte block；`InputRole Rain=0/Wind=1/Generic=2(default Generic)`，`WetMix 0..1 default 0`，`ResponseGainDb -24..12`，`TransientSensitivity 0..1`。
+- Effect 实际参数为 `InputRole`、`WetMix`、`ResponseGainDb`、`TransientSensitivity`、weather/listener、`FeatureCount` 和 8 组 `X/Y/Z/Radius/Profile/Mask/Priority`；Authoring 主雨声面板隐藏不适合首屏试听的 `Seed`、`ListenerY`、`Priority` 与风参数，但 ABI/Bank/runtime 仍保留。
+- Effect 参数 ABI：71 参数、281-byte block；`InputRole Rain=0/Wind=1/Generic=2`，当前试听默认 `Rain`；`WetMix 0..1`，当前试听默认 `1`；`ResponseGainDb -24..12`，当前试听默认 `+10 dB`；`TransientSensitivity 0..1`，当前试听默认 `0.85`。
 - `Priority` 是 `0..1000` 数值权重，不是四档枚举。
 - Runtime C ABI：`RWWA_RuntimeScene_SetV1` / `GetV1` / `ClearV1`；scene 392 bytes，feature 40 bytes，最多 8 槽。authored fallback 只允许在 API 返回 `UNCLAIMED` 且该实例从未 claim runtime scene 时使用；first-claim `BUSY` 不回退，已有 snapshot 时 `BUSY` 复用保留的 runtime scene。
 - Runtime Diagnostics V1：96-byte ABI，导出 `RWWA_RuntimeDiagnostics_ResetV1` / `GetV1`，覆盖 execute/frame、runtime/fallback、wet bypass、geometry disabled、revision、input/output/wet-difference peaks 与 non-finite sample counter。Get 返回 coherent snapshot；publish/reset handshake 使用 sequential consistency，Get 把 generation 作为最后一次并发观测。五个 `last*` 字段通过 no-wait try-commit 形成完整 per-block tuple；争用时 tuple 可落后，但不会混合不同 block，其他 counters/max/generation 仍继续累加。重叠时 Get/Reset 返回 `BUSY` 供控制线程重试，并有确定性 race、forced-contention 与 multi-writer encoding 测试。

@@ -3,10 +3,11 @@
 ## 文档状态
 
 - 状态：v0.3 hybrid vertical slice 已实现并通过当前自动化验证
-- 日期：2026-07-22（Asia/Shanghai）
+- 日期：2026-07-23（Asia/Shanghai）
 - 适用工程：`D:\Tool\WwisePlugin_RealWorldWeatherSound`
 - 前置基线：Source Plug-in `PluginID=31001` 继续保留 69 参数、261-byte legacy block 与 273-byte current block 回归合同
 - 本轮结果：新增独立 Effect `PluginID=31002`，用 Wwise Audio File Source/streamed loop 提供高质量 rain/wind bed，Effect 只添加几何与材质交互响应
+- 最新试听改动：Effect Authoring 主雨声面板精简为可直接听出变化的参数，新增 `Plastic=4`，并让 `Rain Amount` 连续驱动雨滴撞击密度/能量。Core build/test、Wwise Authoring smoke 与 NativeHost 自动化 QA 已完成；人工主观听感仍待补。
 
 ## 一、核心结论
 
@@ -18,7 +19,7 @@ Wwise Audio File Source / Streamed Loop
     -> Sound / Actor-Mixer / Bus routing
 ```
 
-产品不再要求第一阶段由 Source 直接合成完整 rain/wind bed。高质量主体声音由 Wwise 标准 `Audio File Source`、循环素材、streamed WEM、Blend Container 或项目已有素材系统提供；Effect 根据输入素材和显式几何场景添加可回归的局部材质响应。
+产品不再要求第一阶段由 Source 直接合成完整 rain/wind bed。高质量主体声音由 Wwise 标准 `Audio File Source`、循环素材、streamed WEM、Blend Container 或项目已有素材系统提供；Effect 根据输入素材和显式几何场景添加可回归的局部材质响应。雨声路径的重点是“素材提供主体质感，DSP 根据 Surface 材质、距离和 Listener 位置塑造雨滴撞击与共振”。
 
 这不会废弃现有 Source：
 
@@ -37,9 +38,9 @@ Wwise Audio File Source / Streamed Loop
 | Audio File Source + Effect SoundBank | 已完成 | Baseline、InputRoleWetGeometry、WetZero 三个 473-byte bank 均生成并保留；内部 Effect block 均为 281 bytes |
 | 持久雨声 demo | 已完成 | `RWWA_Demo_Heavy_Rain_Puddles` + `RWWA_Demo_Heavy_Rain_Puddles_Audio` + `RWWA_Demo_Weather_Geometry_Effect` + `Play_RWWA_Demo_Heavy_Rain_Puddles` 已导入 smoke 工程；当前 smoke 使用 `existing-template` |
 | Runtime Diagnostics V1 | 已完成 | 96-byte ABI；`ResetV1` / `GetV1`、coherent snapshot、non-finite counter、BUSY retry，以及五字段 last-block tuple 的 no-wait try-commit 均有自动化证据 |
-| Host 三态音频合同 matrix | 已完成 | `changed`、`wet-bypass`、`geometry-disabled` 三态全部通过；两份错误 expectation 负例均以 code 52 正确失败 |
-| Runtime C ABI scene 提交 | 已完成 | `SetV1` / `GetV1` / `ClearV1` 三个导出均被 Host 找到并 roundtrip |
-| Authoring 2D canvas 操作 | 已完成 | Listener/yaw、Add/Delete、拖圆、黄 handle 半径、Priority 10 -> 107 -> Undo 10；连续 smoke 中 move/resize 均为 window-message + converged |
+| Host 三态音频合同 matrix | 已完成 | `changed`、`wet-bypass`、`geometry-disabled` 三态全部通过；两份错误 expectation 负例均以 code 52 正确失败；最新 Rain Material Lab NativeHost matrix max wet diff `0.0380954742`，WetMix0/GeometryOff exact 0 |
+| Runtime C ABI scene 提交 | 已完成 | `SetV1` / `GetV1` / `ClearV1` 三个导出均被 Host 找到并 roundtrip；`RWWA_RUNTIME_PROFILE_*` 宏允许游戏侧提交 `Plastic=4` |
+| Authoring 2D canvas 操作 | 已完成 | 最新 Wwise Authoring smoke 覆盖 Listener/yaw、Add/Delete、拖圆、黄 handle 半径、Priority 10 -> 107 -> Undo 10；主面板保留 Rain Amount、Surface Mix、Impact Gain、Impact Sharpness、Geometry Response、Material/Weather Response |
 | Unity Adapter | 后续 | 本轮未实现 |
 | Unreal Adapter | 后续 | 本轮未实现 |
 | 高级 DSP 参数 | 后续 | `EnvelopeSensitivity`、band weights、smoothing 等不属于当前实现 |
@@ -52,12 +53,27 @@ Wwise Audio File Source / Streamed Loop
 1. 导入高质量 rain、wind 或天气 ambience 音频。
 2. 将导入素材设为循环 `Audio File Source` 或 streamed loop。
 3. 在承载该 loop 的 Sound、Actor-Mixer 或 Bus 上添加 `RealWorld Weather Acoustics Effect`。
-4. 设置 `InputRole` 和 `WetMix`。
+4. 设置 `Input Audio` 与 `Surface Mix`（底层仍是 `InputRole` 和 `WetMix`）。
 5. 在 Effect 的 2D canvas 中拖动 Listener 和 yaw。
-6. 用 `Add` / `Delete` 管理圆形 Feature，拖动圆心调 X/Z，拖动黄色 handle 调半径。
-7. 在右侧逐项编辑 `Profile`、`Mask`、`Priority` 和 `Y`。
+6. 用 `Add` / `Delete` 管理圆形 Surface，拖动圆心调 X/Z，拖动黄色 handle 调半径。
+7. 在雨声主试听中只编辑 `Material`、`Weather Response`、`X/Z` 和 `Radius`；`Priority`、`Y` 和风参数保留在 ABI/Bank/runtime 中，不放在首屏。
 
 Effect 输入素材应提供声音主体质量。插件当前只负责几何、距离、材质 profile、mask、priority 与 listener/weather 交互，不替代素材选型、循环剪辑、Wwise streaming、State/RTPC 或空间传播混音。
+
+### Authoring 雨声试听主面板
+
+Effect Authoring 模式下的主试听界面保留以下参数：
+
+| UI 名称 | 底层参数 | 范围 | 听感目的 |
+| --- | --- | --- | --- |
+| `Input Audio` | `InputRole` | `Rain` / `Wind` / `Generic` | 告诉 DSP 如何解释输入素材。雨声 demo 使用 `Rain`。 |
+| `Rain Amount` | `RainIntensity` | `0..1` | 连续控制雨滴撞击密度和能量。 |
+| `Surface Mix` | `WetMix` | `0..1` | `0` 为原始素材干声，`1` 为完整 Surface 响应。 |
+| `Impact Gain dB` | `ResponseGainDb` | `-24..12` dB | 提升或降低表面撞击/共振输出。 |
+| `Impact Sharpness` | `TransientSensitivity` | `0..1` | 强调雨点击打瞬态。 |
+| `Geometry Response` | `GeometryEnabled` | bool | 开关所有 Surface 几何响应，作为 A/B。 |
+
+Selected Surface 只显示 `X/Z/Radius/Material/Weather Response`。隐藏但保留的内容包括 `Seed`、`ListenerY`、`Priority`、`WindSpeed`、`WindDirectionDegrees`、`WindGustiness`。这些字段仍参与 ABI、SoundBank、runtime scene 或 Source/高级路径；隐藏原因是它们不适合作为首版雨声材质试听的主要控件。
 
 当前 smoke 工程保留一个可直接给人试听的雨声 demo。它使用用户提供的 Envato preview MP3 前 30 秒生成 `WwiseSmoke\RealWorldWeatherAcousticsSmoke\Originals\SFX\RWWA_Heavy_Rain_Puddles_30s.wav`，并导入为 `RWWA_Demo_Heavy_Rain_Puddles_Audio`。生成后的测试 WAV/WEM 作为仓库测试资产分发，便于 fresh clone 后直接试听和跑自动化验证；发布者需要自行确认 Envato preview 许可覆盖这种仓库分发方式。WAV 证据：48 kHz stereo PCM24、30.0 秒、`8640102` bytes、SHA-256 `1fa150708de00627796a4e3963a9becd97595e01e5e769e6a3b0a5d1cf076adc`。导入报告为 `Build\WwiseSmoke\import-rain-demo-20260722T121122186Z.json`。
 
@@ -82,7 +98,7 @@ Effect 输入素材应提供声音主体质量。插件当前只负责几何、�
 | `FeatureCount` | `0..8` | `4` | 使用前多少个固定槽位。 |
 | `Feature1..8 X/Y/Z` | finite float | 固定环形默认 | Feature 中心位置。 |
 | `Feature1..8 Radius` | `0.2..10000` | `2` | Sphere proxy 半径；Source runtime clamp 也已统一为最小 `0.2` 并有测试覆盖。 |
-| `Feature1..8 Profile` | `0..3` | slot pattern | `0 Metal`、`1 Wood`、`2 Glass`、`3 Tile`。 |
+| `Feature1..8 Profile` | `0..4` | slot pattern | `0 Metal`、`1 Wood`、`2 Glass`、`3 Tile`、`4 Plastic`；Plastic 为追加值，旧编号不变。 |
 | `Feature1..8 Mask` | `0..3` | `3` | `0 Disabled`、`1 Rain`、`2 Wind`、`3 Rain + Wind`。 |
 | `Feature1..8 Priority` | `0..1000` | `1` | Active Set 数值权重，不是四档枚举。 |
 
@@ -97,6 +113,19 @@ Artifacts\Runtime\include\AK\Plugin\RealWorldWeatherAcousticsRuntimeAPI.h
 ```
 
 当前 C ABI 使用 `RWWA_RUNTIME_SCENE_ABI_VERSION = 1`，固定 `RWWA_RUNTIME_SCENE_MAX_FEATURES = 8`。
+
+Runtime profile ID 也在 header 中显式公开，避免游戏侧硬编码魔数：
+
+```c
+#define RWWA_RUNTIME_PROFILE_METAL   0u
+#define RWWA_RUNTIME_PROFILE_WOOD    1u
+#define RWWA_RUNTIME_PROFILE_GLASS   2u
+#define RWWA_RUNTIME_PROFILE_TILE    3u
+#define RWWA_RUNTIME_PROFILE_PLASTIC 4u
+#define RWWA_RUNTIME_PROFILE_MAX RWWA_RUNTIME_PROFILE_PLASTIC
+```
+
+这修复了 runtime API 原先把 profile clamp 到 3 的问题；`Plastic=4` 现在可由游戏侧 scene 正常提交。
 
 | 结构/导出 | 大小/状态 | 说明 |
 | --- | ---: | --- |
@@ -116,33 +145,42 @@ Native Host 命令入口：
 
 & .\Scripts\Smoke-WwiseNativeHost.ps1 `
     -WwiseRoot $wwise `
-    -FixtureRoot 'Build\NativeHost\Fixture\20260722T123034276Z' `
+    -FixtureRoot 'Build\NativeHost\Fixture\20260723T124436929Z' `
     -Bank 'RWWA_Effect_Baseline.bnk' `
-    -SceneJson 'Tools\NativeHost\scene.example.json' `
+    -SceneJson 'Tools\NativeHost\scene.rain-material-lab.example.json' `
     -Expectation changed `
     -DurationMs 1200 `
     -SkipBuild
 
 & .\Scripts\Smoke-WwiseNativeHost.ps1 `
     -WwiseRoot $wwise `
-    -FixtureRoot 'Build\NativeHost\Fixture\20260722T123034276Z' `
+    -FixtureRoot 'Build\NativeHost\Fixture\20260723T124436929Z' `
     -Bank 'RWWA_Effect_WetZero.bnk' `
-    -SceneJson 'Tools\NativeHost\scene.example.json' `
+    -SceneJson 'Tools\NativeHost\scene.rain-material-lab.example.json' `
     -Expectation wet-bypass `
     -DurationMs 1200 `
     -SkipBuild
 
 & .\Scripts\Smoke-WwiseNativeHost.ps1 `
     -WwiseRoot $wwise `
-    -FixtureRoot 'Build\NativeHost\Fixture\20260722T123034276Z' `
+    -FixtureRoot 'Build\NativeHost\Fixture\20260723T124436929Z' `
     -Bank 'RWWA_Effect_Baseline.bnk' `
     -SceneJson 'Tools\NativeHost\scene.disabled.example.json' `
     -Expectation geometry-disabled `
     -DurationMs 1200 `
     -SkipBuild
+
+& .\Scripts\Smoke-WwiseNativeHost.ps1 `
+    -WwiseRoot $wwise `
+    -FixtureRoot 'Build\NativeHost\Fixture\20260723T124436929Z' `
+    -Bank 'RWWA_Effect_Baseline.bnk' `
+    -SceneJson 'Tools\NativeHost\scene.rain-material-lab.example.json' `
+    -Expectation changed `
+    -DurationMs 3000 `
+    -SkipBuild
 ```
 
-`Tools\NativeHost\scene.example.json` 提交 revision 2 的 2 个 Feature；`scene.disabled.example.json` 提交 revision 3、`geometryEnabled=false` 的同类 runtime scene。GeometryOff 使用 Baseline bank + disabled runtime scene，避免 bank 与 runtime 同时关闭几何。正式 expectation 模式为 `changed`、`wet-bypass`、`geometry-disabled`；`transparent` 仅为 legacy 兼容模式。
+`Tools\NativeHost\scene.example.json` 提交 revision 2 的 2 个 Feature；`scene.disabled.example.json` 提交 revision 3、`geometryEnabled=false` 的同类 runtime scene；`scene.rain-material-lab.example.json` 提交 revision 4 的 4 个圆形 Surface，Listener 位于下方 Metal，右侧 Surface 使用 `profile=4` Plastic。GeometryOff 使用 Baseline bank + disabled runtime scene，避免 bank 与 runtime 同时关闭几何。正式 expectation 模式为 `changed`、`wet-bypass`、`geometry-disabled`；`transparent` 仅为 legacy 兼容模式。
 
 Bank/Authoring listener、weather 与 feature 槽只在 Runtime API 返回 `RWWA_RUNTIME_STATUS_UNCLAIMED` 且该 Effect 实例此前从未 claim 过 runtime scene 时作为 authored fallback。first claim 写入竞争若返回 `BUSY`，Effect 立即进入 runtime-owned 空 scene 而不短暂回退；已有 runtime snapshot 时，`BUSY` 继续使用保留 snapshot。runtime scene 一旦被 claim，clear/error 路径也不会静默切回 authored 数据。
 
@@ -164,6 +202,8 @@ Diagnostics 的 `lastRuntimeSceneRevision`、`lastInputPeak`、`lastOutputPeak`�
 10. 完成 96-byte Runtime Diagnostics V1、lock-free counters/peaks、non-finite sample counter、coherent snapshot、`ResetV1` / `GetV1` BUSY retry 与长时 `uint64` 计数合同；publish/reset handshake 使用 seq_cst，Get 最后观测 generation；五字段 last-block tuple 采用 no-wait try-commit，争用可滞后但不混合 block，并有确定性 forced-contention、multi-writer 与 race 测试。
 11. 完成 Native Host 三态 matrix：加载 bank、注册 31001/31002、提交/读取/清除 scene、PostEvent、render、诊断断言与清理退出。
 12. 完成双负例门禁：非零 wet difference 错判 bypass、零 difference 但 reason 错配均以 `diagnostics-assertions` / code 52 失败。
+13. 完成 runtime profile clamp 修复：`RWWA_RUNTIME_PROFILE_METAL/WOOD/GLASS/TILE/PLASTIC/MAX` 进入 RuntimeAPI.h，`Plastic=4` 可由 game/runtime scene 正常提交。
+14. 完成 Rain Material Lab NativeHost 自动化：revision 4、4 features、Listener 位于下方 Metal，changed run max wet diff `0.0380954742`，WetMix0 与 GeometryOff 都 exact 0。
 
 ## 七、验证证据
 
@@ -171,16 +211,21 @@ Diagnostics 的 `lastRuntimeSceneRevision`、`lastInputPeak`、`lastOutputPeak`�
 | --- | --- |
 | `Build\Core\Testing\Temporary\LastTest.log` | `Test 8/8` 全部通过。 |
 | `Build\WwiseSmoke\import-rain-demo-20260722T121122186Z.json` | 持久 Sound / AudioFileSource / Effect / Event 导入成功；71 个 Effect 属性可读。 |
-| `Build\WwiseSmoke\wwise-authoring-smoke-20260722T123034276Z.json` | 连续第二次通过；wrapper/client `success = true`；`requireRetainedRainDemo = true`；`effectObjectSet.mode = existing-template`；GUI 36/36；Source/Effect/Shared groups 6/6、7/7、1/1。 |
-| `Build\WwiseSmoke\wwise-authoring-smoke-20260722T123034276Z.prof` | 745058 bytes。 |
-| Source / Effect Profiler | Source `0.1414999962 ms`、1 voice、`-26.45691872 dB`；Effect `0.1155999973 ms`、1 voice、`-16.77216339 dB`。 |
+| `Build\WwiseSmoke\wwise-authoring-smoke-20260723T124436929Z.json` | 通过；Wwise `2023.1.19.8928`；wrapper/client `success = true`；`requireRetainedRainDemo = true`；`effectObjectSet.mode = existing-template`；GUI 36/36；Source/Effect/Shared groups 6/6、7/7、1/1；fixture unchanged。 |
+| `Build\WwiseSmoke\wwise-authoring-smoke-20260723T124436929Z.prof` | 988049 bytes。 |
+| Source / Effect Profiler | Source `0.1395999938 ms`、1 voice、`-28.79373550 dB`；Effect `0.1159999967 ms`、1 voice、`-15.69230461 dB`。 |
 | Effect SoundBank serialization | 71 props、281-byte block；Baseline/InputRoleWetGeometry/WetZero 三个 bank 各 473 bytes。 |
-| Fixture manifest | `Build\NativeHost\Fixture\20260722T123034276Z\RWWA_Effect_Fixture.json`；10/10 artifacts size+SHA match，另加 manifest 共 11 个保留文件，WEM 为 `Media\528110025.wem`。 |
+| Fixture manifest | `Build\NativeHost\Fixture\20260723T124436929Z\RWWA_Effect_Fixture.json`；10/10 artifacts size+SHA match，另加 manifest 共 11 个保留文件，WEM 为 `Media\528110025.wem`。 |
 | Host changed | `native-host-rain-changed-20260722T123034276Z.json`；110 blocks / 56320 frames / revision 2 / max diff `0.0136105493`。 |
 | Host wet bypass | `native-host-rain-wet-bypass-20260722T123034276Z.json`；112 blocks / 57344 frames，wet bypass 112，input=output `0.230743408`，max diff 0。 |
 | Host geometry disabled | `native-host-rain-geometry-disabled-20260722T123034276Z.json`；Baseline + disabled runtime scene，110 blocks / 56320 frames，geometry disabled 110，input=output `0.230743408`，max diff 0。 |
 | Host full payload / finite gate | 三态均 89-field roundtrip match、mismatch 0、non-finite 0。 |
 | Host negative gates | 错误 expectation 负例覆盖仍保留：非零 wet response 不能通过 `wet-bypass`，geometry-disabled 透明输出也不能伪装成 `wet-bypass`；均以 code 52 / `diagnostics-assertions` 正确失败。 |
+| Runtime API profile macros | `RealWorldWeatherAcousticsRuntimeAPI.h` 暴露 `RWWA_RUNTIME_PROFILE_METAL/WOOD/GLASS/TILE/PLASTIC/MAX`；`PLASTIC=4`，`MAX=PLASTIC`。 |
+| Rain Material Lab scene | `Tools\NativeHost\scene.rain-material-lab.example.json`；revision 4，4 features，ListenerZ `-5.5` 位于下方 Metal，右侧 Surface `profile=4` Plastic。 |
+| Rain Material Lab changed | `native-host-rain-material-changed-20260723T124436929Z.json`；Baseline + `scene.rain-material-lab.example.json`，110 blocks / 56320 frames / revision 4 / 4 features / runtime 110 / fallback 0 / non-finite 0 / max diff `0.0905741826`。 |
+| Rain Material Lab WetMix0 | `native-host-rain-material-wet-bypass-20260723T124436929Z.json`；WetZero + `scene.rain-material-lab.example.json`，113 blocks / 57856 frames，113/113 wet-bypass，max diff 0。 |
+| Rain Material Lab GeometryOff | `native-host-rain-material-geometry-disabled-20260723T124436929Z.json`；Baseline + `scene.disabled.example.json`，112 blocks / 57344 frames，112/112 geometry-disabled，max diff 0。 |
 
 ## 八、停止条件
 
@@ -192,8 +237,10 @@ Diagnostics 的 `lastRuntimeSceneRevision`、`lastInputPeak`、`lastOutputPeak`�
 | Runtime C ABI scene set/get/clear roundtrip | 已证实。 |
 | `WetMix=0` 透明与 `WetMix>0` 几何响应 | Core 单测与 Host matrix 均已证实。 |
 | 8 槽 scene 与 2 槽 JSON scene Host 路径 | 已证实。 |
-| Effect CPU 在首轮预算内 | 已证实，Profiler 记录 `0.1155999973 ms`。 |
+| Effect CPU 在预算内 | 已证实，最新 Profiler 记录 `0.1159999967 ms`。 |
 | Runtime Diagnostics V1 与第三个 WetZero bank | 已证实并纳入最终 fixture/matrix。 |
+| 最新 Rain Material Lab Core/NativeHost 自动 QA | 已证实。 |
+| 最新 Wwise Authoring smoke | 已证实。 |
 | 人工主观听感验收 | 未完成，后续。 |
 | Unity/Unreal Adapter | 未完成，后续。 |
 | 高级 DSP 参数与完整产品化调参 | 未完成，后续。 |
