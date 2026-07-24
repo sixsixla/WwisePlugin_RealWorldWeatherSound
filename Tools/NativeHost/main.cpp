@@ -1204,7 +1204,7 @@ RWWA_RuntimeSceneV1 BuiltinScene()
         feature.y = 0.0f;
         feature.z = std::cos(angle) * (6.0f + static_cast<float>(index));
         feature.radius = 2.5f + 0.25f * static_cast<float>(index);
-        feature.profile = index % 4u;
+        feature.profile = index % (RWWA_RUNTIME_PROFILE_MAX + 1u);
         feature.mask = index % 3u + 1u;
         feature.priority = 100 - static_cast<std::int32_t>(index) * 10;
     }

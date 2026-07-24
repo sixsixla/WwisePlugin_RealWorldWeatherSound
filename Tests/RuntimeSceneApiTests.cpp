@@ -126,7 +126,7 @@ RWWA_RuntimeSceneV1 MakeScene(std::uint64_t revision, std::uint32_t featureCount
         feature.y = 0.0f;
         feature.z = static_cast<float>(index + 2u);
         feature.radius = static_cast<float>(index + 1u);
-        feature.profile = index % 4u;
+        feature.profile = index % (RWWA_RUNTIME_PROFILE_MAX + 1u);
         feature.mask = 3u;
         feature.priority = static_cast<std::int32_t>(index);
     }

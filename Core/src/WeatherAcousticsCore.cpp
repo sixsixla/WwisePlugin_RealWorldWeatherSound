@@ -135,18 +135,27 @@ struct ProfileTuning
     float directImpactGain;
     float windCutoffHz;
     float windGain;
+    float interactionLowGain;
+    float interactionMidGain;
+    float interactionHighGain;
 };
 
-constexpr std::array<ProfileTuning, 4> kProfileTuning{{
-    {2350.0f, 0.994f, 0.76f, 5350.0f, 0.990f, 0.42f, 0.0035f, 1.00f, 0.020f, 1050.0f, 0.90f},
-    {480.0f, 0.975f, 1.05f, 1280.0f, 0.958f, 0.58f, 0.0100f, 0.72f, 0.010f, 520.0f, 1.10f},
-    {2860.0f, 0.996f, 0.62f, 5080.0f, 0.992f, 0.48f, 0.0025f, 0.90f, 0.016f, 1350.0f, 0.82f},
-    {1120.0f, 0.985f, 0.92f, 2640.0f, 0.979f, 0.52f, 0.0065f, 0.82f, 0.014f, 760.0f, 1.00f},
+constexpr std::array<ProfileTuning, 5> kProfileTuning{{
+    // Metal: bright, long ringing with very little low-frequency body.
+    {2350.0f, 0.994f, 0.84f, 5350.0f, 0.990f, 0.50f, 0.0035f, 1.12f, 0.032f, 1050.0f, 0.90f, 0.05f, 0.32f, 1.35f},
+    // Wood: short, low-mid thuds with a subdued top end.
+    {420.0f, 0.965f, 1.12f, 1040.0f, 0.942f, 0.66f, 0.0100f, 0.92f, 0.085f, 520.0f, 1.10f, 1.18f, 0.92f, 0.08f},
+    // Glass: brittle high pings that ring longer and higher than metal.
+    {3260.0f, 0.997f, 0.70f, 7160.0f, 0.994f, 0.54f, 0.0025f, 1.00f, 0.028f, 1350.0f, 0.82f, 0.02f, 0.16f, 1.58f},
+    // Tile: hard, dry mid-band ticks with a compact decay.
+    {1180.0f, 0.978f, 1.00f, 3180.0f, 0.963f, 0.60f, 0.0065f, 1.02f, 0.070f, 760.0f, 1.00f, 0.18f, 1.12f, 0.62f},
+    // Plastic: hollow, short mid/high knocks without a metallic tail.
+    {720.0f, 0.958f, 0.98f, 2260.0f, 0.948f, 0.74f, 0.0080f, 0.96f, 0.095f, 820.0f, 0.94f, 0.42f, 0.82f, 0.86f},
 }};
 
 std::uint32_t SanitizeProfileId(std::uint32_t profileId) noexcept
 {
-    return profileId <= static_cast<std::uint32_t>(ResponseProfile::Tile)
+    return profileId <= static_cast<std::uint32_t>(ResponseProfile::Plastic)
         ? profileId
         : static_cast<std::uint32_t>(ResponseProfile::Metal);
 }
@@ -289,8 +298,13 @@ SceneSnapshot CompileScene(
         contribution.distance = candidate.surfaceDistance;
         contribution.azimuthRadians = candidate.azimuth;
         contribution.pan = std::sin(std::clamp(candidate.azimuth, -kHalfPi, kHalfPi));
-        contribution.gain = candidate.radius /
-            (candidate.radius + candidate.surfaceDistance + 0.001f);
+        // A listener inside a semantic surface hears that surface at full
+        // strength. Outside it, a cubic falloff prevents several distant
+        // circles from masking the material the listener is actually over.
+        const float normalizedDistance = candidate.surfaceDistance /
+            std::max(0.25f, candidate.radius * 0.55f);
+        contribution.gain = 1.0f /
+            (1.0f + normalizedDistance * normalizedDistance * normalizedDistance);
         contribution.selectionScore = candidate.score;
 
         if (previousSnapshot != nullptr && alpha < 1.0f)
@@ -733,6 +747,8 @@ void GeometryInteractionProcessor::Reset() noexcept
     m_roleMid = 0.0f;
     m_rainMaskWeight = 0.0f;
     m_windMaskWeight = 0.0f;
+    m_rainIntensity = 0.0f;
+    m_windStrength = 0.0f;
     m_voices = {};
 }
 
@@ -752,6 +768,16 @@ float GeometryInteractionProcessor::ProcessMode(
     state.delay2 = FlushDenormal(state.delay1);
     state.delay1 = FlushDenormal(value);
     return FlushDenormal(value * coefficients.outputScale);
+}
+
+std::uint32_t GeometryInteractionProcessor::NextRandom(std::uint32_t& state) noexcept
+{
+    std::uint32_t value = state;
+    value ^= value << 13u;
+    value ^= value >> 17u;
+    value ^= value << 5u;
+    state = value;
+    return value;
 }
 
 void GeometryInteractionProcessor::PrepareCoefficients() noexcept
@@ -782,8 +808,13 @@ void GeometryInteractionProcessor::PrepareCoefficients() noexcept
         coefficients.modeB = prepareMode(
             tuning.modeBFrequencyHz, tuning.modeBPoleRadius, tuning.modeBGain);
         coefficients.flowCoefficient = OnePoleCoefficient(tuning.windCutoffHz, sampleRate);
-        coefficients.modalGain = 0.32f + 0.28f * tuning.impactGain;
+        coefficients.modalGain = 0.90f + 0.75f * tuning.impactGain;
         coefficients.flowGain = 0.18f * tuning.windGain;
+        coefficients.lowGain = tuning.interactionLowGain;
+        coefficients.midGain = tuning.interactionMidGain;
+        coefficients.highGain = tuning.interactionHighGain;
+        coefficients.impactGain = tuning.impactGain;
+        coefficients.directImpactGain = 2.40f * tuning.directImpactGain;
     }
 }
 
@@ -824,6 +855,22 @@ void GeometryInteractionProcessor::PrepareVoices(const SceneSnapshot& snapshot) 
             next.featureId = contribution.featureId;
             next.profileId = profileId;
             next.responseMask = responseMask;
+            next.rainRateScale = std::clamp(
+                std::sqrt(std::max(0.01f, contribution.radius)) * 0.72f,
+                0.45f,
+                2.2f);
+            const std::uint32_t featureSalt = static_cast<std::uint32_t>(
+                contribution.featureId ^ (contribution.featureId >> 32u));
+            const std::uint32_t expectedRainSeed = MixSeed(
+                snapshot.weather.seed,
+                featureSalt ^ 0x6a09e667u);
+            if (next.rainSeed != expectedRainSeed)
+            {
+                next.rainSeed = expectedRainSeed;
+                next.rainRandomState = expectedRainSeed;
+                next.modeA = {};
+                next.modeB = {};
+            }
             if (next.gain == 0.0f)
             {
                 next.pan = ClampFinite(contribution.pan, -1.0f, 1.0f, 0.0f);
@@ -852,6 +899,14 @@ void GeometryInteractionProcessor::Process(
         settings.responseGainLinear, 0.0f, 4.0f, 0.0f);
     const float targetTransientSensitivity = ClampFinite(
         settings.transientSensitivity, 0.0f, 1.0f, 0.5f);
+    const float targetRainIntensity = SanitizeWeatherMagnitude(
+        snapshot.weather.rainIntensity, 1.0f);
+    const float targetWindStrength = std::pow(
+        std::clamp(SanitizeWeatherMagnitude(
+            snapshot.weather.windSpeedMetersPerSecond, 60.0f) / 25.0f,
+            0.0f,
+            1.0f),
+        0.78f);
 
     float targetRoleTransient = 0.42f;
     float targetRoleHigh = 0.30f;
@@ -900,6 +955,7 @@ void GeometryInteractionProcessor::Process(
     for (std::size_t frame = 0u; frame < frameCount; ++frame)
     {
         float inputSum = 0.0f;
+        float inputMagnitudeSum = 0.0f;
         std::size_t validChannelCount = 0u;
         for (std::size_t channel = 0u; channel < channelCount; ++channel)
         {
@@ -910,12 +966,17 @@ void GeometryInteractionProcessor::Process(
             const float sample = channelBuffers[channel][frame];
             if (std::isfinite(sample))
             {
-                inputSum += std::clamp(sample, -4.0f, 4.0f);
+                const float finiteSample = std::clamp(sample, -4.0f, 4.0f);
+                inputSum += finiteSample;
+                inputMagnitudeSum += std::abs(finiteSample);
                 ++validChannelCount;
             }
         }
         const float input = validChannelCount > 0u
             ? inputSum / static_cast<float>(validChannelCount)
+            : 0.0f;
+        const float inputMagnitude = validChannelCount > 0u
+            ? inputMagnitudeSum / static_cast<float>(validChannelCount)
             : 0.0f;
 
         m_inputLow = FlushDenormal(
@@ -926,7 +987,10 @@ void GeometryInteractionProcessor::Process(
         const float mid = m_inputMid - m_inputLow;
         const float high = input - m_inputMid;
 
-        const float absoluteInput = std::abs(input);
+        // Drive the envelope from per-channel magnitude, not the signed mono
+        // fold. A wide stereo rain bed can have opposing samples even though
+        // it contains plenty of physical impact energy.
+        const float absoluteInput = inputMagnitude;
         m_envelopeFast = FlushDenormal(
             m_envelopeFast + (absoluteInput - m_envelopeFast) * m_fastEnvelopeCoefficient);
         m_envelopeSlow = FlushDenormal(
@@ -948,12 +1012,20 @@ void GeometryInteractionProcessor::Process(
             m_rainMaskWeight, targetRainMaskWeight, m_parameterSmoothing);
         m_windMaskWeight = MoveTowardSmoothed(
             m_windMaskWeight, targetWindMaskWeight, m_parameterSmoothing);
+        m_rainIntensity = MoveTowardSmoothed(
+            m_rainIntensity, targetRainIntensity, m_parameterSmoothing);
+        m_windStrength = MoveTowardSmoothed(
+            m_windStrength, targetWindStrength, m_parameterSmoothing);
 
         const float transientDrive = transientPolarity * transientEnvelope *
             (0.25f + 1.75f * m_transientSensitivity);
-        const float modalExcitation =
-            m_roleHigh * high + m_roleTransient * transientDrive + 0.20f * m_roleMid * mid;
-        const float flowExcitation = m_roleLow * low + m_roleMid * mid;
+        const float inputActivity = std::clamp(
+            absoluteInput * 1.5f + m_envelopeSlow * 3.0f + transientEnvelope * 8.0f,
+            0.0f,
+            1.0f);
+        const float rainLevel = m_rainIntensity *
+            (0.10f + 0.90f * m_rainIntensity);
+        const float rainDensity = m_rainIntensity * m_rainIntensity;
 
         float wetLeft = 0.0f;
         float wetRight = 0.0f;
@@ -973,22 +1045,52 @@ void GeometryInteractionProcessor::Process(
             voice.pan = MoveTowardSmoothed(voice.pan, targetPan, m_voiceSmoothing);
 
             const float rainWeight = (voice.responseMask & kResponseMaskRain) != 0u
-                ? m_rainMaskWeight
+                ? m_rainMaskWeight * rainLevel
                 : 0.0f;
             const float windWeight = (voice.responseMask & kResponseMaskWind) != 0u
-                ? m_windMaskWeight
+                ? m_windMaskWeight * m_windStrength
                 : 0.0f;
-            const float responseWeight = std::max(rainWeight, windWeight);
+            const float responseWeight = std::clamp(rainWeight + windWeight, 0.0f, 1.25f);
             const ProfileCoefficients& profile = m_profileCoefficients[voice.profileId];
-            const float modalInput = modalExcitation * responseWeight * profile.modalGain;
+            const float modalExcitation =
+                m_roleLow * profile.lowGain * low +
+                0.42f * m_roleMid * profile.midGain * mid +
+                m_roleHigh * profile.highGain * high +
+                m_roleTransient * transientDrive * profile.impactGain;
+            float impactExcitation = 0.0f;
+            float directImpact = 0.0f;
+            if (rainWeight > 0.0f && inputActivity > kWeatherSilenceEpsilon)
+            {
+                const float gate = static_cast<float>(
+                    NextRandom(voice.rainRandomState) >> 8u) *
+                    (1.0f / 16777216.0f);
+                const float impactRate =
+                    (4.0f + 260.0f * rainDensity) * voice.rainRateScale;
+                if (gate < impactRate / static_cast<float>(m_sampleRate))
+                {
+                    const float amplitudeRandom = static_cast<float>(
+                        NextRandom(voice.rainRandomState) >> 8u) *
+                        (1.0f / 16777216.0f);
+                    const float impact = inputActivity *
+                        (0.30f + 0.70f * amplitudeRandom * amplitudeRandom) *
+                        rainLevel * (0.55f + 1.45f * m_transientSensitivity);
+                    impactExcitation = impact * profile.impactGain;
+                    directImpact = impact * profile.directImpactGain;
+                }
+            }
+            const float modalInput =
+                modalExcitation * responseWeight * profile.modalGain + impactExcitation;
             const float modalResponse =
                 ProcessMode(voice.modeA, profile.modeA, modalInput) +
                 ProcessMode(voice.modeB, profile.modeB, modalInput * 0.72f);
+            const float flowExcitation =
+                (m_roleLow * profile.lowGain * low +
+                    m_roleMid * profile.midGain * mid) * responseWeight;
             voice.flow = FlushDenormal(
-                voice.flow + (flowExcitation * responseWeight - voice.flow) *
+                voice.flow + (flowExcitation - voice.flow) *
                     profile.flowCoefficient);
             const float surfaceResponse = FlushDenormal(
-                (modalResponse + voice.flow * profile.flowGain) * voice.gain);
+                (modalResponse + directImpact + voice.flow * profile.flowGain) * voice.gain);
 
             const float safePan = std::clamp(voice.pan, -1.0f, 1.0f);
             const float leftPan = std::sqrt(0.5f * (1.0f - safePan));

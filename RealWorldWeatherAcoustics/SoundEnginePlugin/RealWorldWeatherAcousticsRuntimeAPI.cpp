@@ -360,7 +360,11 @@ RWWA_RuntimeSceneV1 SanitizeScene(
         feature.y = ClampFinite(feature.y, -1.0e6f, 1.0e6f, 0.0f, clamped);
         feature.z = ClampFinite(feature.z, -1.0e6f, 1.0e6f, 0.0f, clamped);
         feature.radius = ClampFinite(feature.radius, 0.01f, 100000.0f, 1.0f, clamped);
-        feature.profile = ClampUnsigned(feature.profile, 3u, 0u, clamped);
+        feature.profile = ClampUnsigned(
+            feature.profile,
+            RWWA_RUNTIME_PROFILE_MAX,
+            RWWA_RUNTIME_PROFILE_METAL,
+            clamped);
         const std::uint32_t sanitizedMask = feature.mask & 3u;
         clamped |= sanitizedMask != feature.mask;
         feature.mask = sanitizedMask;

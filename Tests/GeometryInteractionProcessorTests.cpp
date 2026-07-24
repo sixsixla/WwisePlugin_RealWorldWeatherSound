@@ -36,14 +36,34 @@ struct StereoBuffer
 };
 
 rwwa::SceneSnapshot MakeSnapshot(
+    std::uint32_t profileId,
+    std::uint32_t responseMask = rwwa::kResponseMaskBoth,
+    float pan = 0.35f);
+
+rwwa::SceneSnapshot MakeSnapshot(
     rwwa::ResponseProfile profile,
     std::uint32_t responseMask = rwwa::kResponseMaskBoth,
     float pan = 0.35f)
 {
+    return MakeSnapshot(static_cast<std::uint32_t>(profile), responseMask, pan);
+}
+
+rwwa::SceneSnapshot MakeSnapshot(
+    std::uint32_t profileId,
+    std::uint32_t responseMask,
+    float pan)
+{
     rwwa::SceneSnapshot snapshot{};
+    snapshot.weather.rainIntensity = 1.0f;
+    snapshot.weather.windSpeedMetersPerSecond = 12.0f;
+    snapshot.weather.windDirectionRadians = 0.2f;
+    snapshot.weather.windGustiness = 0.4f;
+    snapshot.weather.seed = 0x10203040u;
+    snapshot.weather.geometryEnabled = true;
+    snapshot.weather.masterGainLinear = 1.0f;
     snapshot.contributionCount = 1u;
     snapshot.contributions[0].featureId = 91u;
-    snapshot.contributions[0].profileId = static_cast<std::uint32_t>(profile);
+    snapshot.contributions[0].profileId = profileId;
     snapshot.contributions[0].responseMask = responseMask;
     snapshot.contributions[0].radius = 2.0f;
     snapshot.contributions[0].gain = 0.86f;
@@ -116,6 +136,61 @@ double WetEnergy(const StereoBuffer& output, const StereoBuffer& dry, std::size_
         energy += wet * wet;
     }
     return energy;
+}
+
+double WetEnergy(const StereoBuffer& output, const StereoBuffer& dry)
+{
+    return WetEnergy(output, dry, 0u) + WetEnergy(output, dry, 1u);
+}
+
+double WetDifference(const StereoBuffer& first, const StereoBuffer& second)
+{
+    return Difference(first, second) /
+        static_cast<double>(std::max<std::size_t>(1u, first.left.size() + first.right.size()));
+}
+
+rwwa::SceneSnapshot MakeFourSurfaceScene(const rwwa::Vec3& listenerPosition)
+{
+    rwwa::SceneInput scene{};
+    scene.featureCount = 4u;
+    scene.features[0] = {
+        100u,
+        {0.0f, 0.0f, -5.5f},
+        3.1f,
+        static_cast<std::uint32_t>(rwwa::ResponseProfile::Metal),
+        rwwa::kResponseMaskRain,
+        0};
+    scene.features[1] = {
+        101u,
+        {-5.5f, 0.0f, 0.0f},
+        3.1f,
+        static_cast<std::uint32_t>(rwwa::ResponseProfile::Wood),
+        rwwa::kResponseMaskRain,
+        0};
+    scene.features[2] = {
+        102u,
+        {5.5f, 0.0f, 0.0f},
+        3.1f,
+        4u, // Plastic is appended as profile 4; legacy 0..3 profile ids remain unchanged.
+        rwwa::kResponseMaskRain,
+        0};
+    scene.features[3] = {
+        103u,
+        {0.0f, 0.0f, 5.5f},
+        3.1f,
+        static_cast<std::uint32_t>(rwwa::ResponseProfile::Tile),
+        rwwa::kResponseMaskRain,
+        0};
+
+    rwwa::ListenerState listener{};
+    listener.position = listenerPosition;
+    rwwa::WeatherState weather{};
+    weather.rainIntensity = 1.0f;
+    weather.windSpeedMetersPerSecond = 0.0f;
+    weather.seed = 0x51627384u;
+    weather.geometryEnabled = true;
+    weather.masterGainLinear = 1.0f;
+    return rwwa::CompileScene(scene, listener, weather);
 }
 
 void TestDeterminism()
@@ -226,11 +301,11 @@ void TestProfilesAndRolesAreDistinct()
 {
     const StereoBuffer input = MakeInput();
     const rwwa::InteractionSettings generic = MakeSettings(rwwa::InputRole::Generic);
-    std::array<StereoBuffer, 4> profiles{};
+    std::array<StereoBuffer, 5> profiles{};
     for (std::uint32_t profile = 0u; profile < profiles.size(); ++profile)
     {
         profiles[profile] = Render(
-            MakeSnapshot(static_cast<rwwa::ResponseProfile>(profile)),
+            MakeSnapshot(profile),
             generic,
             input);
     }
@@ -238,7 +313,7 @@ void TestProfilesAndRolesAreDistinct()
     {
         for (std::size_t second = first + 1u; second < profiles.size(); ++second)
         {
-            EXPECT(Difference(profiles[first], profiles[second]) > 0.01);
+            EXPECT(WetDifference(profiles[first], profiles[second]) > 0.00025);
         }
     }
 
@@ -257,6 +332,105 @@ void TestProfilesAndRolesAreDistinct()
     EXPECT(Difference(
         Render(snapshot, lowTransient, input),
         Render(snapshot, highTransient, input)) > 0.01);
+}
+
+void TestRainIntensityControlsAudibleWetResponse()
+{
+    const StereoBuffer input = MakeInput();
+    rwwa::InteractionSettings settings = MakeSettings(rwwa::InputRole::RainBed);
+    settings.wetMix = 1.0f;
+    settings.responseGainLinear = 1.0f;
+    settings.transientSensitivity = 0.9f;
+
+    rwwa::SceneSnapshot low = MakeSnapshot(
+        static_cast<std::uint32_t>(rwwa::ResponseProfile::Metal),
+        rwwa::kResponseMaskRain);
+    rwwa::SceneSnapshot medium = low;
+    rwwa::SceneSnapshot high = low;
+    low.weather.rainIntensity = 0.15f;
+    medium.weather.rainIntensity = 0.55f;
+    high.weather.rainIntensity = 1.0f;
+
+    const double lowEnergy = WetEnergy(Render(low, settings, input), input);
+    const double mediumEnergy = WetEnergy(Render(medium, settings, input), input);
+    const double highEnergy = WetEnergy(Render(high, settings, input), input);
+
+    std::cout << "interaction rain intensity wet energy: low=" << lowEnergy
+              << " medium=" << mediumEnergy
+              << " high=" << highEnergy << '\n';
+
+    EXPECT(lowEnergy > 1.0e-8);
+    EXPECT(mediumEnergy > lowEnergy * 1.35);
+    EXPECT(highEnergy > mediumEnergy * 1.25);
+    EXPECT(highEnergy > lowEnergy * 2.0);
+}
+
+void TestResponseGainControlsAudibleWetResponse()
+{
+    const StereoBuffer input = MakeInput();
+    rwwa::SceneSnapshot snapshot = MakeSnapshot(
+        static_cast<std::uint32_t>(rwwa::ResponseProfile::Wood),
+        rwwa::kResponseMaskRain);
+    snapshot.weather.rainIntensity = 1.0f;
+
+    rwwa::InteractionSettings low = MakeSettings(rwwa::InputRole::RainBed);
+    low.wetMix = 1.0f;
+    low.responseGainLinear = 0.25f;
+    rwwa::InteractionSettings medium = low;
+    medium.responseGainLinear = 0.75f;
+    rwwa::InteractionSettings high = low;
+    high.responseGainLinear = 2.0f;
+
+    const double lowEnergy = WetEnergy(Render(snapshot, low, input), input);
+    const double mediumEnergy = WetEnergy(Render(snapshot, medium, input), input);
+    const double highEnergy = WetEnergy(Render(snapshot, high, input), input);
+
+    EXPECT(mediumEnergy > lowEnergy * 2.0);
+    EXPECT(highEnergy > mediumEnergy * 2.0);
+}
+
+void TestListenerPositionSelectsAudiblyDifferentRainSurface()
+{
+    const StereoBuffer input = MakeInput();
+    rwwa::InteractionSettings settings = MakeSettings(rwwa::InputRole::RainBed);
+    settings.wetMix = 1.0f;
+    settings.responseGainLinear = 1.5f;
+    settings.transientSensitivity = 0.9f;
+
+    const rwwa::SceneSnapshot atMetalBottom = MakeFourSurfaceScene({0.0f, 0.0f, -5.5f});
+    const rwwa::SceneSnapshot atWoodLeft = MakeFourSurfaceScene({-5.5f, 0.0f, 0.0f});
+    const rwwa::SceneSnapshot atPlasticRight = MakeFourSurfaceScene({5.5f, 0.0f, 0.0f});
+    const rwwa::SceneSnapshot atTileTop = MakeFourSurfaceScene({0.0f, 0.0f, 5.5f});
+
+    EXPECT(atMetalBottom.contributionCount > 0u);
+    EXPECT(atWoodLeft.contributionCount > 0u);
+    EXPECT(atPlasticRight.contributionCount > 0u);
+    EXPECT(atTileTop.contributionCount > 0u);
+    EXPECT(atMetalBottom.contributions[0].profileId == static_cast<std::uint32_t>(rwwa::ResponseProfile::Metal));
+    EXPECT(atWoodLeft.contributions[0].profileId == static_cast<std::uint32_t>(rwwa::ResponseProfile::Wood));
+    EXPECT(atPlasticRight.contributions[0].profileId == 4u);
+    EXPECT(atTileTop.contributions[0].profileId == static_cast<std::uint32_t>(rwwa::ResponseProfile::Tile));
+
+    const StereoBuffer metal = Render(atMetalBottom, settings, input);
+    const StereoBuffer wood = Render(atWoodLeft, settings, input);
+    const StereoBuffer plastic = Render(atPlasticRight, settings, input);
+    const StereoBuffer tile = Render(atTileTop, settings, input);
+
+    EXPECT(WetDifference(metal, wood) > 0.0005);
+    EXPECT(WetDifference(metal, plastic) > 0.0005);
+    EXPECT(WetDifference(metal, tile) > 0.0005);
+    EXPECT(WetDifference(wood, plastic) > 0.0005);
+    EXPECT(WetDifference(wood, tile) > 0.0005);
+    EXPECT(WetDifference(plastic, tile) > 0.0005);
+
+    const double metalWet = WetEnergy(metal, input);
+    const double woodWet = WetEnergy(wood, input);
+    const double plasticWet = WetEnergy(plastic, input);
+    const double tileWet = WetEnergy(tile, input);
+    EXPECT(metalWet > 1.0e-8);
+    EXPECT(woodWet > 1.0e-8);
+    EXPECT(plasticWet > 1.0e-8);
+    EXPECT(tileWet > 1.0e-8);
 }
 
 void TestPanningAndExtraChannels()
@@ -391,6 +565,9 @@ int main()
     TestDisabledOrEmptyGeometryIsSampleTransparent();
     TestSilenceIsStable();
     TestProfilesAndRolesAreDistinct();
+    TestRainIntensityControlsAudibleWetResponse();
+    TestResponseGainControlsAudibleWetResponse();
+    TestListenerPositionSelectsAudiblyDifferentRainSurface();
     TestPanningAndExtraChannels();
     TestMonoProcessing();
     TestBoundaryAndNonFiniteInputs();

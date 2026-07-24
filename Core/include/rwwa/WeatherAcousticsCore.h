@@ -19,6 +19,7 @@ enum class ResponseProfile : std::uint32_t
     Wood = 1,
     Glass = 2,
     Tile = 3,
+    Plastic = 4,
 };
 
 struct Vec3
@@ -199,7 +200,7 @@ private:
     float m_gustMediumPole = 0.0f;
     float m_gustMediumDrive = 0.0f;
 
-    std::array<ProfileCoefficients, 4> m_profileCoefficients{};
+    std::array<ProfileCoefficients, 5> m_profileCoefficients{};
     std::array<VoiceState, kActiveContributionCount> m_voices{};
 };
 
@@ -253,8 +254,11 @@ private:
         std::uint64_t featureId = 0u;
         std::uint32_t profileId = 0u;
         std::uint32_t responseMask = 0u;
+        std::uint32_t rainSeed = 0u;
+        std::uint32_t rainRandomState = 1u;
         float gain = 0.0f;
         float pan = 0.0f;
+        float rainRateScale = 1.0f;
         float flow = 0.0f;
         ModeState modeA{};
         ModeState modeB{};
@@ -274,12 +278,18 @@ private:
         float flowCoefficient = 0.0f;
         float modalGain = 0.0f;
         float flowGain = 0.0f;
+        float lowGain = 0.0f;
+        float midGain = 0.0f;
+        float highGain = 0.0f;
+        float impactGain = 0.0f;
+        float directImpactGain = 0.0f;
     };
 
     static float ProcessMode(
         ModeState& state,
         const ModeCoefficients& coefficients,
         float excitation) noexcept;
+    static std::uint32_t NextRandom(std::uint32_t& state) noexcept;
     void PrepareCoefficients() noexcept;
     void PrepareVoices(const SceneSnapshot& snapshot) noexcept;
 
@@ -299,6 +309,8 @@ private:
     float m_roleMid = 0.0f;
     float m_rainMaskWeight = 0.0f;
     float m_windMaskWeight = 0.0f;
+    float m_rainIntensity = 0.0f;
+    float m_windStrength = 0.0f;
 
     float m_parameterSmoothing = 0.0f;
     float m_voiceSmoothing = 0.0f;
@@ -307,7 +319,7 @@ private:
     float m_fastEnvelopeCoefficient = 0.0f;
     float m_slowEnvelopeCoefficient = 0.0f;
 
-    std::array<ProfileCoefficients, 4> m_profileCoefficients{};
+    std::array<ProfileCoefficients, 5> m_profileCoefficients{};
     std::array<VoiceState, kActiveContributionCount> m_voices{};
 };
 

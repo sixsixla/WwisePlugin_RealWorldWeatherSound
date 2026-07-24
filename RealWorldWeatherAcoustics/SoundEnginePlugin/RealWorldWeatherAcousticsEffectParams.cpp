@@ -6,16 +6,18 @@
 
 namespace
 {
-constexpr AkInt32 kDefaultInputRole = 2;
-constexpr AkReal32 kDefaultWetMix = 0.0f;
-constexpr AkReal32 kDefaultResponseGainDb = 0.0f;
-constexpr AkReal32 kDefaultTransientSensitivity = 0.5f;
-constexpr AkReal32 kDefaultRainIntensity = 0.25f;
-constexpr AkReal32 kDefaultWindSpeed = 12.0f;
+constexpr AkInt32 kDefaultInputRole = 0;
+constexpr AkReal32 kDefaultWetMix = 1.0f;
+constexpr AkReal32 kDefaultResponseGainDb = 10.0f;
+constexpr AkReal32 kDefaultTransientSensitivity = 0.85f;
+constexpr AkReal32 kDefaultRainIntensity = 0.9f;
+constexpr AkReal32 kDefaultWindSpeed = 0.0f;
 constexpr AkReal32 kDefaultWindDirectionDegrees = 0.0f;
-constexpr AkReal32 kDefaultWindGustiness = 0.55f;
+constexpr AkReal32 kDefaultWindGustiness = 0.0f;
 constexpr AkInt32 kDefaultSeed = 1337;
 constexpr AkReal32 kDefaultFeatureRadius = 2.0f;
+constexpr AkReal32 kDefaultAuditionFeatureRadius = 3.2f;
+constexpr AkInt32 kMaximumProfileId = 4; // Plastic is appended after Metal/Wood/Glass/Tile.
 
 constexpr AkUInt32 kEffectBankBlockSize =
     43u * static_cast<AkUInt32>(sizeof(AkReal32)) +
@@ -307,10 +309,22 @@ void RealWorldWeatherAcousticsEffectParams::SetDefaults()
         feature.iPriority = 1;
     }
 
-    Values.Features[0].fZ = 6.0f;
-    Values.Features[1].fX = 6.0f;
-    Values.Features[2].fZ = -6.0f;
-    Values.Features[3].fX = -6.0f;
+    Values.Features[0].fZ = 5.5f;
+    Values.Features[0].fRadius = kDefaultAuditionFeatureRadius;
+    Values.Features[0].iProfile = 3;
+    Values.Features[0].iMask = 1;
+    Values.Features[1].fX = 5.5f;
+    Values.Features[1].fRadius = kDefaultAuditionFeatureRadius;
+    Values.Features[1].iProfile = 4;
+    Values.Features[1].iMask = 1;
+    Values.Features[2].fZ = -5.5f;
+    Values.Features[2].fRadius = kDefaultAuditionFeatureRadius;
+    Values.Features[2].iProfile = 0;
+    Values.Features[2].iMask = 1;
+    Values.Features[3].fX = -5.5f;
+    Values.Features[3].fRadius = kDefaultAuditionFeatureRadius;
+    Values.Features[3].iProfile = 1;
+    Values.Features[3].iMask = 1;
 }
 
 void RealWorldWeatherAcousticsEffectParams::Validate()
@@ -340,7 +354,7 @@ void RealWorldWeatherAcousticsEffectParams::Validate()
         feature.fY = ClampFinite(feature.fY, -10000.0f, 10000.0f, 0.0f);
         feature.fZ = ClampFinite(feature.fZ, -10000.0f, 10000.0f, 0.0f);
         feature.fRadius = ClampFinite(feature.fRadius, 0.2f, 10000.0f, kDefaultFeatureRadius);
-        feature.iProfile = ClampInt(feature.iProfile, 0, 3);
+        feature.iProfile = ClampInt(feature.iProfile, 0, kMaximumProfileId);
         feature.iMask = ClampInt(feature.iMask, 0, 3);
         feature.iPriority = ClampInt(feature.iPriority, 0, 1000);
     }

@@ -104,7 +104,7 @@ std::vector<AkUInt8> MakeCompleteBank()
         Append(block, AkReal32{-20.0f - slotValue});
         Append(block, AkReal32{30.0f + slotValue});
         Append(block, AkReal32{1.5f + slotValue});
-        Append(block, static_cast<AkInt32>(slot % 4u));
+        Append(block, static_cast<AkInt32>(slot % 5u));
         Append(block, static_cast<AkInt32>(slot % 4u));
         Append(block, static_cast<AkInt32>(100u + slot));
     }
@@ -119,21 +119,29 @@ void TestDefaultsFromEmptyInit()
     const AKRESULT result = params.Init(nullptr, nullptr, 0);
 
     Expect(result == AK_Success, "empty Init must load defaults");
-    Expect(params.Values.iInputRole == 2, "default InputRole must be Generic");
-    ExpectNear(params.Values.fWetMix, 0.0f, "default WetMix");
-    ExpectNear(params.Values.fResponseGainDb, 0.0f, "default ResponseGainDb");
-    ExpectNear(params.Values.fTransientSensitivity, 0.5f, "default TransientSensitivity");
-    ExpectNear(params.Values.fRainIntensity, 0.25f, "default RainIntensity");
-    ExpectNear(params.Values.fWindSpeed, 12.0f, "default WindSpeed");
+    Expect(params.Values.iInputRole == 0, "default InputRole must be Rain");
+    ExpectNear(params.Values.fWetMix, 1.0f, "default WetMix");
+    ExpectNear(params.Values.fResponseGainDb, 10.0f, "default ResponseGainDb");
+    ExpectNear(params.Values.fTransientSensitivity, 0.85f, "default TransientSensitivity");
+    ExpectNear(params.Values.fRainIntensity, 0.9f, "default RainIntensity");
+    ExpectNear(params.Values.fWindSpeed, 0.0f, "default WindSpeed");
     ExpectNear(params.Values.fWindDirectionDegrees, 0.0f, "default WindDirectionDegrees");
-    ExpectNear(params.Values.fWindGustiness, 0.55f, "default WindGustiness");
+    ExpectNear(params.Values.fWindGustiness, 0.0f, "default WindGustiness");
     Expect(params.Values.iSeed == 1337, "default Seed");
     Expect(params.Values.bGeometryEnabled, "default GeometryEnabled");
     Expect(params.Values.iFeatureCount == 4, "default FeatureCount");
-    ExpectNear(params.Values.Features[0].fZ, 6.0f, "default feature 1 Z");
-    ExpectNear(params.Values.Features[1].fX, 6.0f, "default feature 2 X");
-    ExpectNear(params.Values.Features[2].fZ, -6.0f, "default feature 3 Z");
-    ExpectNear(params.Values.Features[3].fX, -6.0f, "default feature 4 X");
+    ExpectNear(params.Values.Features[0].fZ, 5.5f, "default feature 1 Z");
+    ExpectNear(params.Values.Features[1].fX, 5.5f, "default feature 2 X");
+    ExpectNear(params.Values.Features[2].fZ, -5.5f, "default feature 3 Z");
+    ExpectNear(params.Values.Features[3].fX, -5.5f, "default feature 4 X");
+    const AkInt32 expectedProfiles[] = {3, 4, 0, 1};
+    for (AkUInt32 slot = 0; slot < 4u; ++slot)
+    {
+        ExpectNear(params.Values.Features[slot].fRadius, 3.2f, "default audition feature radius");
+        Expect(params.Values.Features[slot].iProfile == expectedProfiles[slot],
+            "default audition feature profile");
+        Expect(params.Values.Features[slot].iMask == 1, "default audition feature rain mask");
+    }
     ExpectNear(params.Values.Features[7].fRadius, 2.0f, "default feature 8 radius");
     Expect(params.Values.Features[7].iProfile == 3, "default feature 8 profile");
     Expect(params.Values.Features[7].iMask == 3, "default feature 8 mask");
@@ -172,7 +180,7 @@ void TestCompleteBankMapping()
         ExpectNear(feature.fY, -20.0f - slotValue, prefix + "Y");
         ExpectNear(feature.fZ, 30.0f + slotValue, prefix + "Z");
         ExpectNear(feature.fRadius, 1.5f + slotValue, prefix + "Radius");
-        Expect(feature.iProfile == static_cast<AkInt32>(slot % 4u), prefix + "Profile");
+        Expect(feature.iProfile == static_cast<AkInt32>(slot % 5u), prefix + "Profile");
         Expect(feature.iMask == static_cast<AkInt32>(slot % 4u), prefix + "Mask");
         Expect(feature.iPriority == static_cast<AkInt32>(100u + slot), prefix + "Priority");
     }
@@ -264,7 +272,7 @@ void TestSetParamClamping()
 
     realValue = std::numeric_limits<AkReal32>::quiet_NaN();
     Expect(params.SetParam(EFFECT_PARAM_TRANSIENT_SENSITIVITY_ID, &realValue, sizeof(realValue)) == AK_Success, "SetParam TransientSensitivity NaN");
-    ExpectNear(params.Values.fTransientSensitivity, 0.5f, "TransientSensitivity NaN fallback");
+    ExpectNear(params.Values.fTransientSensitivity, 0.85f, "TransientSensitivity NaN fallback");
     realValue = 2.0f;
     Expect(params.SetParam(EFFECT_PARAM_TRANSIENT_SENSITIVITY_ID, &realValue, sizeof(realValue)) == AK_Success, "SetParam TransientSensitivity high");
     ExpectNear(params.Values.fTransientSensitivity, 1.0f, "TransientSensitivity high clamp");
@@ -286,7 +294,7 @@ void TestSetParamClamping()
     ExpectNear(params.Values.fWindDirectionDegrees, 360.0f, "WindDirection high clamp");
     realValue = std::numeric_limits<AkReal32>::infinity();
     Expect(params.SetParam(EFFECT_PARAM_WIND_GUSTINESS_ID, &realValue, sizeof(realValue)) == AK_Success, "SetParam WindGustiness Inf");
-    ExpectNear(params.Values.fWindGustiness, 0.55f, "WindGustiness Inf fallback");
+    ExpectNear(params.Values.fWindGustiness, 0.0f, "WindGustiness Inf fallback");
 
     intValue = -1;
     Expect(params.SetParam(EFFECT_PARAM_SEED_ID, &intValue, sizeof(intValue)) == AK_Success, "SetParam Seed low");
@@ -315,9 +323,19 @@ void TestSetParamClamping()
     realValue = 20000.0f;
     Expect(params.SetParam(EffectFeatureParameterId(slot, EFFECT_PARAM_FEATURE_RADIUS_OFFSET), &realValue, sizeof(realValue)) == AK_Success, "SetParam FeatureRadius high");
     ExpectNear(params.Values.Features[slot].fRadius, 10000.0f, "FeatureRadius high clamp");
+    for (AkInt32 profile = 0; profile <= 4; ++profile)
+    {
+        intValue = profile;
+        Expect(
+            params.SetParam(EffectFeatureParameterId(slot, EFFECT_PARAM_FEATURE_PROFILE_OFFSET), &intValue, sizeof(intValue)) == AK_Success,
+            "SetParam FeatureProfile round-trip " + std::to_string(profile));
+        Expect(
+            params.Values.Features[slot].iProfile == profile,
+            "FeatureProfile round-trip must preserve " + std::to_string(profile));
+    }
     intValue = 99;
     Expect(params.SetParam(EffectFeatureParameterId(slot, EFFECT_PARAM_FEATURE_PROFILE_OFFSET), &intValue, sizeof(intValue)) == AK_Success, "SetParam FeatureProfile high");
-    Expect(params.Values.Features[slot].iProfile == 3, "FeatureProfile high clamp");
+    Expect(params.Values.Features[slot].iProfile == 4, "FeatureProfile high clamp");
     intValue = -7;
     Expect(params.SetParam(EffectFeatureParameterId(slot, EFFECT_PARAM_FEATURE_MASK_OFFSET), &intValue, sizeof(intValue)) == AK_Success, "SetParam FeatureMask low");
     Expect(params.Values.Features[slot].iMask == 0, "FeatureMask low clamp");

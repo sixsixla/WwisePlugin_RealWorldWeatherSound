@@ -39,6 +39,7 @@ static const AkReal32 kDefaultWindDirectionDegrees = 0.0f;
 static const AkReal32 kDefaultWindGustiness = 0.55f;
 static const AkInt32 kDefaultSeed = 1337;
 static const AkReal32 kDefaultFeatureRadius = 2.0f;
+static const AkInt32 kMaximumProfileId = 4; // Plastic is appended after Metal/Wood/Glass/Tile.
 static const AkUInt32 kLegacyBankBlockSize =
     39u * static_cast<AkUInt32>(sizeof(AkReal32)) +
     26u * static_cast<AkUInt32>(sizeof(AkInt32)) +
@@ -337,7 +338,7 @@ void RealWorldWeatherAcousticsSourceParams::Validate()
         feature.fY = ClampFinite(feature.fY, -10000.0f, 10000.0f, 0.0f);
         feature.fZ = ClampFinite(feature.fZ, -10000.0f, 10000.0f, 0.0f);
         feature.fRadius = ClampFinite(feature.fRadius, 0.2f, 10000.0f, kDefaultFeatureRadius);
-        feature.iProfile = ClampInt(feature.iProfile, 0, 3);
+        feature.iProfile = ClampInt(feature.iProfile, 0, kMaximumProfileId);
         feature.iMask = ClampInt(feature.iMask, 0, 3);
         feature.iPriority = ClampInt(feature.iPriority, 0, 1000);
     }

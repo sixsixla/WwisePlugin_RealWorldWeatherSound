@@ -34,7 +34,7 @@ RWWA_RuntimeSceneV1 MakeCanonicalScene()
         feature.y = static_cast<float>(index) + 2.0f;
         feature.z = static_cast<float>(index) + 3.0f;
         feature.radius = static_cast<float>(index) + 4.0f;
-        feature.profile = index % 4u;
+        feature.profile = index % (RWWA_RUNTIME_PROFILE_MAX + 1u);
         feature.mask = index % 3u;
         feature.priority = static_cast<std::int32_t>(index) - 4;
     }

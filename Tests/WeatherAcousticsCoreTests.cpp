@@ -693,9 +693,11 @@ void TestLongTailAndZeroWeather()
 
 void TestProfileDistinction()
 {
-    std::array<std::array<float, kFrames>, 4> profileLeft{};
-    std::array<std::array<float, kFrames>, 4> profileRight{};
-    for (std::uint32_t profile = 0u; profile < 4u; ++profile)
+    constexpr std::size_t kProfileCount =
+        static_cast<std::size_t>(rwwa::ResponseProfile::Plastic) + 1u;
+    std::array<std::array<float, kFrames>, kProfileCount> profileLeft{};
+    std::array<std::array<float, kFrames>, kProfileCount> profileRight{};
+    for (std::uint32_t profile = 0u; profile < kProfileCount; ++profile)
     {
         rwwa::SceneSnapshot snapshot = MakeSingleFeatureSnapshot(
             static_cast<rwwa::ResponseProfile>(profile), rwwa::kResponseMaskRain);
@@ -703,9 +705,9 @@ void TestProfileDistinction()
         Render(snapshot, profileLeft[profile], profileRight[profile]);
     }
 
-    for (std::size_t first = 0u; first < 4u; ++first)
+    for (std::size_t first = 0u; first < kProfileCount; ++first)
     {
-        for (std::size_t second = first + 1u; second < 4u; ++second)
+        for (std::size_t second = first + 1u; second < kProfileCount; ++second)
         {
             double absoluteDifference = 0.0;
             for (std::size_t frame = 0u; frame < kFrames; ++frame)

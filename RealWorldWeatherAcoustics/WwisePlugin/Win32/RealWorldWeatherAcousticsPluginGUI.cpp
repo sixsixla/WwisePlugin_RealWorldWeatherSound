@@ -67,7 +67,7 @@ AK_WWISE_PLUGIN_GUI_WINDOWS_BEGIN_POPULATE_TABLE(kWwisePropertyBindings)
 AK_WWISE_PLUGIN_GUI_WINDOWS_END_POPULATE_TABLE()
 
 AK_WWISE_PLUGIN_GUI_WINDOWS_BEGIN_POPULATE_TABLE(kEffectWwisePropertyBindings)
-	AK_WWISE_PLUGIN_GUI_WINDOWS_POP_ITEM(kGlobalEditBaseId + 6, "GeometryEnabled")
+	AK_WWISE_PLUGIN_GUI_WINDOWS_POP_ITEM(kGlobalEditBaseId + 5, "GeometryEnabled")
 AK_WWISE_PLUGIN_GUI_WINDOWS_END_POPULATE_TABLE()
 
 constexpr int kMaximumFeatures = 8;
@@ -127,13 +127,13 @@ constexpr std::array<PropertyBinding, 13> kGlobalBindings{{
 }};
 
 constexpr std::array<PropertyBinding, 15> kEffectGlobalBindings{{
-	{L"Input role", "InputRole", PropertyKind::Int32},
-	{L"Wet mix 0..1", "WetMix", PropertyKind::Real32},
-	{L"Resp dB -24..12", "ResponseGainDb", PropertyKind::Real32},
-	{L"Transient 0..1", "TransientSensitivity", PropertyKind::Real32},
-	{L"Rain 0..1", "RainIntensity", PropertyKind::Real32},
+	{L"Input Audio", "InputRole", PropertyKind::Int32},
+	{L"Rain Amount", "RainIntensity", PropertyKind::Real32},
+	{L"Surface Mix", "WetMix", PropertyKind::Real32},
+	{L"Impact Gain dB", "ResponseGainDb", PropertyKind::Real32},
+	{L"Impact Sharpness", "TransientSensitivity", PropertyKind::Real32},
+	{L"Geometry Response", "GeometryEnabled", PropertyKind::Bool},
 	{L"Seed 0..max", "Seed", PropertyKind::Int32},
-	{L"Geometry enabled", "GeometryEnabled", PropertyKind::Bool},
 	{L"Listener X m", "ListenerX", PropertyKind::Real32},
 	{L"Listener Y m", "ListenerY", PropertyKind::Real32},
 	{L"Listener Z m", "ListenerZ", PropertyKind::Real32},
@@ -148,14 +148,14 @@ constexpr std::array<FeatureBinding, 7> kFeatureBindings{{
 	{L"X m", "X", PropertyKind::Real32},
 	{L"Y m", "Y", PropertyKind::Real32},
 	{L"Z m", "Z", PropertyKind::Real32},
-	{L"Radius m 0.2..100", "Radius", PropertyKind::Real32},
-	{L"Profile", "Profile", PropertyKind::Int32},
-	{L"Mask", "Mask", PropertyKind::Int32},
+	{L"Radius m", "Radius", PropertyKind::Real32},
+	{L"Material", "Profile", PropertyKind::Int32},
+	{L"Weather Response", "Mask", PropertyKind::Int32},
 	{L"Priority 0..1000", "Priority", PropertyKind::Int32},
 }};
 
-constexpr std::array<const wchar_t*, 4> kProfileNames{{
-	L"Metal", L"Wood", L"Glass", L"Tile",
+constexpr std::array<const wchar_t*, 5> kProfileNames{{
+	L"Metal", L"Wood", L"Glass", L"Tile", L"Plastic",
 }};
 
 constexpr std::array<const wchar_t*, 4> kMaskNames{{
@@ -184,7 +184,7 @@ constexpr std::array<COLORREF, kMaximumFeatures> kFeatureColors{{
 constexpr std::array<const wchar_t*, 3> kPresetNames{{
 	L"Open Wind",
 	L"Rain on Metal",
-	L"Wind + Rain Ring",
+	L"Rain Material Lab",
 }};
 
 template <size_t Count>
@@ -214,16 +214,32 @@ bool IsInputRoleProperty(const char* in_property)
 	return std::strcmp(in_property, "InputRole") == 0;
 }
 
+bool IsEffectAuditionProperty(const char* in_property)
+{
+	return IsInputRoleProperty(in_property) ||
+		std::strcmp(in_property, "RainIntensity") == 0 ||
+		std::strcmp(in_property, "WetMix") == 0 ||
+		std::strcmp(in_property, "ResponseGainDb") == 0 ||
+		std::strcmp(in_property, "TransientSensitivity") == 0 ||
+		std::strcmp(in_property, "GeometryEnabled") == 0;
+}
+
+bool IsEffectAuditionFeature(const FeatureBinding& in_binding)
+{
+	return std::strcmp(in_binding.suffix, "Y") != 0 &&
+		std::strcmp(in_binding.suffix, "Priority") != 0;
+}
+
 int ComboIndexForFeatureValue(const FeatureBinding& in_binding, int32_t in_value)
 {
-	(void)in_binding;
-	return std::clamp<int32_t>(in_value, 0, 3);
+	const int32_t maximum = std::strcmp(in_binding.suffix, "Profile") == 0 ? 4 : 3;
+	return std::clamp<int32_t>(in_value, 0, maximum);
 }
 
 int32_t ComboValueForFeatureIndex(const FeatureBinding& in_binding, int in_index)
 {
-	(void)in_binding;
-	const int index = std::clamp(in_index, 0, 3);
+	const int maximum = std::strcmp(in_binding.suffix, "Profile") == 0 ? 4 : 3;
+	const int index = std::clamp(in_index, 0, maximum);
 	return index;
 }
 
@@ -373,9 +389,9 @@ int32_t ClampInt32Property(const char* in_property, const FeatureBinding* in_fea
 		return std::clamp<int32_t>(in_value, 0, kMaximumFeatures);
 	if (IsInputRoleProperty(in_property))
 		return std::clamp<int32_t>(in_value, 0, 2);
-	if (in_featureBinding && (
-		std::strcmp(in_featureBinding->suffix, "Profile") == 0 ||
-		std::strcmp(in_featureBinding->suffix, "Mask") == 0))
+	if (in_featureBinding && std::strcmp(in_featureBinding->suffix, "Profile") == 0)
+		return std::clamp<int32_t>(in_value, 0, 4);
+	if (in_featureBinding && std::strcmp(in_featureBinding->suffix, "Mask") == 0)
 		return std::clamp<int32_t>(in_value, 0, 3);
 	if (in_featureBinding && std::strcmp(in_featureBinding->suffix, "Priority") == 0)
 		return std::clamp<int32_t>(in_value, 0, 1000);
@@ -593,7 +609,7 @@ void RealWorldWeatherAcousticsPluginGUI::CreateControls(HWND in_hWnd)
 		if (in_control && m_hGuiFont)
 			::SendMessageW(in_control, WM_SETFONT, reinterpret_cast<WPARAM>(m_hGuiFont), TRUE);
 	};
-	auto addComboItems = [](HWND in_control, const std::array<const wchar_t*, 4>& in_items)
+	auto addComboItems = [](HWND in_control, const auto& in_items)
 	{
 		for (const wchar_t* item : in_items)
 			::SendMessageW(in_control, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item));
@@ -623,14 +639,14 @@ void RealWorldWeatherAcousticsPluginGUI::CreateControls(HWND in_hWnd)
 	setFont(m_hwndCanvas);
 
 	setFont(::CreateWindowExW(
-		0, L"STATIC", IsEffectMode() ? L"Effect input and listener" : L"Runtime and listener",
+		0, L"STATIC", IsEffectMode() ? L"Rain material audition" : L"Runtime and listener",
 		WS_CHILD | WS_VISIBLE | SS_LEFT,
 		0, 0, 10, 10, in_hWnd,
 		reinterpret_cast<HMENU>(static_cast<INT_PTR>(kGlobalTitleId)),
 		GetResourceHandle(), nullptr));
 
 	setFont(::CreateWindowExW(
-		0, L"STATIC", L"Selected feature", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		0, L"STATIC", IsEffectMode() ? L"Selected surface" : L"Selected feature", WS_CHILD | WS_VISIBLE | SS_LEFT,
 		0, 0, 10, 10, in_hWnd,
 		reinterpret_cast<HMENU>(static_cast<INT_PTR>(kSelectedFeatureTitleId)),
 		GetResourceHandle(), nullptr));
@@ -774,9 +790,9 @@ void RealWorldWeatherAcousticsPluginGUI::CreateControls(HWND in_hWnd)
 	m_hwndHelpText = ::CreateWindowExW(
 		0, L"STATIC",
 		IsEffectMode()
-			? L"InputRole: Rain/Wind/Generic input class. WetMix: dry 0, processed 1. ResponseGain: post-response "
-				L"-24..12 dB. TransientSensitivity: impact response 0..1. Canvas is 2D X/Z; edit Y numerically. "
-				L"Radius: 0.2..100 m. Profile=surface, Mask=weather, Priority=0..1000 overlap weight."
+			? L"Play the rain demo, then drag Listener into a Surface circle. Rain Amount controls impact density/energy; "
+				L"Surface Mix blends the material response; Impact Gain and Impact Sharpness emphasize hits. "
+				L"Choose Metal, Wood, Glass, Tile, or Plastic per Surface. Drag circles to move, yellow handle to resize."
 			: L"Rain/Gust: 0..1; Wind: 0..40 m/s; direction: 0..360 deg; yaw: -180..180 deg. "
 				L"Canvas is 2D X/Z; edit Y numerically. Radius: 0.2..100 m. Profile=surface, Mask=weather, "
 				L"Priority=0..1000 overlap weight.",
@@ -799,6 +815,8 @@ void RealWorldWeatherAcousticsPluginGUI::LayoutControls()
 	const BindingView globalBindings = IsEffectMode()
 		? MakeBindingView(kEffectGlobalBindings)
 		: MakeBindingView(kGlobalBindings);
+	const int visibleGlobalCount = IsEffectMode() ? 6 : static_cast<int>(globalBindings.count);
+	const int visibleFeatureCount = IsEffectMode() ? 5 : static_cast<int>(kFeatureBindings.size());
 
 	constexpr int margin = 8;
 	constexpr int gap = 10;
@@ -831,11 +849,11 @@ void RealWorldWeatherAcousticsPluginGUI::LayoutControls()
 	const int featureColumnX = inspectorX + globalColumnWidth + inspectorColumnGap;
 	constexpr int titleHeight = 20;
 	const int globalRowHeight = std::clamp(
-		(height - margin * 2 - titleHeight) / static_cast<int>(globalBindings.count),
+		(height - margin * 2 - titleHeight) / visibleGlobalCount,
 		18,
 		23);
 	const int featureRowHeight = std::clamp(
-		(height - margin * 2 - titleHeight) / static_cast<int>(kFeatureBindings.size()),
+		(height - margin * 2 - titleHeight) / visibleFeatureCount,
 		18,
 		23);
 	const int globalLabelWidth = std::clamp(
@@ -854,9 +872,20 @@ void RealWorldWeatherAcousticsPluginGUI::LayoutControls()
 	{
 		const UINT controlId = kGlobalEditBaseId + static_cast<UINT>(index);
 		const PropertyBinding& binding = globalBindings.data[index];
+		const bool visible = !IsEffectMode() || IsEffectAuditionProperty(binding.property);
+		HWND control = ::GetDlgItem(m_hwndDialog, controlId);
+		HWND label = ::GetDlgItem(m_hwndDialog, kGlobalLabelBaseId + static_cast<UINT>(index));
+		HWND slider = ::GetDlgItem(m_hwndDialog, kGlobalSliderBaseId + static_cast<UINT>(index));
+		::ShowWindow(control, visible ? SW_SHOW : SW_HIDE);
+		if (label)
+			::ShowWindow(label, visible ? SW_SHOW : SW_HIDE);
+		if (slider)
+			::ShowWindow(slider, visible ? SW_SHOW : SW_HIDE);
+		if (!visible)
+			continue;
 		if (binding.kind == PropertyKind::Bool)
 		{
-			::MoveWindow(::GetDlgItem(m_hwndDialog, controlId),
+			::MoveWindow(control,
 				inspectorX + 2, globalY, globalColumnWidth - 2, globalRowHeight, TRUE);
 		}
 		else
@@ -865,7 +894,7 @@ void RealWorldWeatherAcousticsPluginGUI::LayoutControls()
 				inspectorX, globalY + 2, globalLabelWidth - 4, globalRowHeight - 2, TRUE);
 			if (IsInputRoleProperty(binding.property))
 			{
-				::MoveWindow(::GetDlgItem(m_hwndDialog, controlId),
+				::MoveWindow(control,
 					inspectorX + globalLabelWidth, globalY, globalEditWidth, 96, TRUE);
 				globalY += globalRowHeight;
 				continue;
@@ -878,9 +907,9 @@ void RealWorldWeatherAcousticsPluginGUI::LayoutControls()
 				constexpr int valueEditWidth = 50;
 				const int sliderX = inspectorX + globalLabelWidth;
 				const int sliderWidth = std::max(28, globalEditWidth - valueEditWidth - 4);
-				::MoveWindow(::GetDlgItem(m_hwndDialog, kGlobalSliderBaseId + static_cast<UINT>(index)),
+				::MoveWindow(slider,
 					sliderX, globalY, sliderWidth, globalRowHeight - 1, TRUE);
-				::MoveWindow(::GetDlgItem(m_hwndDialog, controlId),
+				::MoveWindow(control,
 					sliderX + sliderWidth + 4, globalY, valueEditWidth, globalRowHeight - 1, TRUE);
 			}
 			else if (std::strcmp(binding.property, "Seed") == 0)
@@ -895,12 +924,13 @@ void RealWorldWeatherAcousticsPluginGUI::LayoutControls()
 			}
 			else
 			{
-				::MoveWindow(::GetDlgItem(m_hwndDialog, controlId),
+				::MoveWindow(control,
 					inspectorX + globalLabelWidth, globalY, globalEditWidth, globalRowHeight - 1, TRUE);
 			}
 		}
 		globalY += globalRowHeight;
 	}
+	::ShowWindow(::GetDlgItem(m_hwndDialog, kSeedRandomizeButtonId), IsEffectMode() ? SW_HIDE : SW_SHOW);
 
 	constexpr int featureButtonGap = 3;
 	constexpr int minimumFeatureTitleWidth = 35;
@@ -924,7 +954,17 @@ void RealWorldWeatherAcousticsPluginGUI::LayoutControls()
 
 	for (size_t index = 0; index < kFeatureBindings.size(); ++index)
 	{
-		::MoveWindow(::GetDlgItem(m_hwndDialog, kFeatureLabelBaseId + static_cast<UINT>(index)),
+		const bool visible = !IsEffectMode() || IsEffectAuditionFeature(kFeatureBindings[index]);
+		HWND label = ::GetDlgItem(m_hwndDialog, kFeatureLabelBaseId + static_cast<UINT>(index));
+		HWND control = ::GetDlgItem(m_hwndDialog, kFeatureEditBaseId + static_cast<UINT>(index));
+		HWND slider = ::GetDlgItem(m_hwndDialog, kFeatureSliderBaseId + static_cast<UINT>(index));
+		::ShowWindow(label, visible ? SW_SHOW : SW_HIDE);
+		::ShowWindow(control, visible ? SW_SHOW : SW_HIDE);
+		if (slider)
+			::ShowWindow(slider, visible ? SW_SHOW : SW_HIDE);
+		if (!visible)
+			continue;
+		::MoveWindow(label,
 			featureColumnX, featureY + 2, featureLabelWidth - 4, featureRowHeight - 2, TRUE);
 		SliderRange range{};
 		if (TryGetSliderRange("", &kFeatureBindings[index], range))
@@ -932,15 +972,15 @@ void RealWorldWeatherAcousticsPluginGUI::LayoutControls()
 			constexpr int valueEditWidth = 50;
 			const int sliderX = featureColumnX + featureLabelWidth;
 			const int sliderWidth = std::max(28, featureEditWidth - valueEditWidth - 4);
-			::MoveWindow(::GetDlgItem(m_hwndDialog, kFeatureSliderBaseId + static_cast<UINT>(index)),
+			::MoveWindow(slider,
 				sliderX, featureY, sliderWidth, featureRowHeight - 1, TRUE);
-			::MoveWindow(::GetDlgItem(m_hwndDialog, kFeatureEditBaseId + static_cast<UINT>(index)),
+			::MoveWindow(control,
 				sliderX + sliderWidth + 4, featureY, valueEditWidth, featureRowHeight - 1, TRUE);
 		}
 		else
 		{
 			const int controlHeight = IsFeatureCombo(kFeatureBindings[index]) ? 120 : featureRowHeight - 1;
-			::MoveWindow(::GetDlgItem(m_hwndDialog, kFeatureEditBaseId + static_cast<UINT>(index)),
+			::MoveWindow(control,
 				featureColumnX + featureLabelWidth, featureY, featureEditWidth, controlHeight, TRUE);
 		}
 		featureY += featureRowHeight;
@@ -1033,9 +1073,10 @@ void RealWorldWeatherAcousticsPluginGUI::UpdateControls()
 		m_selectedFeature = 0;
 
 	if (featureCount > 0)
-		std::swprintf(text, std::size(text), L"Feature %d / %d", m_selectedFeature + 1, featureCount);
+		std::swprintf(text, std::size(text), IsEffectMode() ? L"Surface %d / %d" : L"Feature %d / %d",
+			m_selectedFeature + 1, featureCount);
 	else
-		std::swprintf(text, std::size(text), L"No feature");
+		std::swprintf(text, std::size(text), IsEffectMode() ? L"No surface" : L"No feature");
 	::SetWindowTextW(::GetDlgItem(m_hwndDialog, kSelectedFeatureTitleId), text);
 	::EnableWindow(::GetDlgItem(m_hwndDialog, kAddFeatureButtonId), dialogEnabled && featureCount < kMaximumFeatures);
 	::EnableWindow(::GetDlgItem(m_hwndDialog, kDeleteFeatureButtonId), dialogEnabled && featureCount > 0);
@@ -1356,9 +1397,9 @@ void RealWorldWeatherAcousticsPluginGUI::AddFeature()
 	BuildFeaturePropertyName(featureCount, "Radius", propertyName, std::size(propertyName));
 	m_propertySet.SetValueReal32(platform, propertyName, 2.0f);
 	BuildFeaturePropertyName(featureCount, "Profile", propertyName, std::size(propertyName));
-	m_propertySet.SetValueInt32(platform, propertyName, featureCount % 4);
+	m_propertySet.SetValueInt32(platform, propertyName, featureCount % 5);
 	BuildFeaturePropertyName(featureCount, "Mask", propertyName, std::size(propertyName));
-	m_propertySet.SetValueInt32(platform, propertyName, 3);
+	m_propertySet.SetValueInt32(platform, propertyName, IsEffectMode() ? 1 : 3);
 	BuildFeaturePropertyName(featureCount, "Priority", propertyName, std::size(propertyName));
 	m_propertySet.SetValueInt32(platform, propertyName, 1);
 	m_propertySet.SetValueBool(platform, "GeometryEnabled", true);
@@ -1437,10 +1478,10 @@ void RealWorldWeatherAcousticsPluginGUI::ApplyPreset(int in_presetIndex)
 	}
 	else
 	{
-		m_propertySet.SetValueInt32(platform, "InputRole", in_presetIndex == 0 ? 1 : (in_presetIndex == 1 ? 0 : 2));
-		m_propertySet.SetValueReal32(platform, "WetMix", in_presetIndex == 0 ? 0.55f : 0.7f);
-		m_propertySet.SetValueReal32(platform, "ResponseGainDb", in_presetIndex == 0 ? -3.0f : 0.0f);
-		m_propertySet.SetValueReal32(platform, "TransientSensitivity", in_presetIndex == 1 ? 0.8f : 0.55f);
+		m_propertySet.SetValueInt32(platform, "InputRole", in_presetIndex == 0 ? 1 : 0);
+		m_propertySet.SetValueReal32(platform, "WetMix", in_presetIndex == 0 ? 0.55f : 1.0f);
+		m_propertySet.SetValueReal32(platform, "ResponseGainDb", in_presetIndex == 0 ? -3.0f : 10.0f);
+		m_propertySet.SetValueReal32(platform, "TransientSensitivity", in_presetIndex == 0 ? 0.55f : 0.85f);
 	}
 	m_propertySet.SetValueInt32(platform, "Seed", 1337);
 	m_propertySet.SetValueReal32(platform, "ListenerX", 0.0f);
@@ -1451,12 +1492,13 @@ void RealWorldWeatherAcousticsPluginGUI::ApplyPreset(int in_presetIndex)
 	const bool openWind = in_presetIndex == 0;
 	const bool metalRain = in_presetIndex == 1;
 	const int featureCount = openWind ? 0 : (metalRain ? 1 : 4);
-	constexpr std::array<float, 4> ringX{{0.0f, 6.0f, 0.0f, -6.0f}};
-	constexpr std::array<float, 4> ringZ{{6.0f, 0.0f, -6.0f, 0.0f}};
-	m_propertySet.SetValueReal32(platform, "RainIntensity", openWind ? 0.0f : (metalRain ? 0.8f : 0.75f));
-	m_propertySet.SetValueReal32(platform, "WindSpeed", openWind ? 10.0f : (metalRain ? 0.0f : 14.0f));
+	constexpr std::array<float, 4> ringX{{0.0f, 5.5f, 0.0f, -5.5f}};
+	constexpr std::array<float, 4> ringZ{{5.5f, 0.0f, -5.5f, 0.0f}};
+	constexpr std::array<int32_t, 4> materialProfiles{{3, 4, 0, 1}};
+	m_propertySet.SetValueReal32(platform, "RainIntensity", openWind ? 0.0f : 0.9f);
+	m_propertySet.SetValueReal32(platform, "WindSpeed", openWind ? 10.0f : 0.0f);
 	m_propertySet.SetValueReal32(platform, "WindDirectionDegrees", 45.0f);
-	m_propertySet.SetValueReal32(platform, "WindGustiness", openWind ? 0.45f : (metalRain ? 0.1f : 0.65f));
+	m_propertySet.SetValueReal32(platform, "WindGustiness", openWind ? 0.45f : 0.0f);
 	m_propertySet.SetValueBool(platform, "GeometryEnabled", !openWind);
 
 	for (int featureIndex = 0; featureIndex < kMaximumFeatures; ++featureIndex)
@@ -1464,9 +1506,9 @@ void RealWorldWeatherAcousticsPluginGUI::ApplyPreset(int in_presetIndex)
 		const bool active = featureIndex < featureCount;
 		const float featureX = metalRain && active ? 0.0f :
 			(active ? ringX[static_cast<size_t>(featureIndex)] : 0.0f);
-		const float featureZ = metalRain && active ? 4.0f :
+		const float featureZ = metalRain && active ? 0.0f :
 			(active ? ringZ[static_cast<size_t>(featureIndex)] : 0.0f);
-		const float radius = active ? (metalRain ? 3.0f : 2.0f) : kMinimumFeatureRadius;
+		const float radius = active ? 3.2f : kMinimumFeatureRadius;
 		char propertyName[48]{};
 		BuildFeaturePropertyName(featureIndex, "X", propertyName, std::size(propertyName));
 		m_propertySet.SetValueReal32(platform, propertyName, featureX);
@@ -1477,9 +1519,10 @@ void RealWorldWeatherAcousticsPluginGUI::ApplyPreset(int in_presetIndex)
 		BuildFeaturePropertyName(featureIndex, "Radius", propertyName, std::size(propertyName));
 		m_propertySet.SetValueReal32(platform, propertyName, radius);
 		BuildFeaturePropertyName(featureIndex, "Profile", propertyName, std::size(propertyName));
-		m_propertySet.SetValueInt32(platform, propertyName, active ? featureIndex % 4 : 0);
+		m_propertySet.SetValueInt32(platform, propertyName,
+			active ? (metalRain ? 0 : materialProfiles[static_cast<size_t>(featureIndex)]) : 0);
 		BuildFeaturePropertyName(featureIndex, "Mask", propertyName, std::size(propertyName));
-		m_propertySet.SetValueInt32(platform, propertyName, active ? (metalRain ? 1 : 3) : 0);
+		m_propertySet.SetValueInt32(platform, propertyName, active ? (openWind ? 2 : 1) : 0);
 		BuildFeaturePropertyName(featureIndex, "Priority", propertyName, std::size(propertyName));
 		m_propertySet.SetValueInt32(platform, propertyName, active ? 10 : 0);
 	}
@@ -1637,8 +1680,12 @@ void RealWorldWeatherAcousticsPluginGUI::PaintCanvas(HWND in_hWnd)
 			? kCanvasMaskNames[static_cast<size_t>(mask)]
 			: L"Mask?";
 		wchar_t label[128]{};
-		std::swprintf(label, std::size(label), L"F%d %ls / %ls  Pr%d  Y %.2g",
-			featureIndex + 1, profileName, maskName, priority, y);
+		if (IsEffectMode())
+			std::swprintf(label, std::size(label), L"S%d  %ls / %ls",
+				featureIndex + 1, profileName, maskName);
+		else
+			std::swprintf(label, std::size(label), L"F%d %ls / %ls  Pr%d  Y %.2g",
+				featureIndex + 1, profileName, maskName, priority, y);
 		::SetTextColor(dc, selected ? RGB(255, 230, 105) : RGB(235, 237, 240));
 		::TextOutW(dc, center.x - pixelRadius, center.y - 8,
 			label, static_cast<int>(std::wcslen(label)));
@@ -1690,7 +1737,9 @@ void RealWorldWeatherAcousticsPluginGUI::PaintCanvas(HWND in_hWnd)
 	::TextOutW(dc, transform.plotRect.left + 5, transform.plotRect.bottom - 20,
 		listenerLabel, static_cast<int>(std::wcslen(listenerLabel)));
 
-	const wchar_t hint[] = L"Drag listener/arrow/circles; yellow handle resizes; Add/Delete on right.";
+	const wchar_t* hint = IsEffectMode()
+		? L"Play rain; drag Listener into Metal / Wood / Plastic / Tile surfaces to compare impacts."
+		: L"Drag listener/arrow/circles; yellow handle resizes; Add/Delete on right.";
 	::SetTextColor(dc, RGB(174, 178, 184));
 	::TextOutW(dc, transform.plotRect.left + 5, transform.plotRect.top + 5,
 		hint, static_cast<int>(std::wcslen(hint)));

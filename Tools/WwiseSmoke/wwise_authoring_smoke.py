@@ -732,41 +732,40 @@ def smoke_source_definition(source_class_id):
 def effect_smoke_properties():
     properties = {
         "InputRole": 0,
-        "WetMix": 0.65,
-        "ResponseGainDb": 1.5,
-        "TransientSensitivity": 0.75,
-        "RainIntensity": 0.8,
-        "WindSpeed": 14.0,
-        "WindDirectionDegrees": 35.0,
-        "WindGustiness": 0.65,
+        "WetMix": 1.0,
+        "ResponseGainDb": 10.0,
+        "TransientSensitivity": 0.85,
+        "RainIntensity": 0.9,
+        "WindSpeed": 0.0,
+        "WindDirectionDegrees": 0.0,
+        "WindGustiness": 0.0,
         "Seed": 97531,
         "GeometryEnabled": True,
         "ListenerX": 0.0,
         "ListenerY": 0.0,
         "ListenerZ": 0.0,
-        "ListenerYawDegrees": 20.0,
+        "ListenerYawDegrees": 0.0,
         "FeatureCount": 4,
     }
-    ring = (
-        (0.0, 0.0, 6.0),
-        (6.0, 0.0, 0.0),
-        (0.0, 0.0, -6.0),
-        (-6.0, 0.0, 0.0),
-        (4.25, 0.0, 4.25),
-        (4.25, 0.0, -4.25),
-        (-4.25, 0.0, -4.25),
-        (-4.25, 0.0, 4.25),
+    features = (
+        (0.0, 0.0, 5.5, 3.2, 3, 1, 10),
+        (5.5, 0.0, 0.0, 3.2, 4, 1, 10),
+        (0.0, 0.0, -5.5, 3.2, 0, 1, 10),
+        (-5.5, 0.0, 0.0, 3.2, 1, 1, 10),
+        (0.0, 0.0, 0.0, 2.0, 0, 3, 1),
+        (0.0, 0.0, 0.0, 2.0, 1, 3, 1),
+        (0.0, 0.0, 0.0, 2.0, 2, 3, 1),
+        (0.0, 0.0, 0.0, 2.0, 3, 3, 1),
     )
-    for index, (x_value, y_value, z_value) in enumerate(ring, start=1):
+    for index, feature in enumerate(features, start=1):
+        x_value, y_value, z_value, radius, profile, mask, priority = feature
         properties["Feature{0}X".format(index)] = x_value
         properties["Feature{0}Y".format(index)] = y_value
         properties["Feature{0}Z".format(index)] = z_value
-        properties["Feature{0}Radius".format(index)] = 2.5
-        properties["Feature{0}Profile".format(index)] = (index - 1) % 4
-        properties["Feature{0}Mask".format(index)] = 3
-        properties["Feature{0}Priority".format(index)] = (
-            107 if index == 1 else 10 if index <= 4 else 1
-        )
+        properties["Feature{0}Radius".format(index)] = radius
+        properties["Feature{0}Profile".format(index)] = profile
+        properties["Feature{0}Mask".format(index)] = mask
+        properties["Feature{0}Priority".format(index)] = priority
     return properties
 
 
@@ -2727,7 +2726,7 @@ def run_authoring_gui_smoke(client, report, source_id, expected_pid, timeout_sec
             "Feature5Z": float(before_add_values["ListenerZ"])
             + math.cos(listener_yaw_radians) * 4.0,
             "Feature5Radius": 2.0,
-            "Feature5Profile": 0,
+            "Feature5Profile": 4,
             "Feature5Mask": 3,
             "Feature5Priority": 1,
         }

@@ -84,7 +84,7 @@ std::vector<AkUInt8> MakeLegacyBank()
         Append(block, AkReal32{-20.0f - slotValue});
         Append(block, AkReal32{30.0f + slotValue});
         Append(block, AkReal32{1.5f + slotValue});
-        Append(block, static_cast<AkInt32>(slot % 4u));
+        Append(block, static_cast<AkInt32>(slot % 5u));
         Append(block, static_cast<AkInt32>(slot % 4u));
         Append(block, static_cast<AkInt32>(100u + slot));
     }
@@ -128,6 +128,7 @@ void TestLegacyBank()
     ExpectNear(params.Values.Features[0].fX, 10.0f, "legacy feature 0 X");
     ExpectNear(params.Values.Features[3].fRadius, 4.5f, "legacy feature 3 radius");
     Expect(params.Values.Features[3].iProfile == 3, "legacy feature 3 profile must be preserved");
+    Expect(params.Values.Features[4].iProfile == 4, "legacy feature 4 Plastic profile must be preserved");
     Expect(params.Values.Features[6].iMask == 2, "legacy feature 6 response mask must be preserved");
     Expect(params.Values.Features[7].iPriority == 107, "legacy feature 7 priority must be preserved");
     ExpectNear(params.Values.fWindSpeed, 0.0f, "legacy wind speed");
@@ -145,6 +146,7 @@ void TestCurrentBank()
     ExpectNear(params.Values.fRainIntensity, 0.73f, "current rain intensity");
     Expect(params.Values.bGeometryEnabled, "current geometry-enabled byte must be preserved");
     ExpectNear(params.Values.Features[1].fZ, 31.0f, "current feature 1 Z");
+    Expect(params.Values.Features[4].iProfile == 4, "current feature 4 Plastic profile must be preserved");
     ExpectNear(params.Values.fWindSpeed, 17.5f, "current wind speed");
     ExpectNear(params.Values.fWindDirectionDegrees, 225.0f, "current wind direction");
     ExpectNear(params.Values.fWindGustiness, 0.8f, "current wind gustiness");
