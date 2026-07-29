@@ -1,8 +1,17 @@
-# RealWorld Weather Acoustics — v0.3 hybrid slice
+# RealWorld Weather Acoustics — v0.3 implemented / v0.4 planned
 
 RealWorld Weather Acoustics 是面向 Wwise 的几何条件天气声学插件包。当前 v0.3 hybrid vertical slice 已完成：保留 Source Plug-in `PluginID=31001` 的 v0.2 程序化风/雨与 261/273-byte Bank ABI 回归，同时新增 Effect Plug-in `PluginID=31002`。推荐主路径是用 Wwise Audio File Source/streamed loop 提供高质量 rain/wind bed，再把 `RealWorld Weather Acoustics Effect` 挂到 Sound、Actor-Mixer 或 Bus 上，由 Effect 添加几何与材质交互。兼容基线固定为 Wwise `2023.1.19.8928`、Windows x64、Visual Studio 2022/vc170、Release。
 
-当前还不是完整跨引擎产品，也不是实时全物理仿真：Unity/Unreal Adapter、完整 Deflector/Aperture 风场、雷暴、Capture/Replay、Monitor、Ambisonics、高级 DSP 参数和真人主观听感验收仍属后续里程碑。v0.3 已完成 Runtime Scene `Set/Get/Clear`、Runtime Diagnostics `Reset/Get`、8 槽 scene roundtrip、Effect Profiler smoke，以及 Native Host 三态音频合同 matrix：`Wet>0 changed`、`Wet=0 wet-bypass`、`GeometryOff geometry-disabled`。详细边界见 [产品计划](docs/PRODUCT_PLAN.md)、[v0.3 实施状态](docs/V0_3_HYBRID_AUDIO_PLAN.md) 与 [验证报告](docs/VALIDATION_REPORT.md)。
+当前还不是完整跨引擎产品，也不是实时全物理仿真。v0.3 已完成 Runtime Scene `Set/Get/Clear`、Runtime Diagnostics `Reset/Get`、8 槽 scene roundtrip、Effect Profiler smoke，以及 Native Host 三态音频合同 matrix：`Wet>0 changed`、`Wet=0 wet-bypass`、`GeometryOff geometry-disabled`。下一阶段的 Listener-centered FOA Bed、方向遮罩 Effect 与局部材质 Patch 已定义为 **v0.4 设计/POC**，但尚未实现；详见 [v0.4 Listener-Centered FOA 方案](docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md)。详细边界见 [产品计划](docs/PRODUCT_PLAN.md)、[v0.3 实施状态](docs/V0_3_HYBRID_AUDIO_PLAN.md) 与 [验证报告](docs/VALIDATION_REPORT.md)。
+
+## v0.4 Listener-centered FOA 计划
+
+v0.4 将天气声拆分为两条独立路径：
+
+- **Far Field FOA Bed**：连续雨、风或城市声场根据 Listener 周围的墙、雨棚和开口做方向相关的低/中/高频衰减。
+- **Material Sound Texture**：雨伞、雨棚和近处表面使用有限 Patch 的统计纹理/颗粒声，表现雨滴撞击材质。
+
+现有 Effect `PluginID=31002` 只适用于 v0.3 的 Stereo/普通多声道 Wet Response，不能直接挂在 FOA Bus；v0.4 将新增专用 `AmbiDirectionalMaskFX`，并按 POC 结果决定是否实现 Mono `WeatherSurfaceGranulatorSource`。完整边界、Wwise 对象树、数据协议、坐标链测试、性能门禁与发布限制见 [v0.4 方案](docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md)。
 
 ## 给使用者的操作入口
 
