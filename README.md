@@ -11,7 +11,9 @@ v0.4 将天气声拆分为两条独立路径：
 - **Far Field FOA Bed**：连续雨、风或城市声场根据 Listener 周围的墙、雨棚和开口做方向相关的低/中/高频衰减。
 - **Material Sound Texture**：雨伞、雨棚和近处表面使用有限 Patch 的统计纹理/颗粒声，表现雨滴撞击材质。
 
-现有 Effect `PluginID=31002` 只适用于 v0.3 的 Stereo/普通多声道 Wet Response，不能直接挂在 FOA Bus；v0.4 将新增专用 `AmbiDirectionalMaskFX`，并按 POC 结果决定是否实现 Mono `WeatherSurfaceGranulatorSource`。完整边界、Wwise 对象树、数据协议、坐标链测试、性能门禁与发布限制见 [v0.4 方案](docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md)。
+现有 Effect `PluginID=31002` 只适用于 v0.3 的 Stereo/普通多声道 Wet Response，不能直接挂在 FOA Bus；v0.4 将新增专用 `AmbiDirectionalMaskFX`，正式 Patch 渲染路径则新增 Mono `WeatherSurfaceGranulatorSource`，但 POC 可先用普通 Wwise 素材或 31002 验证混音。完整边界、Wwise 对象树、数据协议、坐标链测试、性能门禁与发布限制见 [v0.4 方案](docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md)。
+
+其中 `Surface Patch` 是 Host/Game 侧的聚合表面数据与生命周期单位，不是插件类型。最快 POC 可用 Wwise Random/Blend Container 或 Mono carrier + 31002；正式路径则是一条活跃 Patch 对应一条 Mono `WeatherSurfaceGranulatorSource` voice，插件内部用录音 Grain、程序化调度和材质共振生成大量虚拟撞击，再由 Wwise 按 Patch proxy 做 3D 空间化。宽雨棚只维护 Listener 周围贡献最大的 2～4 个独立 Patch，不按面积生成大量 Wwise voices。
 
 ## 给使用者的操作入口
 

@@ -3,21 +3,29 @@
 ## 文档状态
 
 - 状态：持续讨论基线；v0.3 Hybrid Audio File Source + Geometry Effect 纵向切片已实现；v0.4 Listener-centered FOA Field 为待实施 POC，Wwise 2023.1 QA 与 Native Host 证据仅覆盖 v0.3
-- 文档版本：v1.3
+- 文档版本：v1.4
 - 当前实现版本：v0.3 hybrid slice；当前计划版本：v0.4 Listener-centered FOA Field
 - 创建时间：2026-07-21 15:52（Asia/Shanghai）
-- 最后更新：2026-07-29（Asia/Shanghai）
+- 最后更新：2026-07-30（Asia/Shanghai）
 - 讨论主题：基于游戏天气、几何与表面语义数据生成风、雨、雷暴声学的通用 Wwise 产品
 - 当前结论：技术可行，产品价值成立；目标应是“物理启发、感知可信、跨引擎可接入”，而不是实时全物理仿真。
 
 ## 版本修订记录
+
+### v1.4（Surface Patch 正式渲染合同）
+
+- 明确 `Surface Patch` 是 Host/Game 侧聚合数据与生命周期单位，不是 Wwise 插件类型，也不是逐滴粒子或逐滴 Event。
+- POC 可使用 Random/Blend Container、材质 Loop 或 Mono carrier + Effect 31002；正式路径冻结为一个活跃 Patch 对应一条 Mono `WeatherSurfaceGranulatorSource` voice，由插件内部调度有限统计 Grain，再由 Wwise 负责 3D 空间化。
+- `WeatherSurfaceGranulatorSource` 采用“录音 Grain + 程序化调度 + Material Exciter/modal response”的混合方案；低雨量保留离散撞击，高雨量过渡到有上限的连续纹理。
+- 宽雨棚/长屋顶按 Listener 周围贡献聚合为最多 2～4 个独立 Patch，使用滑动 Active Set、稳定 Seed 和参数交叉淡化；屋檐滴水等强特征保留为 Sparse Emitter。
+- 冻结 Host、Runtime patch manager、Source Plug-in 与 Wwise 空间路由的职责，禁止 Game 逐滴 PostEvent、音频线程查询 Geometry 或按真实雨滴数扩张 voice/grain 容量。
 
 ### v1.3（v0.4 Listener-centered FOA Field 计划，尚未实现）
 
 - 将当前目标收敛为两层：一条 Listener-centered FOA Far Field Bed 负责方向性环境衰减与频谱变化；有限数量的局部 Material Patch 负责雨伞、雨棚和近处表面的统计撞击纹理。
 - 新增专用 `AmbiDirectionalMaskFX` 计划：只处理合法 FOA ACN/SN3D 信号，接收有上限的方向遮罩快照并在 Ambisonic 域做低/中/高频平滑处理。
 - 明确 v0.3 Effect `PluginID=31002` 不能直接用于 FOA：其现有 wet 输出是按通道 0/1 的 Stereo 路由；可复用材质/颗粒算法和验证基础设施，但必须更换 FOA 输出路径。
-- POC 先验证单墙、墙角与顶部雨棚的坐标链和听感收益，再决定是否实现 Mono `WeatherSurfaceGranulatorSource` 与更复杂几何；不以全物理建模或逐雨滴 Event 为目标。
+- 当时计划先以 POC 决定是否实现 Mono `WeatherSurfaceGranulatorSource`；后续 v1.4 已将它冻结为正式 Patch 渲染路径，POC 仍可先用素材/31002。复杂几何继续由听感收益决定；不以全物理建模或逐雨滴 Event 为目标。
 - 该实施合同、Wwise 对象树、数据协议、Project_J 适配边界、性能门禁和验收标准见 `docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md`。本产品计划的其他长期愿景不因此自动视为已实现。
 
 ### v1.2（v0.3 Hybrid Audio File Source + Geometry Effect 已实现切片）
