@@ -2,16 +2,17 @@
 
 RealWorld Weather Acoustics 是面向 Wwise 的几何条件天气声学插件包。当前 v0.3 hybrid vertical slice 已完成：保留 Source Plug-in `PluginID=31001` 的 v0.2 程序化风/雨与 261/273-byte Bank ABI 回归，同时新增 Effect Plug-in `PluginID=31002`。推荐主路径是用 Wwise Audio File Source/streamed loop 提供高质量 rain/wind bed，再把 `RealWorld Weather Acoustics Effect` 挂到 Sound、Actor-Mixer 或 Bus 上，由 Effect 添加几何与材质交互。兼容基线固定为 Wwise `2023.1.19.8928`、Windows x64、Visual Studio 2022/vc170、Release。
 
-当前还不是完整跨引擎产品，也不是实时全物理仿真。v0.3 已完成 Runtime Scene `Set/Get/Clear`、Runtime Diagnostics `Reset/Get`、8 槽 scene roundtrip、Effect Profiler smoke，以及 Native Host 三态音频合同 matrix：`Wet>0 changed`、`Wet=0 wet-bypass`、`GeometryOff geometry-disabled`。下一阶段的 Listener-centered FOA Bed、方向遮罩 Effect 与局部材质 Patch 已定义为 **v0.4 设计/POC**，但尚未实现；详见 [v0.4 Listener-Centered FOA 方案](docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md)。详细边界见 [产品计划](docs/PRODUCT_PLAN.md)、[v0.3 实施状态](docs/V0_3_HYBRID_AUDIO_PLAN.md) 与 [验证报告](docs/VALIDATION_REPORT.md)。
+当前还不是完整跨引擎产品，也不是实时全物理仿真。v0.3 已完成 Runtime Scene `Set/Get/Clear`、Runtime Diagnostics `Reset/Get`、8 槽 scene roundtrip、Effect Profiler smoke，以及 Native Host 三态音频合同 matrix：`Wet>0 changed`、`Wet=0 wet-bypass`、`GeometryOff geometry-disabled`。下一阶段已更新为 **v0.4 Bake-first 设计/POC**：静态场景采用离线扩展声源/FDTD/方向功率 Probe Field，运行时在 Listener 位置插值并驱动方向场 Renderer，动态物体和局部材质 Patch 作为补层；这些能力尚未实现。[v0.4 Listener-Centered Baked Ambient Field 方案](docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md) 是当前唯一设计与执行真源。全部文档入口见 [Documentation Map](docs/README.md)，产品历史与 v0.3 证据分别见 [产品计划](docs/PRODUCT_PLAN.md) 和 [验证报告](docs/VALIDATION_REPORT.md)。
 
-## v0.4 Listener-centered FOA 计划
+## v0.4 Listener-centered Baked Ambient Field 计划
 
-v0.4 将天气声拆分为两条独立路径：
+v0.4 将天气声拆分为一个静态主场和两个运行时补层：
 
-- **Far Field FOA Bed**：连续雨、风或城市声场根据 Listener 周围的墙、雨棚和开口做方向相关的低/中/高频衰减。
+- **Baked Far Field**：每个扩展环境声源离线体素化并执行一次 FDTD，编码为规则 Probe Grid 上的三阶方向功率 SH；运行时八点插值后，用 Mono Bed 驱动论文 Stereo 基准或去相关 FOA/HOA 产品 Renderer，diffuse FOA/HOA carrier 只作为需验证的可选输入。
+- **Dynamic Directional Overlay**：动态门、雨伞和可破坏物叠加少量宽方向覆盖，不在音频线程重跑物理传播。
 - **Material Sound Texture**：雨伞、雨棚和近处表面使用有限 Patch 的统计纹理/颗粒声，表现雨滴撞击材质。
 
-现有 Effect `PluginID=31002` 只适用于 v0.3 的 Stereo/普通多声道 Wet Response，不能直接挂在 FOA Bus；v0.4 将新增专用 `AmbiDirectionalMaskFX`，正式 Patch 渲染路径则新增 Mono `WeatherSurfaceGranulatorSource`，但 POC 可先用普通 Wwise 素材或 31002 验证混音。完整边界、Wwise 对象树、数据协议、坐标链测试、性能门禁与发布限制见 [v0.4 方案](docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md)。
+现有 Effect `PluginID=31002` 只适用于 v0.3 的 Stereo/普通多声道 Wet Response，不能直接挂在 FOA Bus。v0.4 计划新增离线 `AmbientFieldBake`、论文忠实的 Mono→Stereo `AmbientPowerFieldRendererFX` 基准、产品 `AmbiDirectionalFieldFX` Bus Effect，以及 Mono `WeatherSurfaceGranulatorSource`。验证顺序是先用论文 Renderer 判断 Bake 的收益，再比较 Mono→去相关 HOA3（当前质量目标）、HOA2/FOA 成本档、Directional Stem 回退与 diffuse carrier 对照。远景 Bed 继续使用 Wwise Audio File Source，不新增 Bed Source Plug-in。完整边界、Wwise 对象树、数据协议、坐标链测试、性能门禁与发布限制见 [v0.4 方案](docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md)。
 
 其中 `Surface Patch` 是 Host/Game 侧的聚合表面数据与生命周期单位，不是插件类型。最快 POC 可用 Wwise Random/Blend Container 或 Mono carrier + 31002；正式路径则是一条活跃 Patch 对应一条 Mono `WeatherSurfaceGranulatorSource` voice，插件内部用录音 Grain、程序化调度和材质共振生成大量虚拟撞击，再由 Wwise 按 Patch proxy 做 3D 空间化。宽雨棚只维护 Listener 周围贡献最大的 2～4 个独立 Patch，不按面积生成大量 Wwise voices。
 

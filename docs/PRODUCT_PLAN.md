@@ -2,15 +2,35 @@
 
 ## 文档状态
 
-- 状态：持续讨论基线；v0.3 Hybrid Audio File Source + Geometry Effect 纵向切片已实现；v0.4 Listener-centered FOA Field 为待实施 POC，Wwise 2023.1 QA 与 Native Host 证据仅覆盖 v0.3
-- 文档版本：v1.4
-- 当前实现版本：v0.3 hybrid slice；当前计划版本：v0.4 Listener-centered FOA Field
+- 状态：持续讨论基线；v0.3 Hybrid Audio File Source + Geometry Effect 纵向切片已实现；v0.4 Listener-centered Baked Ambient Field 为待实施 POC，Wwise 2023.1 QA 与 Native Host 证据仅覆盖 v0.3
+- 文档版本：v1.6
+- 当前实现版本：v0.3 hybrid slice；当前计划版本：v0.4 Listener-centered Baked Ambient Field
 - 创建时间：2026-07-21 15:52（Asia/Shanghai）
-- 最后更新：2026-07-30（Asia/Shanghai）
+- 最后更新：2026-08-01（Asia/Shanghai）
 - 讨论主题：基于游戏天气、几何与表面语义数据生成风、雨、雷暴声学的通用 Wwise 产品
 - 当前结论：技术可行，产品价值成立；目标应是“物理启发、感知可信、跨引擎可接入”，而不是实时全物理仿真。
 
 ## 版本修订记录
+
+### v1.6（独立仓库归档与 Renderer 决策收敛）
+
+- v0.4 方案统一归档到本独立产品仓库，`docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md` 成为架构、数据合同、POC 顺序与停止条件的唯一权威文档；Project_J 不再保存重复方案，只能作为后续可选 Host Adapter。
+- 冻结验证顺序：先做论文忠实的 Mono -> 四频带功率 -> Stereo 双耳基准，隔离判断 Bake 是否有价值；通过后才进入 Ambisonic 产品 Renderer。
+- 当前产品质量目标为 Mono -> 去相关 HOA3 -> Wwise decode；HOA2/FOA 是逐级降低空间分辨率与成本的产品档，4–8 个 Directional Stem 是工程回退，diffuse FOA/HOA carrier 只作为需验证的 A/B 路径。
+- 完整多方向 HRIR 卷积被保留为耳机理论质量上限，不进入首个 POC；论文功率 Renderer 也不被误称为完整 HRTF/相位渲染。
+- 第一条可执行切片固定为静态地面雨扩展源、单墙/门洞与单 Listener 轨迹；Phase A/B/C 依次验证 Bake、采样器和论文 Renderer，未通过时不提前开发 Ambisonic Renderer 或 Surface Source。
+- 新增 `docs/README.md` 文档导航，区分 v0.3 已实现证据、v0.4 计划真源、产品历史和使用/构建文档，避免后续上下文再次分叉。
+
+### v1.5（Ambient Sound Propagation Bake-first 主场）
+
+- 采用 SIGGRAPH Asia 2018 *Ambient Sound Propagation* 的问题拆分作为静态主层：设计师标记扩展声源表面/体积，离线体素化静态场景，每个源体素使用独立带限随机激励，每个扩展声源执行一次 FDTD，并把时均方向功率编码到规则 Probe Grid。
+- 冻结运行时基础数据为每源 `loudnessDb + 16` 个三阶实 SH 方向功率系数；Listener 在相邻八个 Grid 顶点间插值，再完成 world-to-listener SH 旋转。Probe 不是关卡手摆 GameObject，也不为每个 Probe 单独执行模拟。
+- 明确论文 Renderer 是 Mono 代表素材 + HRTF 功率 SH + 四频段 Stereo 双耳增益，不直接输出 FOA。v0.4 增加 out-of-place `AmbientPowerFieldRendererFX` 作为论文忠实耳机基准，产品路径改名为 `AmbiDirectionalFieldFX`，在专用 FOA/HOA Bus 上适配方向功率场并交给 Wwise 解码。
+- 产品 FOA/HOA 路径只接受经验证的 diffuse carrier；方向性很强的实录 Ambisonic 素材可能与 Bake 场形成双重方向编码。Mono -> 去相关 Ambisonic 作为 out-of-place Bus Effect 备选，需要独立音色与成本验证。
+- 明确远景 Bed 继续使用 Wwise Audio File Source/streamed loop，不新增 Bed Source Plug-in；只有局部材质 `WeatherSurfaceGranulatorSource` 是 Source Plug-in。`SendPluginCustomGameData` 以专用 Bus Effect 为默认目标。
+- 论文基线只有宽带传播场，四个运行时频段是 HRTF 头部阴影而不是墙体频率传播。静态“变闷”若需物理依据必须增加多频带 Bake；POC 可用设计化动态覆盖，但要标记为感知近似。
+- 静态墙体/雨棚/开口由 Bake 处理；动态门、雨伞、移动平台和可破坏物使用少量方向覆盖或 Bake Variant；局部雨击材质继续由 Surface Patch 补充。
+- 详细流水线、资产 Schema、POC 阶段、停止条件和研究/许可边界见 `docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md`。上述内容均为计划，不代表 v0.4 已实现。
 
 ### v1.4（Surface Patch 正式渲染合同）
 
@@ -20,10 +40,10 @@
 - 宽雨棚/长屋顶按 Listener 周围贡献聚合为最多 2～4 个独立 Patch，使用滑动 Active Set、稳定 Seed 和参数交叉淡化；屋檐滴水等强特征保留为 Sparse Emitter。
 - 冻结 Host、Runtime patch manager、Source Plug-in 与 Wwise 空间路由的职责，禁止 Game 逐滴 PostEvent、音频线程查询 Geometry 或按真实雨滴数扩张 voice/grain 容量。
 
-### v1.3（v0.4 Listener-centered FOA Field 计划，尚未实现）
+### v1.3（v0.4 Listener-centered FOA Field 计划，尚未实现；已由 v1.5 扩展）
 
 - 将当前目标收敛为两层：一条 Listener-centered FOA Far Field Bed 负责方向性环境衰减与频谱变化；有限数量的局部 Material Patch 负责雨伞、雨棚和近处表面的统计撞击纹理。
-- 新增专用 `AmbiDirectionalMaskFX` 计划：只处理合法 FOA ACN/SN3D 信号，接收有上限的方向遮罩快照并在 Ambisonic 域做低/中/高频平滑处理。
+- 当时新增专用 `AmbiDirectionalMaskFX` 计划：只处理合法 FOA ACN/SN3D 信号，接收有上限的方向遮罩快照并在 Ambisonic 域做低/中/高频平滑处理；v1.5 已将其扩展并改名为 `AmbiDirectionalFieldFX`，基础输入改为 Bake 方向功率场，方向遮罩只保留为动态补层。
 - 明确 v0.3 Effect `PluginID=31002` 不能直接用于 FOA：其现有 wet 输出是按通道 0/1 的 Stereo 路由；可复用材质/颗粒算法和验证基础设施，但必须更换 FOA 输出路径。
 - 当时计划先以 POC 决定是否实现 Mono `WeatherSurfaceGranulatorSource`；后续 v1.4 已将它冻结为正式 Patch 渲染路径，POC 仍可先用素材/31002。复杂几何继续由听感收益决定；不以全物理建模或逐雨滴 Event 为目标。
 - 该实施合同、Wwise 对象树、数据协议、Project_J 适配边界、性能门禁和验收标准见 `docs/V0_4_LISTENER_CENTERED_FOA_PLAN.md`。本产品计划的其他长期愿景不因此自动视为已实现。
